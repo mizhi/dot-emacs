@@ -4,3 +4,6 @@
 [submodule "elisp/emacs-rails-reloaded"]
 	path = elisp/emacs-rails-reloaded
 	url = https://github.com/dima-exe/emacs-rails-reloaded
+[submodule "elisp/yaml-mode"]
+	path = elisp/yaml-mode
+	url = https://github.com/yoshiki/yaml-mode.git
