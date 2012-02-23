@@ -1,0 +1,6 @@
+[submodule "elisp/emacs-java"]
+	path = elisp/emacs-java
+	url = https://github.com/skeeto/emacs-java.git
+[submodule "elisp/emacs-rails-reloaded"]
+	path = elisp/emacs-rails-reloaded
+	url = https://github.com/dima-exe/emacs-rails-reloaded
