@@ -1,0 +1,6 @@
+*.elc
+backups
+semanticdb
+places
+ede-projects.el
+auto-save-list

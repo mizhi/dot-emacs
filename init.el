@@ -1,22 +1,14 @@
 ;; environment variables that are used throughout the configuration.
 (setq
- explicit-shell-file-name "/bin/tcsh"
- user-home-directory (getenv "HOME")
- documents-path user-home-directory
  is-windows (eq system-type 'windows-nt)
  is-mac (eq system-type 'darwin))
 
 ;; send my backups here
-(add-to-list 'backup-directory-alist
-	     (cons ".*"
-		   (concat user-emacs-directory "backups/")))
+(add-to-list 'backup-directory-alist (cons ".*" (concat user-emacs-directory "backups/")))
+
 
 ;; setup load path
-
-(setq load-path
-      (append
-       (list
- 	(concat user-emacs-directory "elisp/")) load-path))
+(add-to-list 'load-path (concat user-emacs-directory "elisp/"))
 
 (let ((default-directory (concat user-emacs-directory "elisp/")))
   (normal-top-level-add-subdirs-to-load-path))
@@ -26,77 +18,41 @@
   (setq-default ispell-program-name
 		"c:/Program Files (x86)/Aspell/bin/aspell.exe")
   (setq cygwin-mount-cygwin-bin-directory "c:/Cygwin/bin")
+  (setq java-docs-directory "c:/Java/32bit/jdk1.6.0_29/docs/api")
+  (setq explicit-shell-file-name "c:/Cygwin/bin/bash")
   (require 'cygwin-mount)
   (require 'setup-cygwin))
  (is-mac
   ;; Work around a bug on OS X where system-name is FQDN
   (setq system-name (car (split-string system-name "\\.")))
+  (setq java-docs-directory "/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/docs/api")
+  (setq explicit-shell-file-name "/bin/tcsh")
   ;; if we're running Aqua Emacs, turn off the annoying tendency for
   ;; a new frame to be created when opening a buffer.
   (if (functionp 'one-buffer-one-frame-mode)
       (one-buffer-one-frame-mode))))
 
-;; make LaTeX work... better way to do this?
-(setenv "PATH"
-	(concat (getenv "PATH") ":/usr/texbin"))
+;; make LaTeX work... better way to do this? (latex-run-command?)
+(setenv "PATH" (concat (getenv "PATH") ":/usr/texbin"))
 
 ;; load some editing modes
-(autoload 'bibtex-mode "bibtex" "Bibtex Mode")
-(autoload 'c-mode "cc-mode" "C Editing Mode" t)
-(autoload 'c++-mode   "cc-mode" "C++ Editing Mode" t)
-(autoload 'c++-c-mode "cc-mode" "C++/C Editing Mode" t)
-(autoload 'css-mode "css-mode-simple" "CSS Editing Mode" t)
 (autoload 'go-mode "go-mode" "Go editing mode" t)
 (autoload 'haskell-mode "haskell-mode" "Haskell editing mode" t)
-(autoload 'javascript-mode "javascript" "Javascript editing mode" t)
-(autoload 'LaTeX-mode "tex-mode" "LaTeX Mode" t)
 (autoload 'matlab-mode "matlab" "Enter Matlab mode." t)
 (autoload 'matlab-shell "matlab" "Interactive Matlab mode." t)
-(autoload 'objc-mode "cc-mode" "Objective-C Editing Mode" t)
-(autoload 'reftex-citation "reftex" "Do citation with RefTeX" t)
-(autoload 'reftex-mode     "reftex" "RefTeX Minor Mode" t)
 (autoload 'ruby-mode "ruby-mode" "Mode for editing ruby" t)
-(autoload 'run-ruby "inf-ruby" "Run an inferior Ruby process" t)
-(autoload 'inf-ruby-keys "inf-ruby" "Set local key defs for inf-ruby in ruby-mode")
-(autoload 'scheme-mode "scheme" "Scheme Mode" t)
-(autoload 'shell-mode "sh-mode" "Shell Mode" t)
-(autoload 'turn-on-reftex  "reftex" "RefTeX Minor Mode" nil)
-(autoload 'word-count-mode "word-count" "Minor mode to count words." t nil)
+(autoload 'word-count-mode "word-count" "Minor mode to count words." t)
 (autoload 'yaml-mode "yaml-mode" "Yaml Mode" t)
 
 ;; auto load list for the modes.
 (setq auto-mode-alist
       (append
-       '(("\\.bib$" . bibtex-mode)
-	 ("\\.c$"    . c-mode)
-	 ("\\.h$"    . c-mode)
-	 ("\\.cc$"   . c++-mode)
-	 ("\\.cpp$"   . c++-mode) ;;VC++
-	 ("\\.cxx$"   . c++-mode) ;;VC++
-	 ("\\.hh$"   . c++-mode) ;;VC++
-	 ("\\.hxx$"   . c++-mode) ;;VC++
-	 ("\\.hs$" . haskell-mode)
-	 ("\\.css$" . css-mode)
-	 ("\\.cl$" . emacs-lisp-mode)
-	 ("\\.el$" . emacs-lisp-mode)
-	 ("\\.gwm$" . emacs-lisp-mode)
-	 ("\\.lisp$" . emacs-lisp-mode)
-	 ("\\.lsp$" . emacs-lisp-mode)
-	 ("\\.vm$"   . emacs-lisp-mode)
-	 ("\\.go$" . go-mode)
-	 ("\\.java" . java-mode)
-	 ("\\.js$" . javascript-mode)
-	 ("\\.json$" . javascript-mode)
-	 ("\\.tex" . LaTeX-mode)
-	 ("\\.m$"    . objc-mode) ;; objective C
-	 ("\\.pl" . perl-mode)
-	 ("\\.php$" . php-mode)
-	 ("\\.rb$" . ruby-mode)
-	 ("\\.scm$"    . scheme-mode)
-	 ("\\.st" . smalltalk-mode)
-	 ("\\.exp$"   . tcl-mode)   ;;Expect
-	 ("\\.tcl$"   . tcl-mode)
-	 ("\\.yml$" . yaml-mode))
+       '(("\\.hs\\'" . haskell-mode)
+	 ("\\.go\\'" . go-mode)
+	 ("\\.js\\'" . javascript-mode)
+	 ("\\.json\\'" . javascript-mode)
+	 ("\\.rb\\'" . ruby-mode)
+	 ("\\.yml\\'" . yaml-mode))
        auto-mode-alist))
 
 ;; Required packages
@@ -110,6 +66,7 @@
 (require 'java-docs)
 (require 'java-mode-indent-annotations)
 (require 'java-mode-plus)
+(require 'rails-autoload)
 (require 'saveplace)
 (require 'semantic)
 (require 'tramp)
@@ -118,13 +75,14 @@
 ;; initialization functions
 ;; setup hooks for working with reftex when .tex files
 ;; are loaded.
-(add-hook 'LaTeX-mode-hook 'turn-on-reftex) ; with AUCTeX LaTeX mode
-(add-hook 'latex-mode-hook 'turn-on-reftex) ; with Emacs latex mode
-(add-hook 'ruby-mode-hook '(lambda () (inf-ruby-keys)))
+(add-hook 'latex-mode-hook '(lambda ()
+			      (turn-on-reftex))) ; with Emacs latex mode
 (add-hook 'java-mode-hook '(lambda ()
+			     (java-docs java-docs-directory)
 			     (java-mode-indent-annotations-setup)
 			     (setq truncate-lines t)))
-(add-hook 'matlab-mode-hook '(lambda () (auto-fill-mode nil)))
+(add-hook 'matlab-mode-hook '(lambda ()
+			       (auto-fill-mode nil)))
 
 (add-hook 'text-mode-hook '(lambda()
 			     (flyspell-mode t)       ; spellchek (sic) on the fl
@@ -132,7 +90,9 @@
 				   indent-tabs-mode nil)))
 
 ;; nuke trailing whitespace
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook '(lambda ()
+			       (delete-trailing-whitespace)))
+
 (add-hook 'after-change-major-mode-hook '(lambda ()
 					   (fci-mode 1)))
 
@@ -214,6 +174,3 @@
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
-
-;; this needs to go in a better place
-(java-docs "/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/docs/api")
