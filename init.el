@@ -105,6 +105,11 @@
 (global-set-key "\C-o" 'complete)
 (global-set-key "\M-+" 'word-count-mode)
 
+
+(delete ".svn/" completion-ignored-extensions)
+(delete ".hg/" completion-ignored-extensions)
+(delete ".git/" completion-ignored-extensions)
+
 (setq
  ;; some bibtex settings that I like
  bibtex-entry-format '(opts-or-alts realign last-comma delimiters page-dashes)
