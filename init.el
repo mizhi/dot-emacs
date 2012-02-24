@@ -23,17 +23,21 @@
   (require 'cygwin-mount)
   (require 'setup-cygwin))
  (is-mac
-  ;; Work around a bug on OS X where system-name is FQDN
+  ;; Work around a bug (?) on OS X where system-name is FQDN
   (setq system-name (car (split-string system-name "\\.")))
   (setq java-docs-directory "/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/docs/api")
   (setq explicit-shell-file-name "/bin/tcsh")
+
+  (setq latex-run-command "/usr/texbin/latex")
+
   ;; if we're running Aqua Emacs, turn off the annoying tendency for
   ;; a new frame to be created when opening a buffer.
   (if (functionp 'one-buffer-one-frame-mode)
       (one-buffer-one-frame-mode))))
 
 ;; make LaTeX work... better way to do this? (latex-run-command?)
-(setenv "PATH" (concat (getenv "PATH") ":/usr/texbin"))
+;;(setenv "PATH" (concat (getenv "PATH") ":/usr/texbin"))
+
 
 ;; load some editing modes
 (autoload 'go-mode "go-mode" "Go editing mode" t)
@@ -162,7 +166,7 @@
 (global-font-lock-mode 1)
 (global-whitespace-mode t)
 (global-ede-mode 1)
-;;(ido-mode t)
+(ido-mode t)
 (scroll-bar-mode 0)
 (semantic-mode 1)
 (show-paren-mode 1)
