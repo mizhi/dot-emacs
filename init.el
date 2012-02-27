@@ -156,7 +156,7 @@
 (setq-default
  fci-rule-column 120
  indicate-empty-lines t
- truncate-lines nil)
+ truncate-lines t)
 
 ;; coding system
 (setq locale-coding-system 'utf-8)
