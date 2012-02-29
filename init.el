@@ -135,6 +135,7 @@
 			(font . "-outline-Anonymous Pro-normal-normal-normal-mono-16-*-*-*-c-*-iso8859-1"))
 		      default-frame-alist)
  fci-handle-truncate-lines nil
+ fill-column 100
  font-lock-maximum-decoration t
  frame-title-format '(buffer-file-name "%f"
 				       (dired-directory dired-directory "%b"))
@@ -155,7 +156,7 @@
  truncate-partial-width-windows nil
  uniquify-buffer-name-style 'post-forward-angle-brackets
  visible-bell t
- whitespace-line-column 80
+ whitespace-line-column 100
  whitespace-style '(face trailing)
  x-select-enable-clipboard t)
 
@@ -163,7 +164,7 @@
 (setq-default
  fci-rule-column 120
  indicate-empty-lines t
- truncate-lines nil)
+ truncate-lines t)
 
 ;; coding system
 (setq locale-coding-system 'utf-8)

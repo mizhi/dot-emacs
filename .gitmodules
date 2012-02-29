@@ -10,3 +10,9 @@
 [submodule "elisp/matlab-emacs"]
 	path = elisp/matlab-emacs
 	url = https://github.com/ruediger/matlab-emacs.git
+[submodule "yasnippet"]
+	path = yasnippet
+	url = https://github.com/capitaomorte/yasnippet.git
+[submodule "elisp/yasnippet"]
+	path = elisp/yasnippet
+	url = https://github.com/capitaomorte/yasnippet.git
