@@ -13,14 +13,15 @@
 ;; send my backups here
 (add-to-list 'backup-directory-alist (cons ".*" (concat user-emacs-directory "backups/")))
 
-
 ;; setup load path
 (add-to-list 'load-path (concat user-emacs-directory "elisp/"))
-
 (let ((default-directory (concat user-emacs-directory "elisp/")))
   (normal-top-level-add-subdirs-to-load-path))
 
 (cond
+ ;; I use cygwin on windows machines when I can. Wonder if it's
+ ;; possible to make this detect if I am using cygwin on a new
+ ;; machine?
  (is-windows
   (setq-default ispell-program-name
 		"c:/Program Files (x86)/Aspell/bin/aspell.exe")
@@ -35,12 +36,7 @@
   (setq java-docs-directory "/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/docs/api")
   (setq explicit-shell-file-name "/bin/tcsh")
 
-  (setq latex-run-command "/usr/texbin/latex")
-
-  ;; if we're running Aqua Emacs, turn off the annoying tendency for
-  ;; a new frame to be created when opening a buffer.
-  (if (functionp 'one-buffer-one-frame-mode)
-      (one-buffer-one-frame-mode))))
+  (setq latex-run-command "/usr/texbin/latex")))
 
 ;; load some editing modes
 (autoload 'go-mode "go-mode" "Go editing mode" t)
@@ -54,8 +50,8 @@
 ;; auto load list for the modes.
 (setq auto-mode-alist
       (append
-       '(("\\.hs\\'" . haskell-mode)
-	 ("\\.go\\'" . go-mode)
+       '(("\\.go\\'" . go-mode)
+	 ("\\.hs\\'" . haskell-mode)
 	 ("\\.js\\'" . javascript-mode)
 	 ("\\.json\\'" . javascript-mode)
 	 ("\\.rb\\'" . ruby-mode)
@@ -75,43 +71,20 @@
 (require 'java-mode-plus)
 (require 'rails-autoload)
 (require 'saveplace)
-(require 'semantic)
 (require 'tramp)
 (require 'uniquify)
 
-;; initialization functions
-;; setup hooks for working with reftex when .tex files
-;; are loaded.
-(add-hook 'html-mode-hook '(lambda ()
-			     (toggle-truncate-lines 1)))
-
-(add-hook 'java-mode-hook '(lambda ()
-			     (java-docs java-docs-directory)
-			     (java-mode-indent-annotations-setup)
-			     (setq truncate-lines t)))
-(add-hook 'latex-mode-hook '(lambda ()
-			      (turn-on-reftex))) ; with Emacs latex mode
-
-(add-hook 'matlab-mode-hook '(lambda ()
-			       (auto-fill-mode nil)))
-
-(add-hook 'text-mode-hook '(lambda()
-			     (flyspell-mode t)       ; spellchek (sic) on the fl
-			     (setq tab-stop-list (number-sequence 2 100 2)
-				   indent-tabs-mode nil)))
-
-;; nuke trailing whitespace
-(add-hook 'before-save-hook '(lambda ()
-			       (delete-trailing-whitespace)))
-
-(add-hook 'after-change-major-mode-hook '(lambda ()
-					   (fci-mode 1)))
+;; semantic is part of the cedet suite of tools prior to emacs 23.2,
+;; this was a separate package. I don't want to bring this into the
+;; repo at this time. Maybe later.
+(when (require 'semantic nil 'noerror)
+  (global-ede-mode 1)
+  (semantic-mode 1))
 
 ;; Custom key bindings
 (global-set-key "\M-g" 'goto-line)
 (global-set-key "\C-o" 'complete)
 (global-set-key "\M-+" 'word-count-mode)
-
 
 (delete ".svn/" completion-ignored-extensions)
 (delete ".hg/" completion-ignored-extensions)
@@ -123,6 +96,7 @@
  bibtex-autokey-year-length 4
  bibtex-autokey-year-title-separator ""
  bibtex-autokey-titleword-length nil
+
  ;; browse-url-browser-function 'browse-url-text-emacs
  default-buffer-file-coding-system 'undecided-unix
  default-frame-alist (append
@@ -130,7 +104,8 @@
 			(height . 50)
 			(left . 250)
 			(top . 85)
-			(foreground-color . "wheat")
+;;			(foreground-color . "wheat")
+			(foreground-color . "green")
 			(background-color . "black")
 			(font . "-outline-Anonymous Pro-normal-normal-normal-mono-16-*-*-*-c-*-iso8859-1"))
 		      default-frame-alist)
@@ -178,12 +153,8 @@
 (completion-initialize)
 (global-font-lock-mode 1)
 (global-whitespace-mode t)
-(global-ede-mode 1)
 (ido-mode t)
-(scroll-bar-mode 0)
-(semantic-mode 1)
 (show-paren-mode 1)
-(tool-bar-mode 0)
 (turn-on-font-lock)
 
 ;; enable some features
@@ -191,3 +162,40 @@
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
+
+;; set up some language specific mode hooks
+(add-hook 'java-mode-hook
+	  (lambda ()
+	    (java-docs java-docs-directory)
+	    (java-mode-indent-annotations-setup)))
+
+(add-hook 'latex-mode-hook
+	  (lambda ()
+	    (turn-on-reftex)))
+
+(add-hook 'matlab-mode-hook
+	  (lambda ()
+	    (auto-fill-mode nil)))
+
+(add-hook 'text-mode-hook
+	  (lambda()
+	    (flyspell-mode t)
+	    (setq tab-stop-list (number-sequence 2 100 2)
+		  indent-tabs-mode nil)))
+
+;; nuke trailing whitespace
+(add-hook 'before-save-hook
+	  (lambda ()
+	    (delete-trailing-whitespace)))
+
+(add-hook 'after-change-major-mode-hook '(lambda ()
+					   (if (display-graphic-p)
+					       (fci-mode 1))))
+
+;; this hook sets up preferences that require a graphics display
+(add-hook 'after-make-frame-functions
+	  (lambda ()
+	    (if (display-graphic-p)
+		((scroll-bar-mode 0)
+		 (tool-bar-mode 0)))))
+
