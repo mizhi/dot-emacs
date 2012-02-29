@@ -78,6 +78,7 @@
 (require 'semantic)
 (require 'tramp)
 (require 'uniquify)
+(require 'yasnippet)
 
 ;; initialization functions
 ;; setup hooks for working with reftex when .tex files
@@ -185,6 +186,8 @@
 (show-paren-mode 1)
 (tool-bar-mode 0)
 (turn-on-font-lock)
+(yas/global-mode 1)
+
 
 ;; enable some features
 (put 'downcase-region 'disabled nil)
