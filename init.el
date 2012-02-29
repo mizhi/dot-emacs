@@ -3,6 +3,13 @@
  is-windows (eq system-type 'windows-nt)
  is-mac (eq system-type 'darwin))
 
+;; user-emacs-directory wasn't defined until later
+;; versions. We'll try to fix it up here by defaulting
+;; to ${HOME}/.emacs.d
+(if (not (boundp 'user-emacs-directory))
+    (setq user-emacs-directory
+	  (concat (getenv "HOME") "/.emacs.d/")))
+
 ;; send my backups here
 (add-to-list 'backup-directory-alist (cons ".*" (concat user-emacs-directory "backups/")))
 
@@ -34,10 +41,6 @@
   ;; a new frame to be created when opening a buffer.
   (if (functionp 'one-buffer-one-frame-mode)
       (one-buffer-one-frame-mode))))
-
-;; make LaTeX work... better way to do this? (latex-run-command?)
-;;(setenv "PATH" (concat (getenv "PATH") ":/usr/texbin"))
-
 
 ;; load some editing modes
 (autoload 'go-mode "go-mode" "Go editing mode" t)
@@ -79,12 +82,16 @@
 ;; initialization functions
 ;; setup hooks for working with reftex when .tex files
 ;; are loaded.
-(add-hook 'latex-mode-hook '(lambda ()
-			      (turn-on-reftex))) ; with Emacs latex mode
+(add-hook 'html-mode-hook '(lambda ()
+			     (toggle-truncate-lines 1)))
+
 (add-hook 'java-mode-hook '(lambda ()
 			     (java-docs java-docs-directory)
 			     (java-mode-indent-annotations-setup)
 			     (setq truncate-lines t)))
+(add-hook 'latex-mode-hook '(lambda ()
+			      (turn-on-reftex))) ; with Emacs latex mode
+
 (add-hook 'matlab-mode-hook '(lambda ()
 			       (auto-fill-mode nil)))
 
