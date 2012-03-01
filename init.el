@@ -229,7 +229,6 @@ the pool"
 			(font . "-outline-Anonymous Pro-normal-normal-normal-mono-16-*-*-*-c-*-iso8859-1"))
 		      default-frame-alist)
  fci-handle-truncate-lines nil
- fill-column 100
  font-lock-maximum-decoration t
  frame-title-format '(buffer-file-name "%f"
 				       (dired-directory dired-directory "%b"))
@@ -256,6 +255,7 @@ the pool"
 ;; set defaults for buffer local variables
 (setq-default
  fci-rule-column 120
+ fill-column 100
  indicate-empty-lines t
  truncate-lines t
  save-place t
@@ -317,12 +317,18 @@ the pool"
 					   (if (display-graphic-p)
 					       (fci-mode 1))))
 
+(defun config-frame (frame)
+  (with-selected-frame frame
+    (when (display-graphic-p)
+      (scroll-bar-mode 0)
+      (tool-bar-mode 0))))
+
+(config-frame (selected-frame))
+
 ;; this hook sets up preferences that require a graphics display
 (add-hook 'after-make-frame-functions
-	  (lambda ()
-	    (if (display-graphic-p)
-		((scroll-bar-mode 0)
-		 (tool-bar-mode 0)))))
+	  'config-frame)
+
 
 
 
