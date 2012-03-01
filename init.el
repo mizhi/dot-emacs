@@ -73,6 +73,7 @@
 (require 'saveplace)
 (require 'tramp)
 (require 'uniquify)
+(require 'yasnippet)
 
 ;; semantic is part of the cedet suite of tools prior to emacs 23.2,
 ;; this was a separate package. I don't want to bring this into the
@@ -156,6 +157,8 @@
 (ido-mode t)
 (show-paren-mode 1)
 (turn-on-font-lock)
+(yas/global-mode 1)
+
 
 ;; enable some features
 (put 'downcase-region 'disabled nil)
