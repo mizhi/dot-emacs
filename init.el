@@ -1,3 +1,6 @@
+;; TODO: Figure out what the problem with terminal mode is. (maybe
+;; only an OSX thins?)
+
 ;; environment variables that are used throughout the configuration.
 (setq
  is-windows (eq system-type 'windows-nt)
@@ -71,6 +74,7 @@
 (require 'java-mode-plus)
 (require 'rails-autoload)
 (require 'saveplace)
+(require 'tls)
 (require 'tramp)
 (require 'uniquify)
 (require 'yasnippet)
@@ -81,6 +85,121 @@
 (when (require 'semantic nil 'noerror)
   (global-ede-mode 1)
   (semantic-mode 1))
+
+;; Load up irc
+(defun start-irc ()
+  (interactive)
+  (require 'erc)
+  (require 'erc-match)
+
+  (defvar erc-insert-post-hook)
+
+  (setq erc-auto-query 'window-noselect
+	erc-autojoin-channels-alist '(("foonetic.net" "#xkcd" "#xkcd-compsci"))
+	erc-echo-notices-in-minibuffer-flag t
+	erc-hide-timestamps nil
+	erc-keywords '("seggy" "segfaultzen")
+	erc-log-insert-log-on-open nil
+	erc-log-channels t
+	erc-log-channels-directory "~/.irclogs/"
+	erc-max-buffer-size 20000
+	erc-save-buffer-on-part t
+	erc-truncate-buffer-on-save t
+	tls-program '("openssl s_client -connect %h:%p -no_ssl2 -ign_eof"
+		      "gnutls-cli -p %p %h"
+		      "gnutls-cli -p %p %h --protocols ssl3"))
+  (erc-match-mode)
+
+  ;; logging:
+  (defadvice save-buffers-kill-emacs (before save-logs (arg) activate)
+    (save-some-buffers t (lambda () (when (and (eq major-mode 'erc-mode)
+					       (not (null buffer-file-name)))))))
+
+  (add-hook 'erc-insert-post-hook 'erc-save-buffer-in-logs)
+  (add-hook 'erc-mode-hook '(lambda ()
+			      (when (not (featurep 'xemacs))
+				(set (make-variable-buffer-local
+				      'coding-system-for-write)
+				     'emacs-mule))
+			      (erc-set-colors-list nil)))
+  ;; end logging
+
+  ;; Truncate buffers so they don't hog core.
+  (add-hook 'erc-insert-post-hook 'erc-truncate-buffer)
+
+  (define-minor-mode ncm-mode "" nil
+    (:eval
+     (let ((ops 0)
+	   (voices 0)
+	   (members 0))
+       (maphash (lambda (key value)
+		  (when (erc-channel-user-op-p key)
+		    (setq ops (1+ ops)))
+		  (when (erc-channel-user-voice-p key)
+		    (setq voices (1+ voices)))
+		  (setq members (1+ members)))
+		erc-channel-users)
+       (format " %S/%S/%S" ops voices members))))
+
+  (add-hook 'erc-join-hook '(lambda () (ncm-mode)))
+
+  ;; Pool of colors to use when coloring IRC nicks.
+  (setq erc-nick-colors-list '("green" "blue" "red"
+			       "dark gray" "dark orange"
+			       "dark magenta" "maroon"
+			       "indian red" "forest green"
+			       "midnight blue" "dark violet"))
+  ;; special colors for some people
+  (setq erc-nick-color-alist '())
+
+  (defun erc-set-colors-list (frame)
+    (unless (frame-parameter frame 'erc-nick-colors-list)
+      (let ((v nil))
+	(dolist (color (defined-colors))
+	  (or (string-match-p "black" color)
+	      (add-to-list 'v color)))
+	(set-frame-parameter frame 'erc-nick-colors-list v))))
+
+  (defun erc-get-color-for-nick (nick)
+    "Gets a color for NICK. If NICK is in erc-nick-color-alist,
+use that color, else hash the nick and use a random color from
+the pool"
+    (let ((colors (frame-parameter nil 'erc-nick-colors-list)))
+      (or (cdr (assoc nick erc-nick-color-alist))
+	  (nth
+	   (mod (string-to-number
+		 (substring (md5 nick) 0 6) 16)
+		(length colors))
+	   colors))))
+
+  (defun erc-put-color-on-nick ()
+    "Modifies the color of nicks according to erc-get-color-for-nick"
+    (save-excursion
+      (goto-char (point-min))
+      (if (looking-at "<\\([^>]*\\)>")
+	  (let ((nick (match-string 1)))
+	    (put-text-property (match-beginning 1) (match-end 1) 'face
+			       (cons 'foreground-color
+				     (erc-get-color-for-nick nick)))))))
+
+
+  (add-hook 'erc-insert-modify-hook 'erc-put-color-on-nick)
+  (add-hook 'after-make-frame-functions
+	    '(lambda (frame)
+	       (erc-set-colors-list frame)))
+
+
+
+  (defun connect-irc ()
+    "Connect to IRC."
+    (interactive)
+    (erc-tls :server "irc.foonetic.net" :port 6697
+	     :nick "seggy" :full-name "segfaultzen")))
+
+;;    naos.foonetic.net, 443, 80
+;;    (erc :server "irc.freenode.net" :port 6667
+;;	 :nick "ootput" :full-name "ootput")
+
 
 ;; Custom key bindings
 (global-set-key "\M-g" 'goto-line)
@@ -105,7 +224,6 @@
 			(height . 50)
 			(left . 250)
 			(top . 85)
-;;			(foreground-color . "wheat")
 			(foreground-color . "green")
 			(background-color . "black")
 			(font . "-outline-Anonymous Pro-normal-normal-normal-mono-16-*-*-*-c-*-iso8859-1"))
@@ -121,13 +239,12 @@
  matlab-indent-function t
  next-line-add-newlines nil
  printer-name ""
- save-place t
  save-place-file (concat user-emacs-directory "places")
  show-paren-style 'parenthesis
  standard-indent 2
  tab-width 2
  tex-dvi-view-command "xdvi"
- tramp-default-method "ssh"
+ tramp-default-method "sshx"
  transient-mark-mode t
  truncate-partial-width-windows nil
  uniquify-buffer-name-style 'post-forward-angle-brackets
@@ -140,7 +257,9 @@
 (setq-default
  fci-rule-column 120
  indicate-empty-lines t
- truncate-lines t)
+ truncate-lines t
+ save-place t
+ savehist-mode t)
 
 ;; coding system
 (setq locale-coding-system 'utf-8)
@@ -157,6 +276,9 @@
 (ido-mode t)
 (show-paren-mode 1)
 (turn-on-font-lock)
+
+(yas/initialize)
+(yas/load-directory (concat user-emacs-directory "elisp/yasnippet/snippets/"))
 (yas/global-mode 1)
 
 
@@ -202,3 +324,9 @@
 		((scroll-bar-mode 0)
 		 (tool-bar-mode 0)))))
 
+
+
+;;   C-x n d ... narrow to def
+;;   C-x n n ... narrow to region
+;;   C-x n p ... narrow to page
+;;   C-x n w ... widen back
