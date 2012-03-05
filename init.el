@@ -1,5 +1,5 @@
 ;; TODO: Figure out what the problem with terminal mode is. (maybe
-;; only an OSX thins?)
+;; only an OSX thing?)
 
 ;; environment variables that are used throughout the configuration.
 (setq
@@ -79,23 +79,23 @@
 (require 'uniquify)
 (require 'yasnippet)
 
-;; semantic is part of the cedet suite of tools prior to emacs 23.2,
-;; this was a separate package. I don't want to bring this into the
-;; repo at this time. Maybe later.
+;; semantic is part of the cedet suite of tools prior to emacs 23.2, this was a separate package. I
+;; don't want to bring all of CEDET into the repo now due to the setup process.
 (when (require 'semantic nil 'noerror)
   (global-ede-mode 1)
   (semantic-mode 1))
 
 ;; Load up irc
-(defun start-irc ()
+(defun init-irc ()
   (interactive)
   (require 'erc)
   (require 'erc-match)
+  (erc-scrolltobottom-enable)
 
   (defvar erc-insert-post-hook)
 
   (setq erc-auto-query 'window-noselect
-	erc-autojoin-channels-alist '(("foonetic.net" "#xkcd" "#xkcd-compsci"))
+	erc-autojoin-channels-alist '(("foonetic.net" "#xkcd-compsci" "#xkcd"))
 	erc-echo-notices-in-minibuffer-flag t
 	erc-hide-timestamps nil
 	erc-keywords '("seggy" "segfaultzen")
@@ -108,48 +108,7 @@
 	tls-program '("openssl s_client -connect %h:%p -no_ssl2 -ign_eof"
 		      "gnutls-cli -p %p %h"
 		      "gnutls-cli -p %p %h --protocols ssl3"))
-  (erc-match-mode)
 
-  ;; logging:
-  (defadvice save-buffers-kill-emacs (before save-logs (arg) activate)
-    (save-some-buffers t (lambda () (when (and (eq major-mode 'erc-mode)
-					       (not (null buffer-file-name)))))))
-
-  (add-hook 'erc-insert-post-hook 'erc-save-buffer-in-logs)
-  (add-hook 'erc-mode-hook '(lambda ()
-			      (when (not (featurep 'xemacs))
-				(set (make-variable-buffer-local
-				      'coding-system-for-write)
-				     'emacs-mule))
-			      (erc-set-colors-list nil)))
-  ;; end logging
-
-  ;; Truncate buffers so they don't hog core.
-  (add-hook 'erc-insert-post-hook 'erc-truncate-buffer)
-
-  (define-minor-mode ncm-mode "" nil
-    (:eval
-     (let ((ops 0)
-	   (voices 0)
-	   (members 0))
-       (maphash (lambda (key value)
-		  (when (erc-channel-user-op-p key)
-		    (setq ops (1+ ops)))
-		  (when (erc-channel-user-voice-p key)
-		    (setq voices (1+ voices)))
-		  (setq members (1+ members)))
-		erc-channel-users)
-       (format " %S/%S/%S" ops voices members))))
-
-  (add-hook 'erc-join-hook '(lambda () (ncm-mode)))
-
-  ;; Pool of colors to use when coloring IRC nicks.
-  (setq erc-nick-colors-list '("green" "blue" "red"
-			       "dark gray" "dark orange"
-			       "dark magenta" "maroon"
-			       "indian red" "forest green"
-			       "midnight blue" "dark violet"))
-  ;; special colors for some people
   (setq erc-nick-color-alist '())
 
   (defun erc-set-colors-list (frame)
@@ -183,18 +142,52 @@ the pool"
 				     (erc-get-color-for-nick nick)))))))
 
 
-  (add-hook 'erc-insert-modify-hook 'erc-put-color-on-nick)
-  (add-hook 'after-make-frame-functions
-	    '(lambda (frame)
-	       (erc-set-colors-list frame)))
+  (defadvice save-buffers-kill-emacs (before save-logs (arg) activate)
+    (save-some-buffers t (lambda ()
+			   (when (and (eq major-mode 'erc-mode)
+				      (not (null buffer-file-name)))))))
 
-
+  (define-minor-mode ncm-mode "" nil
+    (:eval
+     (let ((ops 0)
+	   (voices 0)
+	   (members 0))
+       (maphash (lambda (key value)
+		  (when (erc-channel-user-op-p key)
+		    (setq ops (1+ ops)))
+		  (when (erc-channel-user-voice-p key)
+		    (setq voices (1+ voices)))
+		  (setq members (1+ members)))
+		erc-channel-users)
+       (format " %S/%S/%S" ops voices members))))
 
   (defun connect-irc ()
     "Connect to IRC."
     (interactive)
     (erc-tls :server "irc.foonetic.net" :port 6697
-	     :nick "seggy" :full-name "segfaultzen")))
+	     :nick "seggy" :full-name "segfaultzen"))
+
+  (add-hook 'erc-join-hook '(lambda ()
+			      (ncm-mode)))
+
+  (add-hook 'erc-insert-post-hook '(lambda ()
+				     (erc-truncate-buffer)
+				     (erc-save-buffer-in-logs)))
+
+  (add-hook 'erc-mode-hook '(lambda ()
+			      (when (not (featurep 'xemacs))
+				(set (make-variable-buffer-local
+				      'coding-system-for-write)
+				     'emacs-mule))
+			      (erc-set-colors-list nil)))
+
+  (add-hook 'erc-insert-modify-hook 'erc-put-color-on-nick)
+
+  (add-hook 'after-make-frame-functions
+	    '(lambda (frame)
+	       (erc-set-colors-list frame)))
+
+  (erc-match-mode))
 
 ;;    naos.foonetic.net, 443, 80
 ;;    (erc :server "irc.freenode.net" :port 6667
