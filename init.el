@@ -218,12 +218,11 @@ the pool"
  bibtex-autokey-titleword-length nil
 
  ;; browse-url-browser-function 'browse-url-text-emacs
- default-buffer-file-coding-system 'undecided-unix
  default-frame-alist (append
 		      '((width . 130)
-			(height . 50)
+			(height . 45)
 			(left . 250)
-			(top . 85)
+			(top . 50)
 			(foreground-color . "green")
 			(background-color . "black")
 			(font . "-outline-Anonymous Pro-normal-normal-normal-mono-16-*-*-*-c-*-iso8859-1"))
@@ -247,6 +246,8 @@ the pool"
  transient-mark-mode t
  truncate-partial-width-windows nil
  uniquify-buffer-name-style 'post-forward-angle-brackets
+ user-full-name "Mitchell Peabody"
+ user-mail-address "mpeabody@mitre.org"
  visible-bell t
  whitespace-line-column 100
  whitespace-style '(face trailing)
@@ -254,6 +255,7 @@ the pool"
 
 ;; set defaults for buffer local variables
 (setq-default
+ buffer-file-coding-system 'undecided-unix
  fci-rule-column 120
  fill-column 100
  indicate-empty-lines t
@@ -329,7 +331,42 @@ the pool"
 (add-hook 'after-make-frame-functions
 	  'config-frame)
 
+;;;;
+(defvar center-frame-size-margin-width 100)
+(defvar center-frame-size-margin-height 100)
+(defvar center-frame-top-fudge 170)
+(defvar center-frame-left-fudge 20)
+(defvar center-frame-char-height 50)
+(defvar center-frame-fill-column-padding 40)
 
+;; rough cut of centering code for initial frame
+(defun set-frame-size-for-resolution ()
+  (set-frame-height
+   (selected-frame)
+   (min
+    (/ (- (x-display-pixel-height) center-frame-size-margin-width)
+       (frame-char-height))
+    center-frame-char-height))
+  (set-frame-width
+   (selected-frame)
+   (min
+    (/ (- (x-display-pixel-width) center-frame-size-margin-height)
+       (frame-char-width))
+    (+ fill-column center-frame-fill-column-padding)))
+  (set-frame-position
+   (selected-frame)
+   (/
+    (-
+     (x-display-pixel-width)
+     (+ (frame-pixel-width) center-frame-left-fudge))
+    2)
+   (/
+    (-
+     (x-display-pixel-height)
+     (+ (frame-pixel-height) center-frame-top-fudge))
+    2)))
+
+(set-frame-size-for-resolution)
 
 
 ;;   C-x n d ... narrow to def
