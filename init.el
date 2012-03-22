@@ -236,7 +236,7 @@ the pool"
  inhibit-startup-screen t
  matlab-indent-function t
  next-line-add-newlines nil
- printer-name ""
+ printer-name "//MBPS3.MITRE.ORG/3M426A-HP"
  save-place-file (concat user-emacs-directory "places")
  show-paren-style 'parenthesis
  standard-indent 2
@@ -305,10 +305,17 @@ the pool"
 	    (auto-fill-mode nil)))
 
 (add-hook 'text-mode-hook
-	  (lambda()
+	  (lambda ()
 	    (flyspell-mode t)
 	    (setq tab-stop-list (number-sequence 2 100 2)
 		  indent-tabs-mode nil)))
+
+(add-hook 'change-log-mode-hook
+	  (lambda ()
+	    (auto-fill-mode 1)
+	    (setq fill-column 80)))
+
+
 
 ;; nuke trailing whitespace
 (add-hook 'before-save-hook
@@ -331,6 +338,10 @@ the pool"
 (add-hook 'after-make-frame-functions
 	  'config-frame)
 
+(add-hook 'compilation-mode-hook
+	  '(lambda ()
+	     (setq truncate-lines 1)
+	     (setq truncate-partial-width-windows 1)))
 ;;;;
 (defvar center-frame-size-margin-width 100)
 (defvar center-frame-size-margin-height 100)
