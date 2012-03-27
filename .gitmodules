@@ -13,3 +13,6 @@
 [submodule "snippets"]
 	path = snippets
 	url = git@github.com:mizhi/yasnippets.git
+[submodule "elisp/emacs-java"]
+	path = elisp/emacs-java
+	url = git@github.com:mizhi/emacs-java.git
