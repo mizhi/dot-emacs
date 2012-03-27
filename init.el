@@ -281,8 +281,10 @@ the pool"
 (show-paren-mode 1)
 (turn-on-font-lock)
 
-(yas/initialize)
+
 ;;(yas/load-directory (concat user-emacs-directory "elisp/yasnippet/snippets/"))
+(add-to-list 'yas/snippet-dirs (concat user-emacs-directory "snippets"))
+(yas/initialize)
 (yas/global-mode 1)
 
 ;; enable some features
