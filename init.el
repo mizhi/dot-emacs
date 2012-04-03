@@ -1,5 +1,5 @@
 ;; TODO: Figure out what the problem with terminal mode is. (maybe
-;; only an OSX thins?)
+;; only an OSX thing?)
 
 ;; environment variables that are used throughout the configuration.
 (setq
@@ -79,127 +79,111 @@
 (require 'uniquify)
 (require 'yasnippet)
 
-;; semantic is part of the cedet suite of tools prior to emacs 23.2,
-;; this was a separate package. I don't want to bring this into the
-;; repo at this time. Maybe later.
+;; semantic is part of the cedet suite of tools prior to emacs 23.2, this was a separate package. I
+;; don't want to bring all of CEDET into the repo now due to the setup process.
 (when (require 'semantic nil 'noerror)
   (global-ede-mode 1)
   (semantic-mode 1))
 
 ;; Load up irc
-(defun start-irc ()
+(defun init-irc ()
   (interactive)
   (require 'erc)
   (require 'erc-match)
+  (require 'erc-services)
 
   (defvar erc-insert-post-hook)
 
   (setq erc-auto-query 'window-noselect
-    erc-autojoin-channels-alist '(("foonetic.net" "#xkcd" "#xkcd-compsci"))
-    erc-echo-notices-in-minibuffer-flag t
-    erc-hide-timestamps nil
-    erc-keywords '("seggy" "segfaultzen")
-    erc-log-insert-log-on-open nil
-    erc-log-channels t
-    erc-log-channels-directory "~/.irclogs/"
-    erc-max-buffer-size 20000
-    erc-save-buffer-on-part t
-    erc-truncate-buffer-on-save t
-    tls-program '("openssl s_client -connect %h:%p -no_ssl2 -ign_eof"
-              "gnutls-cli -p %p %h"
-              "gnutls-cli -p %p %h --protocols ssl3"))
-  (erc-match-mode)
+	erc-autojoin-channels-alist '(("foonetic.net" "#xkcd")
+                                ("irc.freenode.net" "#rubyonrails" "#django"))
+	erc-echo-notices-in-minibuffer-flag t
+	erc-hide-timestamps nil
+	erc-keywords '("seggy" "segfaultzen")
+	erc-save-buffer-on-part nil
+	erc-save-queries-on-quit nil
+	erc-log-insert-log-on-open t
+	erc-log-channels t
+	erc-log-channels-directory "~/.irclogs/"
+	erc-log-write-after-send t
+	erc-log-write-after-insert t
+	erc-max-buffer-size 20000
+	erc-truncate-buffer-on-save t
+	tls-program '("openssl s_client -connect %h:%p -no_ssl2 -ign_eof"
+		      "gnutls-cli -p %p %h"
+		      "gnutls-cli -p %p %h --protocols ssl3"))
 
   ;; logging:
   (defadvice save-buffers-kill-emacs (before save-logs (arg) activate)
-    (save-some-buffers t (lambda () (when (and (eq major-mode 'erc-mode)
-                           (not (null buffer-file-name)))))))
+    (save-some-buffers t (lambda ()
+  			   (when (and (eq major-mode 'erc-mode)
+  				      (not (null buffer-file-name)))))))
 
-  (add-hook 'erc-insert-post-hook 'erc-save-buffer-in-logs)
-  (add-hook 'erc-mode-hook '(lambda ()
-                  (when (not (featurep 'xemacs))
-                (set (make-variable-buffer-local
-                      'coding-system-for-write)
-                     'emacs-mule))
-                  (erc-set-colors-list nil)))
-  ;; end logging
-
-  ;; Truncate buffers so they don't hog core.
-  (add-hook 'erc-insert-post-hook 'erc-truncate-buffer)
-
-  (define-minor-mode ncm-mode "" nil
-    (:eval
-     (let ((ops 0)
-       (voices 0)
-       (members 0))
-       (maphash (lambda (key value)
-          (when (erc-channel-user-op-p key)
-            (setq ops (1+ ops)))
-          (when (erc-channel-user-voice-p key)
-            (setq voices (1+ voices)))
-          (setq members (1+ members)))
-        erc-channel-users)
-       (format " %S/%S/%S" ops voices members))))
-
-  (add-hook 'erc-join-hook '(lambda () (ncm-mode)))
-
-  ;; Pool of colors to use when coloring IRC nicks.
-  (setq erc-nick-colors-list '("green" "blue" "red"
-                   "dark gray" "dark orange"
-                   "dark magenta" "maroon"
-                   "indian red" "forest green"
-                   "midnight blue" "dark violet"))
-  ;; special colors for some people
   (setq erc-nick-color-alist '())
-
-  (defun erc-set-colors-list (frame)
-    (unless (frame-parameter frame 'erc-nick-colors-list)
-      (let ((v nil))
-    (dolist (color (defined-colors))
-      (or (string-match-p "black" color)
-          (add-to-list 'v color)))
-    (set-frame-parameter frame 'erc-nick-colors-list v))))
+  (setq erc-nick-color-list '("white" "yellow" "red" "purple" "orange" ;; standard colors
+			      "magenta" "cyan" "brown" "blue")) ;; exclude green because that's the normal text color
 
   (defun erc-get-color-for-nick (nick)
     "Gets a color for NICK. If NICK is in erc-nick-color-alist,
 use that color, else hash the nick and use a random color from
 the pool"
-    (let ((colors (frame-parameter nil 'erc-nick-colors-list)))
-      (or (cdr (assoc nick erc-nick-color-alist))
-      (nth
-       (mod (string-to-number
-         (substring (md5 nick) 0 6) 16)
-        (length colors))
-       colors))))
+    (or (cdr (assoc nick erc-nick-color-alist))
+	(nth
+	 (mod (string-to-number
+	       (substring (md5 nick) 0 6) 16)
+	      (length erc-nick-color-list))
+	 erc-nick-color-list)))
 
   (defun erc-put-color-on-nick ()
     "Modifies the color of nicks according to erc-get-color-for-nick"
     (save-excursion
       (goto-char (point-min))
       (if (looking-at "<\\([^>]*\\)>")
-      (let ((nick (match-string 1)))
-        (put-text-property (match-beginning 1) (match-end 1) 'face
-                   (cons 'foreground-color
-                     (erc-get-color-for-nick nick)))))))
+	  (let ((nick (match-string 1)))
+	    (put-text-property (match-beginning 1) (match-end 1) 'face
+			       (cons 'foreground-color
+				     (erc-get-color-for-nick nick)))))))
 
-
-  (add-hook 'erc-insert-modify-hook 'erc-put-color-on-nick)
-  (add-hook 'after-make-frame-functions
-        '(lambda (frame)
-           (erc-set-colors-list frame)))
-
-
+  (define-minor-mode ncm-mode "" nil
+    (:eval
+     (let ((ops 0)
+	   (voices 0)
+	   (members 0))
+       (maphash (lambda (key value)
+		  (when (erc-channel-user-op-p key)
+		    (setq ops (1+ ops)))
+		  (when (erc-channel-user-voice-p key)
+		    (setq voices (1+ voices)))
+		  (setq members (1+ members)))
+		erc-channel-users)
+       (format " %S/%S/%S" ops voices members))))
 
   (defun connect-irc ()
     "Connect to IRC."
     (interactive)
     (erc-tls :server "irc.foonetic.net" :port 6697
-         :nick "seggy" :full-name "segfaultzen")))
+	     :nick "seggy" :full-name "segfaultzen")
+    (erc-tls :server "irc.freenode.net" :port 6697
+	     :nick "seggy" :full-name "segfaultzen"))
 
-;;    naos.foonetic.net, 443, 80
-;;    (erc :server "irc.freenode.net" :port 6667
-;;   :nick "ootput" :full-name "ootput")
+  (add-hook 'erc-join-hook '(lambda ()
+			      (ncm-mode)))
 
+  (add-hook 'erc-insert-post-hook '(lambda ()
+				     (erc-truncate-buffer)
+				     (erc-save-buffer-in-logs)))
+
+  (add-hook 'erc-mode-hook '(lambda ()
+			      (when (not (featurep 'xemacs))
+				(set (make-variable-buffer-local
+				      'coding-system-for-write)
+				     'emacs-mule))))
+
+  (add-hook 'erc-insert-modify-hook 'erc-put-color-on-nick)
+
+  (erc-scrolltobottom-enable)
+  (erc-match-mode t)
+  (erc-services-mode t))
 
 ;; Custom key bindings
 (global-set-key "\M-g" 'goto-line)
@@ -211,6 +195,9 @@ the pool"
 (delete ".svn/" completion-ignored-extensions)
 (delete ".hg/" completion-ignored-extensions)
 (delete ".git/" completion-ignored-extensions)
+
+;; this prevents IDO from hiding IRC log files
+(delete "\\`#" ido-ignore-files)
 
 (setq
  ;; some bibtex settings that I like
@@ -334,12 +321,14 @@ the pool"
         (auto-fill-mode 1)
         (setq fill-column 80)))
 
-
-
-;; nuke trailing whitespace
 (add-hook 'before-save-hook
       (lambda ()
         (delete-trailing-whitespace)))
+
+(add-hook 'compilation-mode-hook
+	  '(lambda ()
+	     (setq truncate-lines 1)
+	     (setq truncate-partial-width-windows 1)))
 
 (add-hook 'after-change-major-mode-hook '(lambda ()
                        (if (display-graphic-p)
@@ -351,7 +340,8 @@ the pool"
       (scroll-bar-mode 0)
       (tool-bar-mode 0))))
 
-(config-frame (selected-frame))
+(when (display-graphic-p)
+  (config-frame (selected-frame)))
 
 ;; this hook sets up preferences that require a graphics display
 (add-hook 'after-make-frame-functions
@@ -361,43 +351,44 @@ the pool"
       '(lambda ()
          (setq truncate-lines 1)
          (setq truncate-partial-width-windows 1)))
+
 ;;;;
-(defvar center-frame-size-margin-width 100)
-(defvar center-frame-size-margin-height 100)
-(defvar center-frame-top-fudge 170)
-(defvar center-frame-left-fudge 20)
-(defvar center-frame-char-height 50)
-(defvar center-frame-fill-column-padding 40)
+(when (display-graphic-p)
+  (defvar center-frame-size-margin-width 100)
+  (defvar center-frame-size-margin-height 100)
+  (defvar center-frame-top-fudge 170)
+  (defvar center-frame-left-fudge 20)
+  (defvar center-frame-char-height 50)
+  (defvar center-frame-fill-column-padding 40)
 
-;; rough cut of centering code for initial frame
-(defun set-frame-size-for-resolution ()
-  (set-frame-height
-   (selected-frame)
-   (min
-    (/ (- (x-display-pixel-height) center-frame-size-margin-width)
-       (frame-char-height))
-    center-frame-char-height))
-  (set-frame-width
-   (selected-frame)
-   (min
-    (/ (- (x-display-pixel-width) center-frame-size-margin-height)
-       (frame-char-width))
-    (+ fill-column center-frame-fill-column-padding)))
-  (set-frame-position
-   (selected-frame)
-   (/
-    (-
-     (x-display-pixel-width)
-     (+ (frame-pixel-width) center-frame-left-fudge))
-    2)
-   (/
-    (-
-     (x-display-pixel-height)
-     (+ (frame-pixel-height) center-frame-top-fudge))
-    2)))
+  ;; rough cut of centering code for initial frame
+  (defun set-frame-size-for-resolution ()
+    (set-frame-height
+     (selected-frame)
+     (min
+      (/ (- (x-display-pixel-height) center-frame-size-margin-width)
+	 (frame-char-height))
+      center-frame-char-height))
+    (set-frame-width
+     (selected-frame)
+     (min
+      (/ (- (x-display-pixel-width) center-frame-size-margin-height)
+	 (frame-char-width))
+      (+ fill-column center-frame-fill-column-padding)))
+    (set-frame-position
+     (selected-frame)
+     (/
+      (-
+       (x-display-pixel-width)
+       (+ (frame-pixel-width) center-frame-left-fudge))
+      2)
+     (/
+      (-
+       (x-display-pixel-height)
+       (+ (frame-pixel-height) center-frame-top-fudge))
+      2)))
 
-(set-frame-size-for-resolution)
-
+  (set-frame-size-for-resolution))
 
 ;;   C-x n d ... narrow to def
 ;;   C-x n n ... narrow to region

@@ -2,4 +2,5 @@
 
 This is my personal emacs setup. This should work on any platform with emacs
 23.2+ installed. This is due to the inclusion of CEDET tools, in particular
-Semantic.
+Semantic. Emacs < 23.2 do not include it and the setup is not conducive to 
+a github repository.
