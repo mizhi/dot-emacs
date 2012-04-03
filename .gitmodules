@@ -1,6 +1,6 @@
 [submodule "elisp/emacs-rails-reloaded"]
 	path = elisp/emacs-rails-reloaded
-	url = https://github.com/dima-exe/emacs-rails-reloaded
+	url = git@github.com/dima-exe/emacs-rails-reloaded.git
 [submodule "elisp/yaml-mode"]
 	path = elisp/yaml-mode
 	url = https://github.com/yoshiki/yaml-mode.git
@@ -18,4 +18,4 @@
 	url = git@github.com:mizhi/emacs-java.git
 [submodule "elisp/javacc-mode"]
 	path = elisp/javacc-mode
-	url = https://github.com/mizhi/javacc-mode
+	url = git@github.com/mizhi/javacc-mode.git
