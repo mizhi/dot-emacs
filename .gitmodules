@@ -16,3 +16,6 @@
 [submodule "elisp/emacs-java"]
 	path = elisp/emacs-java
 	url = git@github.com:mizhi/emacs-java.git
+[submodule "elisp/javacc-mode"]
+	path = elisp/javacc-mode
+	url = https://github.com/mizhi/javacc-mode

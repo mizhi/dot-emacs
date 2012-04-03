@@ -205,6 +205,8 @@ the pool"
 (global-set-key "\M-g" 'goto-line)
 (global-set-key "\C-o" 'complete)
 (global-set-key "\M-+" 'word-count-mode)
+(global-set-key (kbd "<C-tab>") 'yas/expand-from-trigger-key)
+
 
 (delete ".svn/" completion-ignored-extensions)
 (delete ".hg/" completion-ignored-extensions)
@@ -281,9 +283,9 @@ the pool"
 (show-paren-mode 1)
 (turn-on-font-lock)
 
-
-;;(yas/load-directory (concat user-emacs-directory "elisp/yasnippet/snippets/"))
+;; set up YASnippet
 (add-to-list 'yas/snippet-dirs (concat user-emacs-directory "snippets"))
+(setq yas/also-auto-indent-first-line t)
 (yas/initialize)
 (yas/global-mode 1)
 
@@ -321,7 +323,11 @@ the pool"
 (add-hook 'text-mode-hook
       (lambda ()
         (flyspell-mode t)
-        (setq tab-stop-list (number-sequence 2 100 2))))
+        (setq ;; tab-stop-list (number-sequence 2 100 2)
+         indent-tabs-mode nil
+         tab-width 2
+         indent-line-function (quote insert-tab)
+         fill-column 80)))
 
 (add-hook 'change-log-mode-hook
       (lambda ()
