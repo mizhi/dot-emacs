@@ -11,7 +11,7 @@
 ;; to ${HOME}/.emacs.d
 (if (not (boundp 'user-emacs-directory))
     (setq user-emacs-directory
-      (concat (getenv "HOME") "/.emacs.d/")))
+          (concat (getenv "HOME") "/.emacs.d/")))
 
 ;; send my backups here
 (add-to-list 'backup-directory-alist (cons ".*" (concat user-emacs-directory "backups/")))
@@ -27,7 +27,7 @@
  ;; machine?
  (is-windows
   (setq-default ispell-program-name
-        "c:/Program Files (x86)/Aspell/bin/aspell.exe")
+                "c:/Program Files (x86)/Aspell/bin/aspell.exe")
   (setq cygwin-mount-cygwin-bin-directory "c:/Cygwin/bin")
   (setq java-docs-directory "c:/Java/32bit/jdk1.6.0_29/docs/api")
   (setq explicit-shell-file-name "c:/Cygwin/bin/bash")
@@ -54,11 +54,11 @@
 (setq auto-mode-alist
       (append
        '(("\\.go\\'" . go-mode)
-     ("\\.hs\\'" . haskell-mode)
-     ("\\.js\\'" . javascript-mode)
-     ("\\.json\\'" . javascript-mode)
-     ("\\.rb\\'" . ruby-mode)
-     ("\\.yml\\'" . yaml-mode))
+         ("\\.hs\\'" . haskell-mode)
+         ("\\.js\\'" . javascript-mode)
+         ("\\.json\\'" . javascript-mode)
+         ("\\.rb\\'" . ruby-mode)
+         ("\\.yml\\'" . yaml-mode))
        auto-mode-alist))
 
 ;; Required packages
@@ -91,93 +91,94 @@
   (require 'erc)
   (require 'erc-match)
   (require 'erc-services)
+  (require 'erc-fill)
 
   (defvar erc-insert-post-hook)
 
   (setq erc-auto-query 'window-noselect
-	erc-autojoin-channels-alist '(("foonetic.net" "#xkcd")
-                                ("irc.freenode.net" "#rubyonrails" "#django"))
-	erc-echo-notices-in-minibuffer-flag t
-	erc-hide-timestamps nil
-	erc-keywords '("seggy" "segfaultzen")
-	erc-save-buffer-on-part nil
-	erc-save-queries-on-quit nil
-	erc-log-insert-log-on-open t
-	erc-log-channels t
-	erc-log-channels-directory "~/.irclogs/"
-	erc-log-write-after-send t
-	erc-log-write-after-insert t
-	erc-max-buffer-size 20000
-	erc-truncate-buffer-on-save t
-	tls-program '("openssl s_client -connect %h:%p -no_ssl2 -ign_eof"
-		      "gnutls-cli -p %p %h"
-		      "gnutls-cli -p %p %h --protocols ssl3"))
+        erc-autojoin-channels-alist '(("foonetic.net" "#xkcd")
+                                      ("irc.freenode.net" "#rubyonrails" "#django"))
+        erc-echo-notices-in-minibuffer-flag t
+        erc-hide-timestamps nil
+        erc-keywords '("seggy" "segfaultzen")
+        erc-save-buffer-on-part nil
+        erc-save-queries-on-quit nil
+        erc-log-insert-log-on-open t
+        erc-log-channels t
+        erc-log-channels-directory "~/.irclogs/"
+        erc-log-write-after-send t
+        erc-log-write-after-insert t
+        erc-max-buffer-size 20000
+        erc-truncate-buffer-on-save t
+        tls-program '("openssl s_client -connect %h:%p -no_ssl2 -ign_eof"
+                      "gnutls-cli -p %p %h"
+                      "gnutls-cli -p %p %h --protocols ssl3"))
 
   ;; logging:
   (defadvice save-buffers-kill-emacs (before save-logs (arg) activate)
     (save-some-buffers t (lambda ()
-  			   (when (and (eq major-mode 'erc-mode)
-  				      (not (null buffer-file-name)))))))
+                           (when (and (eq major-mode 'erc-mode)
+                                      (not (null buffer-file-name)))))))
 
   (setq erc-nick-color-alist '())
   (setq erc-nick-color-list '("white" "yellow" "red" "purple" "orange" ;; standard colors
-			      "magenta" "cyan" "brown" "blue")) ;; exclude green because that's the normal text color
+                              "magenta" "cyan" "brown" "blue")) ;; exclude green because that's the normal text color
 
   (defun erc-get-color-for-nick (nick)
     "Gets a color for NICK. If NICK is in erc-nick-color-alist,
 use that color, else hash the nick and use a random color from
 the pool"
     (or (cdr (assoc nick erc-nick-color-alist))
-	(nth
-	 (mod (string-to-number
-	       (substring (md5 nick) 0 6) 16)
-	      (length erc-nick-color-list))
-	 erc-nick-color-list)))
+        (nth
+         (mod (string-to-number
+               (substring (md5 nick) 0 6) 16)
+              (length erc-nick-color-list))
+         erc-nick-color-list)))
 
   (defun erc-put-color-on-nick ()
     "Modifies the color of nicks according to erc-get-color-for-nick"
     (save-excursion
       (goto-char (point-min))
       (if (looking-at "<\\([^>]*\\)>")
-	  (let ((nick (match-string 1)))
-	    (put-text-property (match-beginning 1) (match-end 1) 'face
-			       (cons 'foreground-color
-				     (erc-get-color-for-nick nick)))))))
+          (let ((nick (match-string 1)))
+            (put-text-property (match-beginning 1) (match-end 1) 'face
+                               (cons 'foreground-color
+                                     (erc-get-color-for-nick nick)))))))
 
   (define-minor-mode ncm-mode "" nil
     (:eval
      (let ((ops 0)
-	   (voices 0)
-	   (members 0))
+           (voices 0)
+           (members 0))
        (maphash (lambda (key value)
-		  (when (erc-channel-user-op-p key)
-		    (setq ops (1+ ops)))
-		  (when (erc-channel-user-voice-p key)
-		    (setq voices (1+ voices)))
-		  (setq members (1+ members)))
-		erc-channel-users)
+                  (when (erc-channel-user-op-p key)
+                    (setq ops (1+ ops)))
+                  (when (erc-channel-user-voice-p key)
+                    (setq voices (1+ voices)))
+                  (setq members (1+ members)))
+                erc-channel-users)
        (format " %S/%S/%S" ops voices members))))
 
   (defun connect-irc ()
     "Connect to IRC."
     (interactive)
     (erc-tls :server "irc.foonetic.net" :port 6697
-	     :nick "seggy" :full-name "segfaultzen")
+             :nick "seggy" :full-name "segfaultzen")
     (erc-tls :server "irc.freenode.net" :port 6697
-	     :nick "seggy" :full-name "segfaultzen"))
+             :nick "seggy" :full-name "segfaultzen"))
 
   (add-hook 'erc-join-hook '(lambda ()
-			      (ncm-mode)))
+                              (ncm-mode)))
 
   (add-hook 'erc-insert-post-hook '(lambda ()
-				     (erc-truncate-buffer)
-				     (erc-save-buffer-in-logs)))
+                                     (erc-truncate-buffer)
+                                     (erc-save-buffer-in-logs)))
 
   (add-hook 'erc-mode-hook '(lambda ()
-			      (when (not (featurep 'xemacs))
-				(set (make-variable-buffer-local
-				      'coding-system-for-write)
-				     'emacs-mule))))
+                              (when (not (featurep 'xemacs))
+                                (set (make-variable-buffer-local
+                                      'coding-system-for-write)
+                                     'emacs-mule))))
 
   (add-hook 'erc-insert-modify-hook 'erc-put-color-on-nick)
 
@@ -206,18 +207,18 @@ the pool"
 
  ;; browse-url-browser-function 'browse-url-text-emacs
  default-frame-alist (append
-              '((width . 130)
-            (height . 45)
-            (left . 250)
-            (top . 50)
-            (foreground-color . "green")
-            (background-color . "black")
-            (font . "-outline-Anonymous Pro-normal-normal-normal-mono-16-*-*-*-c-*-iso8859-1"))
-              default-frame-alist)
+                      '((width . 130)
+                        (height . 45)
+                        (left . 250)
+                        (top . 50)
+                        (foreground-color . "green")
+                        (background-color . "black")
+                        (font . "-outline-Anonymous Pro-normal-normal-normal-mono-16-*-*-*-c-*-iso8859-1"))
+                      default-frame-alist)
  fci-handle-truncate-lines nil
  font-lock-maximum-decoration t
  frame-title-format '(buffer-file-name "%f"
-                       (dired-directory dired-directory "%b"))
+                                       (dired-directory dired-directory "%b"))
  global-semantic-highlight-func-mode t
  global-semantic-highlight-edits-mode t
  inhibit-startup-screen t
@@ -292,43 +293,43 @@ the pool"
   nil)
 
 (add-hook 'java-mode-hook
-      (lambda ()
-        (add-hook 'write-contents-hooks 'untabify-before-save)
-        (java-docs java-docs-directory)
-        (java-mode-indent-annotations-setup)))
+          (lambda ()
+            (add-hook 'write-contents-hooks 'untabify-before-save)
+            (java-docs java-docs-directory)
+            (java-mode-indent-annotations-setup)))
 
 (add-hook 'latex-mode-hook
-      (lambda ()
-        (turn-on-reftex)))
+          (lambda ()
+            (turn-on-reftex)))
 
 (add-hook 'matlab-mode-hook
-      (lambda ()
-        (auto-fill-mode nil)))
+          (lambda ()
+            (auto-fill-mode nil)))
 
 (add-hook 'text-mode-hook
-	  (lambda ()
-	    (flyspell-mode t)
-	    (setq tab-stop-list (number-sequence 2 100 2)
-		  fill-column 72
-		  indent-tabs-mode nil)))
+          (lambda ()
+            (flyspell-mode t)
+            (setq tab-stop-list (number-sequence 2 100 2)
+                  fill-column 72
+                  indent-tabs-mode nil)))
 
 (add-hook 'change-log-mode-hook
-      (lambda ()
-        (auto-fill-mode 1)
-        (setq fill-column 80)))
+          (lambda ()
+            (auto-fill-mode 1)
+            (setq fill-column 80)))
 
 (add-hook 'before-save-hook
-      (lambda ()
-        (delete-trailing-whitespace)))
+          (lambda ()
+            (delete-trailing-whitespace)))
 
 (add-hook 'compilation-mode-hook
-	  '(lambda ()
-	     (setq truncate-lines 1)
-	     (setq truncate-partial-width-windows 1)))
+          '(lambda ()
+             (setq truncate-lines 1)
+             (setq truncate-partial-width-windows 1)))
 
 (add-hook 'after-change-major-mode-hook '(lambda ()
-                       (if (display-graphic-p)
-                           (fci-mode 1))))
+                                           (if (display-graphic-p)
+                                               (fci-mode 1))))
 
 (defun config-frame (frame)
   (with-selected-frame frame
@@ -341,12 +342,12 @@ the pool"
 
 ;; this hook sets up preferences that require a graphics display
 (add-hook 'after-make-frame-functions
-      'config-frame)
+          'config-frame)
 
 (add-hook 'compilation-mode-hook
-      '(lambda ()
-         (setq truncate-lines 1)
-         (setq truncate-partial-width-windows 1)))
+          '(lambda ()
+             (setq truncate-lines 1)
+             (setq truncate-partial-width-windows 1)))
 
 ;;;;
 (when (display-graphic-p)
@@ -363,13 +364,13 @@ the pool"
      (selected-frame)
      (min
       (/ (- (x-display-pixel-height) center-frame-size-margin-width)
-	 (frame-char-height))
+         (frame-char-height))
       center-frame-char-height))
     (set-frame-width
      (selected-frame)
      (min
       (/ (- (x-display-pixel-width) center-frame-size-margin-height)
-	 (frame-char-width))
+         (frame-char-width))
       (+ fill-column center-frame-fill-column-padding)))
     (set-frame-position
      (selected-frame)
