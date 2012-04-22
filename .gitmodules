@@ -19,3 +19,6 @@
 [submodule "elisp/javacc-mode"]
 	path = elisp/javacc-mode
 	url = git@github.com:mizhi/javacc-mode.git
+[submodule "elisp/android-mode"]
+	path = elisp/android-mode
+	url = git@github.com:mizhi/android-mode.git
