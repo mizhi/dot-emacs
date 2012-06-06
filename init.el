@@ -62,6 +62,7 @@
        auto-mode-alist))
 
 ;; Required packages
+(require 'android-mode)
 (require 'cl)
 (require 'column-marker)
 (require 'completion)
@@ -97,7 +98,7 @@
 
   (setq erc-auto-query 'window-noselect
         erc-autojoin-channels-alist '(("foonetic.net" "#xkcd")
-                                      ("irc.freenode.net" "#rubyonrails" "#django"))
+                                      ("irc.freenode.net" "#rubyonrails" "#django" "#java"))
         erc-echo-notices-in-minibuffer-flag t
         erc-hide-timestamps nil
         erc-keywords '("seggy" "segfaultzen")
