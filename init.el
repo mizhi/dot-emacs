@@ -1,6 +1,3 @@
-;; TODO: Figure out what the problem with terminal mode is. (maybe
-;; only an OSX thing?)
-
 ;; environment variables that are used throughout the configuration.
 (setq
  is-windows (eq system-type 'windows-nt)
@@ -37,7 +34,7 @@
   ;; Work around a bug (?) on OS X where system-name is FQDN
   (setq system-name (car (split-string system-name "\\.")))
   (setq java-docs-directory "/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/docs/api")
-  (setq explicit-shell-file-name "/bin/tcsh")
+  (setq explicit-shell-file-name "/bin/bash")
 
   (setq latex-run-command "/usr/texbin/latex")))
 
@@ -62,7 +59,7 @@
        auto-mode-alist))
 
 ;; Required packages
-(require 'android-mode)
+;;(require 'android-mode)
 (require 'cl)
 (require 'column-marker)
 (require 'completion)
@@ -98,7 +95,7 @@
 
   (setq erc-auto-query 'window-noselect
         erc-autojoin-channels-alist '(("foonetic.net" "#xkcd")
-                                      ("irc.freenode.net" "#rubyonrails" "#django" "#java"))
+                                      ("freenode.net" "#rubyonrails" "#django" "#java"))
         erc-echo-notices-in-minibuffer-flag t
         erc-hide-timestamps nil
         erc-keywords '("seggy" "segfaultzen")
@@ -227,7 +224,7 @@ the pool"
  inhibit-startup-screen t
  matlab-indent-function t
  next-line-add-newlines nil
- printer-name "//MBPS3.MITRE.ORG/3M426A-HP"
+ printer-name "192.168.1.199"
  save-place-file (concat user-emacs-directory "places")
  show-paren-style 'parenthesis
  standard-indent 2
@@ -237,7 +234,7 @@ the pool"
  truncate-partial-width-windows nil
  uniquify-buffer-name-style 'post-forward-angle-brackets
  user-full-name "Mitchell Peabody"
- user-mail-address "mpeabody@mitre.org"
+ user-mail-address "mitchell.peabody@gmail.com"
  visible-bell t
  whitespace-line-column 100
  whitespace-style '(face trailing)
