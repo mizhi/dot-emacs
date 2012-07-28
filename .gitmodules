@@ -12,7 +12,7 @@
 	url = https://github.com/capitaomorte/yasnippet.git
 [submodule "snippets"]
 	path = snippets
-	url = https://github.com:mizhi/yasnippets.git
+	url = https://github.com/mizhi/yasnippets.git
 [submodule "elisp/emacs-java"]
 	path = elisp/emacs-java
 	url = https://github.com/mizhi/emacs-java.git
