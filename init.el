@@ -192,6 +192,15 @@ the pool"
   (erc-match-mode t)
   (erc-services-mode t))
 
+;; org-mode
+(setq org-log-done 'time)
+(setq org-todo-keywords '((sequence "TODO" "|" "DONE(d)")
+                          (sequence "|" "DELEGATED(e@)")))
+(setq org-tag-alist '(("@home" . ?h)
+                      ("@work" . ?w)
+                      ("@army" . ?a)
+                      ("@projects" . ?p)))
+
 ;; Custom key bindings
 (global-set-key "\M-g" 'goto-line)
 (global-set-key "\C-o" 'complete)
