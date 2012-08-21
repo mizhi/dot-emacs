@@ -12,10 +12,10 @@
 	url = https://github.com/capitaomorte/yasnippet.git
 [submodule "snippets"]
 	path = snippets
-	url = git@github.com:mizhi/yasnippets.git
+	url = https://github.com/mizhi/yasnippets.git
 [submodule "elisp/emacs-java"]
 	path = elisp/emacs-java
-	url = git@github.com:mizhi/emacs-java.git
+	url = https://github.com/mizhi/emacs-java.git
 [submodule "elisp/javacc-mode"]
 	path = elisp/javacc-mode
-	url = git@github.com:mizhi/javacc-mode.git
+	url = https://github.com/mizhi/javacc-mode.git
