@@ -95,40 +95,47 @@
 (defun init-irc ()
   (interactive)
   (require 'erc)
+  (require 'erc-fill)
+  (require 'erc-goodies)
+  (require 'erc-join)
   (require 'erc-match)
   (require 'erc-services)
-  (require 'erc-fill)
 
   (defvar erc-insert-post-hook)
 
+  (load (concat (getenv "HOME") "/.emacs.d/erc.pass"))
+
   (setq erc-auto-query 'window-noselect
         erc-autojoin-channels-alist '(("foonetic.net" "#xkcd")
-                                      ("freenode.net" "#rubyonrails" "#django"))
+                                      ("freenode.net" "#python" "#java" "#rubyonrails" "#django"))
+
+        erc-nick-color-list '("white" "yellow" "red" "purple" "orange"
+                              "magenta" "cyan" "brown" "blue")
         erc-echo-notices-in-minibuffer-flag t
         erc-hide-timestamps nil
-        erc-keywords '("seggy" "segfaultzen")
-        erc-save-buffer-on-part nil
-        erc-save-queries-on-quit nil
+        erc-current-nick-highlight-type 'nick-or-keyword
+        erc-keywords '("\\bnsfw\\b")
         erc-log-insert-log-on-open t
         erc-log-channels t
         erc-log-channels-directory "~/.irclogs/"
         erc-log-write-after-send t
         erc-log-write-after-insert t
         erc-max-buffer-size 20000
+        erc-nick-color-alist '()
+        erc-prompt-for-nickserv-password nil
+        erc-save-buffer-on-part nil
+        erc-save-queries-on-quit nil
         erc-truncate-buffer-on-save t
         tls-program '("openssl s_client -connect %h:%p -no_ssl2 -ign_eof"
                       "gnutls-cli -p %p %h"
                       "gnutls-cli -p %p %h --protocols ssl3"))
+  (erc-autojoin-mode 1)
 
   ;; logging:
   (defadvice save-buffers-kill-emacs (before save-logs (arg) activate)
     (save-some-buffers t (lambda ()
                            (when (and (eq major-mode 'erc-mode)
                                       (not (null buffer-file-name)))))))
-
-  (setq erc-nick-color-alist '())
-  (setq erc-nick-color-list '("white" "yellow" "red" "purple" "orange" ;; standard colors
-                              "magenta" "cyan" "brown" "blue")) ;; exclude green because that's the normal text color
 
   (defun erc-get-color-for-nick (nick)
     "Gets a color for NICK. If NICK is in erc-nick-color-alist,
@@ -138,7 +145,7 @@ the pool"
         (nth
          (mod (string-to-number
                (substring (md5 nick) 0 6) 16)
-              (length erc-nick-color-list))
+              (length  erc-nick-color-list))
          erc-nick-color-list)))
 
   (defun erc-put-color-on-nick ()
@@ -147,9 +154,9 @@ the pool"
       (goto-char (point-min))
       (if (looking-at "<\\([^>]*\\)>")
           (let ((nick (match-string 1)))
-            (put-text-property (match-beginning 1) (match-end 1) 'face
-                               (cons 'foreground-color
-                                     (erc-get-color-for-nick nick)))))))
+            (put-text-property (match-beginning 1) (match-end 1)
+                               'font-lock-face (list ':foreground (erc-get-color-for-nick nick)
+                                                     ':weight 'bold))))))
 
   (define-minor-mode ncm-mode "" nil
     (:eval
@@ -169,9 +176,9 @@ the pool"
     "Connect to IRC."
     (interactive)
     (erc-tls :server "irc.foonetic.net" :port 6697
-             :nick "seggy" :full-name "segfaultzen")
+             :nick "seggy" :full-name "segfaultzen" :password foonetic-pass)
     (erc-tls :server "irc.freenode.net" :port 6697
-             :nick "seggy" :full-name "segfaultzen"))
+             :nick "seggy" :full-name "segfaultzen" :password freenode-pass))
 
   (add-hook 'erc-join-hook '(lambda ()
                               (ncm-mode)))
