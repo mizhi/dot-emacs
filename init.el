@@ -200,13 +200,18 @@ the pool"
   (erc-services-mode t))
 
 ;; org-mode
-(setq org-log-done 'time)
-(setq org-todo-keywords '((sequence "TODO" "|" "DONE(d)")
-                          (sequence "|" "DELEGATED(e@)")))
-(setq org-tag-alist '(("@home" . ?h)
+(setq org-log-done 'time
+      org-todo-keywords '((sequence "TODO" "|" "DONE(d)")
+                          (sequence "|" "DELEGATED(e@)"))
+      org-tag-alist '(("@home" . ?h)
                       ("@work" . ?w)
                       ("@army" . ?a)
-                      ("@projects" . ?p)))
+                      ("@projects" . ?p))
+      org-enforce-todo-dependencies 1)
+
+;; (add-hook 'org-mode-hook '(lambda ()
+;;                             (define-key org-mode-map [?\C-c a !] 'org-time-stamp)
+;;                             (define-key org-mode-map [?\C-c a] 'org-agenda)))
 
 ;; Custom key bindings
 (global-set-key "\M-g" 'goto-line)
@@ -235,8 +240,8 @@ the pool"
                         (height . 45)
                         (left . 250)
                         (top . 50)
-                        (foreground-color . "green")
-                        (background-color . "black")
+;;                        (foreground-color . "green")
+;;                        (background-color . "black")
                         (font . "-outline-Anonymous Pro-normal-normal-normal-mono-16-*-*-*-c-*-iso8859-1"))
                       default-frame-alist)
  fci-handle-truncate-lines nil
