@@ -35,6 +35,10 @@
     (require 'cygwin-mount)
     (require 'setup-cygwin)))
  (is-mac
+  (setq-default ispell-program-name
+                "/opt/local/bin/ispell")
+
+  ;; Work around a bug (?) on OS X where system-name is FQDN
   (setq system-name (car (split-string system-name "\\.")))
   (setq java-docs-directory "/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/docs/api")
   (setq explicit-shell-file-name "/bin/bash")
@@ -59,7 +63,8 @@
          ("\\.js\\'" . javascript-mode)
          ("\\.json\\'" . javascript-mode)
          ("\\.rb\\'" . ruby-mode)
-         ("\\.yml\\'" . yaml-mode))
+         ("\\.yml\\'" . yaml-mode)
+         ("\\.html\\'" . nxml-mode))
        auto-mode-alist))
 
 ;; Required packages
@@ -82,20 +87,29 @@
 (require 'uniquify)
 (require 'yasnippet)
 
-;; semantic is part of the cedet suite of tools prior to emacs 23.2, this was a separate package. I
-;; don't want to bring all of CEDET into the repo now due to the setup process.
+;; semantic is part of the cedet suite of tools prior to emacs 23.2, this was a
+;; separate package. I don't want to bring all of CEDET into the repo now due to
+;; the setup process.
 (when (require 'semantic nil 'noerror)
   (global-ede-mode 1)
   (semantic-mode 1))
 
 ;; org-mode
-(setq org-log-done 'time)
-(setq org-todo-keywords '((sequence "TODO" "|" "DONE(d)")
-                          (sequence "|" "DELEGATED(e@)")))
-(setq org-tag-alist '(("@home" . ?h)
+(setq org-log-done 'time
+      org-todo-keywords '((sequence "TODO" "|" "DONE(d)")
+                          (sequence "|" "DELEGATED(e@)"))
+      org-tag-alist '(("@home" . ?h)
                       ("@work" . ?w)
                       ("@army" . ?a)
-                      ("@projects" . ?p)))
+                      ("@projects" . ?p))
+      org-enforce-todo-dependencies 1)
+
+;; setup relaxNG to know where html5 schemas are.
+(eval-after-load "rng-loc"
+  '(progn
+     (add-to-list 'rng-schema-locating-files (concat user-emacs-directory "elisp/html5-el/schemas.xml"))))
+
+(require 'whattf-dt)
 
 ;; Custom key bindings
 (global-set-key "\M-g" 'goto-line)
@@ -110,6 +124,9 @@
 
 ;; this prevents IDO from hiding IRC log files
 (delete "\\`#" ido-ignore-files)
+
+(set-face-attribute 'default nil
+                    :family "Anonymous Pro" :weight 'normal :width 'normal :height 160)
 
 (setq
  ;; some bibtex settings that I like
@@ -130,24 +147,22 @@
  font-lock-maximum-decoration t
  frame-title-format '(buffer-file-name "%f"
                                        (dired-directory dired-directory "%b"))
- global-semantic-highlight-func-mode t
- global-semantic-highlight-edits-mode t
  inhibit-startup-screen t
  matlab-indent-function t
  next-line-add-newlines nil
- printer-name "192.168.1.199"
+ printer-name "rocky.qrclab.com"
  save-place-file (concat user-emacs-directory "places")
  show-paren-style 'parenthesis
- standard-indent 2
+ standard-indent 4
  tex-dvi-view-command "xdvi"
  tramp-default-method "sshx"
  transient-mark-mode t
  truncate-partial-width-windows nil
  uniquify-buffer-name-style 'post-forward-angle-brackets
  user-full-name "Mitchell Peabody"
- user-mail-address "mitchell.peabody@gmail.com"
+ user-mail-address "mitchell.peabody@qrclab.com"
  visible-bell t
- whitespace-line-column 100
+ whitespace-line-column 80
  whitespace-style '(face trailing)
  x-select-enable-clipboard t)
 
@@ -155,14 +170,14 @@
 (setq-default
  buffer-file-coding-system 'undecided-unix
  c-basic-offset 2
- fci-rule-column 120
- fill-column 100
+ fci-rule-column 80
+ fill-column 80
  indicate-empty-lines t
  indent-tabs-mode nil
  save-place t
  savehist-mode t
  truncate-lines t
- tab-width 2)
+ tab-width 4)
 
 ;; coding system
 (setq locale-coding-system 'utf-8)
@@ -175,6 +190,9 @@
 (column-number-mode t)
 (completion-initialize)
 (global-font-lock-mode 1)
+(global-semantic-highlight-func-mode t)
+(global-semantic-highlight-edits-mode t)
+(global-hl-line-mode t)
 (global-whitespace-mode t)
 (ido-mode t)
 (show-paren-mode 1)
@@ -216,6 +234,12 @@
 (add-hook 'matlab-mode-hook
           (lambda ()
             (auto-fill-mode nil)))
+
+(add-hook 'nxml-mode-hook
+          (lambda ()
+            (define-key nxml-mode-map (kbd "<tab>") 'nxml-indent-line)
+            (define-key nxml-mode-map (kbd "C-S-o") 'nxml-complete)
+            (setq nxml-slash-auto-complete-flag t)))
 
 (add-hook 'text-mode-hook
           (lambda ()

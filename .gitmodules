@@ -19,3 +19,9 @@
 [submodule "elisp/javacc-mode"]
 	path = elisp/javacc-mode
 	url = https://github.com/mizhi/javacc-mode.git
+[submodule "elisp/html5-el"]
+	path = elisp/html5-el
+	url = https://github.com/hober/html5-el.git
+[submodule "html5-syntax"]
+	path = html5-syntax
+	url = https://github.com/appden/html5-syntax.git
