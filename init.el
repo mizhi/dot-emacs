@@ -71,7 +71,7 @@
 ;;(require 'android-mode)
 (require 'cl)
 (require 'column-marker)
-(require 'completion)
+;;(require 'completion)
 (require 'faces)
 (require 'fill-column-indicator)
 (require 'font-lock)
@@ -113,7 +113,7 @@
 
 ;; Custom key bindings
 (global-set-key "\M-g" 'goto-line)
-(global-set-key "\C-o" 'complete)
+;;(global-set-key "\C-o" 'complete)
 (global-set-key "\M-+" 'word-count-mode)
 (global-set-key (kbd "<C-tab>") 'yas/expand-from-trigger-key)
 
@@ -168,7 +168,7 @@
 ;; set defaults for buffer local variables
 (setq-default
  buffer-file-coding-system 'undecided-unix
- c-basic-offset 2
+ c-basic-offset 4
  fci-rule-column 80
  fill-column 80
  indicate-empty-lines t
@@ -187,7 +187,7 @@
 
 ;; General functions that need to be called
 (column-number-mode t)
-(completion-initialize)
+;;(completion-initialize)
 (global-font-lock-mode 1)
 (global-semantic-highlight-func-mode t)
 (global-semantic-highlight-edits-mode t)
@@ -239,6 +239,12 @@
             (define-key nxml-mode-map (kbd "<tab>") 'nxml-indent-line)
             (define-key nxml-mode-map (kbd "C-S-o") 'nxml-complete)
             (setq nxml-slash-auto-complete-flag t)))
+
+(add-hook 'python-mode-hook
+          (function (lambda ()
+                      (setq indent-tabs-mode nil
+                            python-indent 4
+                            tab-width 4))))
 
 (add-hook 'text-mode-hook
           (lambda ()
