@@ -71,7 +71,6 @@
 ;;(require 'android-mode)
 (require 'cl)
 (require 'column-marker)
-;;(require 'completion)
 (require 'faces)
 (require 'fill-column-indicator)
 (require 'font-lock)
@@ -80,6 +79,7 @@
 (require 'java-mode-indent-annotations)
 (require 'java-mode-plus)
 (require 'javacc-mode)
+(require 'linum)
 (require 'rails-autoload)
 (require 'saveplace)
 (require 'tls)
@@ -94,15 +94,15 @@
   (global-ede-mode 1)
   (semantic-mode 1))
 
-;; org-mode
-(setq org-log-done 'time
-      org-todo-keywords '((sequence "TODO" "|" "DONE(d)")
-                          (sequence "|" "DELEGATED(e@)"))
-      org-tag-alist '(("@home" . ?h)
-                      ("@work" . ?w)
-                      ("@army" . ?a)
-                      ("@projects" . ?p))
-      org-enforce-todo-dependencies 1)
+;; ;; org-mode
+;; (setq org-log-done 'time
+;;       org-todo-keywords '((sequence "TODO" "|" "DONE(d)")
+;;                           (sequence "|" "DELEGATED(e@)"))
+;;       org-tag-alist '(("@home" . ?h)
+;;                       ("@work" . ?w)
+;;                       ("@army" . ?a)
+;;                       ("@projects" . ?p))
+;;       org-enforce-todo-dependencies 1)
 
 ;; setup relaxNG to know where html5 schemas are.
 (eval-after-load "rng-loc"
@@ -113,10 +113,8 @@
 
 ;; Custom key bindings
 (global-set-key "\M-g" 'goto-line)
-;;(global-set-key "\C-o" 'complete)
 (global-set-key "\M-+" 'word-count-mode)
 (global-set-key (kbd "<C-tab>") 'yas/expand-from-trigger-key)
-
 
 (delete ".svn/" completion-ignored-extensions)
 (delete ".hg/" completion-ignored-extensions)
@@ -188,11 +186,11 @@
 
 ;; General functions that need to be called
 (column-number-mode t)
-;;(completion-initialize)
 (global-font-lock-mode 1)
 (global-semantic-highlight-func-mode t)
 (global-semantic-highlight-edits-mode t)
 (global-hl-line-mode t)
+(global-linum-mode t)
 (global-whitespace-mode t)
 (ido-mode t)
 (show-paren-mode 1)
@@ -201,7 +199,6 @@
 ;; set up YASnippet
 (add-to-list 'yas/snippet-dirs (concat user-emacs-directory "snippets"))
 (setq yas/also-auto-indent-first-line t)
-(yas/initialize)
 (yas/global-mode 1)
 
 ;; enable some features
@@ -226,6 +223,10 @@
             (add-hook 'write-contents-hooks 'untabify-before-save)
             (java-docs java-docs-directory)
             (java-mode-indent-annotations-setup)))
+
+(add-hook 'javascript-mode-hook
+          (lambda ()
+            (message "HERE")))
 
 (add-hook 'latex-mode-hook
           (lambda ()
@@ -276,24 +277,21 @@
 
 (defun config-frame (frame)
   (with-selected-frame frame
-    (when (display-graphic-p)
-      (scroll-bar-mode 0)
-      (tool-bar-mode 0))))
+    (scroll-bar-mode 0)
+    (tool-bar-mode 0)))
 
 (when (display-graphic-p)
-  (config-frame (selected-frame)))
+  (add-hook 'after-make-frame-functions
+            'config-frame)
 
-;; this hook sets up preferences that require a graphics display
-(add-hook 'after-make-frame-functions
-          'config-frame)
+  (add-hook 'compilation-mode-hook
+            '(lambda ()
+               (setq truncate-lines 1)
+               (setq truncate-partial-width-windows 1)))
 
-(add-hook 'compilation-mode-hook
-          '(lambda ()
-             (setq truncate-lines 1)
-             (setq truncate-partial-width-windows 1)))
+  (config-frame (selected-frame))
 
-;;;;
-(when (display-graphic-p)
+
   (defvar center-frame-size-margin-width 100)
   (defvar center-frame-size-margin-height 100)
   (defvar center-frame-top-fudge 170)
@@ -335,3 +333,4 @@
 ;;   C-x n p ... narrow to page
 ;;   C-x n w ... widen back
 (put 'scroll-left 'disabled nil)
+(put 'narrow-to-page 'disabled nil)

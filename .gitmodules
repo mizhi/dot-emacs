@@ -25,3 +25,6 @@
 [submodule "html5-syntax"]
 	path = html5-syntax
 	url = https://github.com/appden/html5-syntax.git
+[submodule "elisp/Fill-Column-Indicator"]
+	path = elisp/Fill-Column-Indicator
+	url = https://github.com/mizhi/Fill-Column-Indicator.git
