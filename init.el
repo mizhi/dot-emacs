@@ -238,7 +238,7 @@
 
 (add-hook 'nxml-mode-hook
           (lambda ()
-            (define-key nxml-mode-map (kbd "<tab>") 'nxml-indent-line)
+            (define-key nxml-mode-map (kbd "<tab>") '(lambda () (interactive) (nxml-indent-line)))
             (define-key nxml-mode-map (kbd "C-S-o") 'nxml-complete)
             (setq nxml-slash-auto-complete-flag t)))
 
