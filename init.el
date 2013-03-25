@@ -42,8 +42,8 @@
   (setq system-name (car (split-string system-name "\\.")))
   (setq java-docs-directory "/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/docs/api")
   (setq explicit-shell-file-name "/bin/bash")
-
-  (setq latex-run-command "/usr/texbin/latex")))
+  (setq latex-run-command "/usr/texbin/latex")
+  (setq-default ispell-program-name "/opt/local/bin/ispell")))
 
 ;; load some editing modes
 (autoload 'go-mode "go-mode" "Go editing mode" t)
@@ -137,10 +137,11 @@
 
  ;; browse-url-browser-function 'browse-url-text-emacs
  default-frame-alist (append
-                      '((width . 132)
-                        (height . 50)
-                        (left . 325)
-                        (top . 100))
+                      '((width . 130)
+                        (height . 45)
+                        (left . 250)
+                        (top . 50)
+                        (font . "-outline-Anonymous Pro-normal-normal-normal-mono-16-*-*-*-c-*-iso8859-1"))
                       default-frame-alist)
  fci-handle-truncate-lines nil
  font-lock-maximum-decoration t
