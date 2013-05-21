@@ -46,6 +46,7 @@
   (setq-default ispell-program-name "/opt/local/bin/ispell")))
 
 ;; load some editing modes
+(autoload 'android-mode "android-mode" "Android editing mode" t)
 (autoload 'go-mode "go-mode" "Go editing mode" t)
 (autoload 'haskell-mode "haskell-mode" "Haskell editing mode" t)
 (autoload 'matlab-mode "matlab" "Enter Matlab mode." t)
@@ -63,12 +64,11 @@
          ("\\.js\\'" . javascript-mode)
          ("\\.json\\'" . javascript-mode)
          ("\\.rb\\'" . ruby-mode)
-         ("\\.yml\\'" . yaml-mode)
+         ("\\.ya?ml\\'" . yaml-mode)
          ("\\.html\\'" . nxml-mode))
        auto-mode-alist))
 
 ;; Required packages
-;;(require 'android-mode)
 (require 'cl)
 (require 'column-marker)
 (require 'faces)
@@ -127,6 +127,8 @@
                     :family "Anonymous Pro" :weight 'normal :width 'normal :height 160)
 
 (setq
+ android-mode-sdk-dir (concat (getenv "HOME") "/Development/android-sdk-macosx")
+
  ;; some bibtex settings that I like
  bibtex-entry-format '(opts-or-alts realign last-comma delimiters page-dashes)
  bibtex-autokey-year-length 4

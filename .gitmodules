@@ -28,3 +28,6 @@
 [submodule "elisp/Fill-Column-Indicator"]
 	path = elisp/Fill-Column-Indicator
 	url = https://github.com/mizhi/Fill-Column-Indicator.git
+[submodule "elisp/android-mode"]
+	path = elisp/android-mode
+	url = https://github.com/remvee/android-mode.git
