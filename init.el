@@ -63,7 +63,7 @@
          ("\\.js\\'" . javascript-mode)
          ("\\.json\\'" . javascript-mode)
          ("\\.rb\\'" . ruby-mode)
-         ("\\.yml\\'" . yaml-mode)
+         ("\\.ya?ml\\'" . yaml-mode)
          ("\\.html\\'" . nxml-mode))
        auto-mode-alist))
 
@@ -93,16 +93,6 @@
 (when (require 'semantic nil 'noerror)
   (global-ede-mode 1)
   (semantic-mode 1))
-
-;; ;; org-mode
-;; (setq org-log-done 'time
-;;       org-todo-keywords '((sequence "TODO" "|" "DONE(d)")
-;;                           (sequence "|" "DELEGATED(e@)"))
-;;       org-tag-alist '(("@home" . ?h)
-;;                       ("@work" . ?w)
-;;                       ("@army" . ?a)
-;;                       ("@projects" . ?p))
-;;       org-enforce-todo-dependencies 1)
 
 ;; setup relaxNG to know where html5 schemas are.
 (eval-after-load "rng-loc"
@@ -226,7 +216,10 @@
 
 (add-hook 'javascript-mode-hook
           (lambda ()
-            (message "HERE")))
+            (setq comment-start "/*"
+                  comment-end "*/"
+                  comment-continue "*"
+                  comment-style 'multi-line)))
 
 (add-hook 'latex-mode-hook
           (lambda ()
@@ -243,10 +236,9 @@
             (setq nxml-slash-auto-complete-flag t)))
 
 (add-hook 'python-mode-hook
-          (function (lambda ()
-                      (setq indent-tabs-mode nil
-                            python-indent 4
-                            tab-width 4))))
+          (lambda ()
+            (setq indent-tabs-mode nil
+                  python-indent 4)))
 
 (add-hook 'text-mode-hook
           (lambda ()
@@ -275,15 +267,20 @@
                                            (if (display-graphic-p)
                                                (fci-mode 1))))
 
+(load-theme 'misterioso)
+
 (defun config-frame (frame)
   (with-selected-frame frame
     (scroll-bar-mode 0)
     (tool-bar-mode 0)))
 
-(when (display-graphic-p)
-  (add-hook 'after-make-frame-functions
-            'config-frame)
+(add-hook 'after-make-frame-functions
+          '(lambda (frame)
+             (when (display-graphic-p)
+               (config-frame frame))))
 
+
+(when (display-graphic-p)
   (add-hook 'compilation-mode-hook
             '(lambda ()
                (setq truncate-lines 1)
@@ -334,3 +331,7 @@
 ;;   C-x n w ... widen back
 (put 'scroll-left 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
+
+;; start server if not running
+(load "server")
+(unless (server-running-p) (server-start))
