@@ -75,6 +75,7 @@
 (require 'fill-column-indicator)
 (require 'font-lock)
 (require 'ido)
+(require 'inf-haskell)
 (require 'java-docs)
 (require 'java-mode-indent-annotations)
 (require 'java-mode-plus)
