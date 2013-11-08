@@ -13,6 +13,11 @@
 ;; send my backups here
 (add-to-list 'backup-directory-alist (cons ".*" (concat user-emacs-directory "backups/")))
 
+(when (>= emacs-major-version 24)
+  (require 'package)
+  (package-initialize)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t))
+
 ;; setup load path
 (add-to-list 'load-path (concat user-emacs-directory "elisp/"))
 (let ((default-directory (concat user-emacs-directory "elisp/")))
@@ -101,7 +106,16 @@
 
 (require 'whattf-dt)
 
+(defun visit-ansi-term ()
+  (interactive)
+  (let ((existing-term (get-buffer "*ansi-term*")))
+    (if existing-term
+        (switch-to-buffer "*ansi-term*")
+      (ansi-term explicit-shell-file-name))))
+
+
 ;; Custom key bindings
+(global-set-key [f2] 'visit-ansi-term)
 (global-set-key "\M-g" 'goto-line)
 (global-set-key "\M-+" 'word-count-mode)
 (global-set-key (kbd "<C-tab>") 'yas/expand-from-trigger-key)
@@ -158,7 +172,7 @@
 (setq-default
  buffer-file-coding-system 'undecided-unix
  c-basic-offset 4
- fci-rule-column 80
+ fci-rule-column 120
  fill-column 80
  indicate-empty-lines t
  indent-tabs-mode nil
@@ -237,17 +251,18 @@
 
 (add-hook 'python-mode-hook
           (lambda ()
-            (setq indent-tabs-mode nil
+            (setq fill-column 80
+                  fci-rule-column 80
+                  indent-tabs-mode nil
                   python-indent 4)))
 
 (add-hook 'text-mode-hook
           (lambda ()
             (flyspell-mode t)
-            (setq ;; tab-stop-list (number-sequence 2 100 2)
-             indent-tabs-mode nil
-             tab-width 2
-             indent-line-function (quote insert-tab)
-             fill-column 80)))
+            (setq fill-column 80
+                  indent-line-function (quote insert-tab)
+                  indent-tabs-mode nil
+                  tab-width 2)))
 
 (add-hook 'change-log-mode-hook
           (lambda ()
