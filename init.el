@@ -16,7 +16,14 @@
 (when (>= emacs-major-version 24)
   (require 'package)
   (package-initialize)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t))
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
+  (mapc
+   (lambda (package)
+     (or (package-installed-p package)
+         (if (y-or-n-p (format "Package %s is missing. Install it? " package))
+             (package-install package))))
+   '()))
 
 ;; setup load path
 (add-to-list 'load-path (concat user-emacs-directory "elisp/"))
@@ -81,8 +88,6 @@
 (require 'font-lock)
 (require 'ido)
 (require 'inf-haskell)
-(require 'java-docs)
-(require 'java-mode-indent-annotations)
 (require 'java-mode-plus)
 (require 'javacc-mode)
 (require 'linum)
@@ -228,8 +233,12 @@
 (add-hook 'java-mode-hook
           (lambda ()
             (add-hook 'write-contents-hooks 'untabify-before-save)
-            (java-docs java-docs-directory)
-            (java-mode-indent-annotations-setup)))
+
+            (when (require 'java-docs nil 'noerror)
+              (java-docs java-docs-directory))
+
+            (when (require 'java-mode-indent-annotations nil 'noerror)
+              (java-mode-indent-annotations-setup))))
 
 (add-hook 'javascript-mode-hook
           (lambda ()
@@ -254,6 +263,8 @@
 
 (add-hook 'python-mode-hook
           (lambda ()
+            (when (require 'jedi nil 'noerror)
+              (jedi:ac-setup))
             (setq fill-column 80
                   fci-rule-column 80
                   indent-tabs-mode nil
