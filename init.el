@@ -47,6 +47,9 @@
     (require 'cygwin-mount)
     (require 'setup-cygwin)))
  (is-mac
+  (setenv "PATH" (concat "/usr/local/bin" path-separator (getenv "PATH")))
+  (add-to-list 'exec-path "/usr/local/bin")
+
   (setq-default ispell-program-name
                 "/opt/local/bin/ispell")
 
@@ -134,7 +137,7 @@
 (delete "\\`#" ido-ignore-files)
 
 (set-face-attribute 'default nil
-                    :family "Anonymous Pro" :weight 'normal :width 'normal :height 160)
+                    :family "Anonymous Pro" :weight 'normal :width 'normal :height 200)
 
 (setq
  android-mode-sdk-dir (concat (getenv "HOME") "/Development/android-sdk-macosx")
@@ -150,8 +153,7 @@
                       '((width . 130)
                         (height . 45)
                         (left . 250)
-                        (top . 50)
-                        (font . "-outline-Anonymous Pro-normal-normal-normal-mono-16-*-*-*-c-*-iso8859-1"))
+                        (top . 50))
                       default-frame-alist)
  fci-handle-truncate-lines nil
  font-lock-maximum-decoration t
@@ -269,6 +271,19 @@
                   fci-rule-column 80
                   indent-tabs-mode nil
                   python-indent 4)))
+
+(setq
+ python-shell-interpreter "ipython"
+ python-shell-interpreter-args ""
+ python-shell-prompt-regexp "In \\[[0-9]+\\]: "
+ python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
+ python-shell-completion-setup-code
+   "from IPython.core.completerlib import module_completion"
+ python-shell-completion-module-string-code
+   "';'.join(module_completion('''%s'''))\n"
+ python-shell-completion-string-code
+   "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
+
 
 (add-hook 'text-mode-hook
           (lambda ()
