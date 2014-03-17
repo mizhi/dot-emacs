@@ -12,7 +12,7 @@
 	url = https://github.com/capitaomorte/yasnippet.git
 [submodule "snippets"]
 	path = snippets
-	url = https://github.com/mizhi/yasnippets.git
+	url = git@github.com:mizhi/yasnippet-snippets.git
 [submodule "elisp/javacc-mode"]
 	path = elisp/javacc-mode
 	url = https://github.com/mizhi/javacc-mode.git
@@ -34,3 +34,6 @@
 [submodule "elisp/puppet-syntax-emacs"]
 	path = elisp/puppet-syntax-emacs
 	url = https://github.com/puppetlabs/puppet-syntax-emacs.git
+[submodule "elisp/Fill-Column-Indicator"]
+	path = elisp/Fill-Column-Indicator
+	url = https://github.com/alpaker/Fill-Column-Indicator.git
