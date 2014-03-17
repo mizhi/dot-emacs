@@ -37,3 +37,6 @@
 [submodule "elisp/cl-lib"]
 	path = elisp/cl-lib
 	url = https://github.com/emacsmirror/cl-lib.git
+[submodule "elisp/puppet-syntax-emacs"]
+	path = elisp/puppet-syntax-emacs
+	url = https://github.com/puppetlabs/puppet-syntax-emacs.git

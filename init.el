@@ -50,15 +50,13 @@
   (setenv "PATH" (concat "/usr/local/bin" path-separator (getenv "PATH")))
   (add-to-list 'exec-path "/usr/local/bin")
 
-  (setq-default ispell-program-name
-                "/opt/local/bin/ispell")
+  (setq-default ispell-program-name "/opt/local/bin/ispell")
 
   ;; Work around a bug (?) on OS X where system-name is FQDN
   (setq system-name (car (split-string system-name "\\.")))
   (setq java-docs-directory "/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/docs/api")
   (setq explicit-shell-file-name "/bin/bash")
-  (setq latex-run-command "/usr/texbin/latex")
-  (setq-default ispell-program-name "/opt/local/bin/ispell")))
+  (setq latex-run-command "/usr/texbin/latex")))
 
 ;; load some editing modes
 (autoload 'android-mode "android-mode" "Android editing mode" t)
@@ -66,6 +64,7 @@
 (autoload 'haskell-mode "haskell-mode" "Haskell editing mode" t)
 (autoload 'matlab-mode "matlab" "Enter Matlab mode." t)
 (autoload 'matlab-shell "matlab" "Interactive Matlab mode." t)
+(autoload 'puppet-mode "puppet-mode" "Puppet Manifest editing mode." t)
 (autoload 'ruby-mode "ruby-mode" "Mode for editing ruby" t)
 (autoload 'word-count-mode "word-count" "Minor mode to count words." t)
 (autoload 'yaml-mode "yaml-mode" "Yaml Mode" t)
@@ -80,7 +79,8 @@
          ("\\.json\\'" . javascript-mode)
          ("\\.rb\\'" . ruby-mode)
          ("\\.ya?ml\\'" . yaml-mode)
-         ("\\.html\\'" . nxml-mode))
+         ("\\.html\\'" . nxml-mode)
+         ("\\.pp\\'" . puppet-mode))
        auto-mode-alist))
 
 ;; Required packages
@@ -104,8 +104,23 @@
 ;; semantic is part of the cedet suite of tools prior to emacs 23.2, this was a
 ;; separate package. I don't want to bring all of CEDET into the repo now due to
 ;; the setup process.
-(when (require 'semantic nil 'noerror)
-  (global-ede-mode 1)
+(when (require 'semantic/ia nil 'noerror)
+  (require 'semantic/bovine/gcc)
+
+  (setq semantic-default-submodes
+        (list 'global-semanticdb-minor-mode
+              'global-semantic-highlight-func-mode
+              'global-semantic-stickyfunc-mode
+              'global-semantic-decoration-mode
+              'global-semantic-idle-local-symbol-highlight-mode
+              'global-semantic-idle-scheduler-mode
+              'global-semantic-idle-completions-mode
+              'global-semantic-idle-summary-mode
+              'global-ede-mode))
+
+  (semanticdb-enable-gnu-global-databases 'c-mode t)
+  (semanticdb-enable-gnu-global-databases 'c++-mode t)
+
   (semantic-mode 1))
 
 ;; setup relaxNG to know where html5 schemas are.
@@ -148,7 +163,6 @@
  bibtex-autokey-year-title-separator ""
  bibtex-autokey-titleword-length nil
 
- ;; browse-url-browser-function 'browse-url-text-emacs
  default-frame-alist (append
                       '((width . 130)
                         (height . 45)
@@ -160,6 +174,7 @@
  frame-title-format '(buffer-file-name "%f"
                                        (dired-directory dired-directory "%b"))
  inhibit-startup-screen t
+ linum-format "%d "
  matlab-indent-function t
  next-line-add-newlines nil
  printer-name "rocky.qrclab.com"
@@ -272,18 +287,9 @@
                   indent-tabs-mode nil
                   python-indent 4)))
 
-(setq
- python-shell-interpreter "ipython"
- python-shell-interpreter-args ""
- python-shell-prompt-regexp "In \\[[0-9]+\\]: "
- python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
- python-shell-completion-setup-code
-   "from IPython.core.completerlib import module_completion"
- python-shell-completion-module-string-code
-   "';'.join(module_completion('''%s'''))\n"
- python-shell-completion-string-code
-   "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
-
+(add-hook 'term-mode-hook
+          (lambda ()
+            (setq yas-dont-activate t)))
 
 (add-hook 'text-mode-hook
           (lambda ()
@@ -311,7 +317,8 @@
                                            (if (display-graphic-p)
                                                (fci-mode 1))))
 
-(load-theme 'misterioso)
+;;(load-theme 'misterioso)
+;;(load-theme 'wheatgrass)
 
 (defun config-frame (frame)
   (with-selected-frame frame
@@ -375,7 +382,3 @@
 ;;   C-x n w ... widen back
 (put 'scroll-left 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
-
-;; start server if not running
-(load "server")
-(unless (server-running-p) (server-start))
