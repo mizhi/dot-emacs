@@ -13,6 +13,12 @@
 ;; send my backups here
 (add-to-list 'backup-directory-alist (cons ".*" (concat user-emacs-directory "backups/")))
 
+;; setup load path
+(add-to-list 'load-path (concat user-emacs-directory "elisp/"))
+(let ((default-directory (concat user-emacs-directory "elisp/")))
+  (normal-top-level-add-subdirs-to-load-path))
+
+;; use package management when in emacs >= 24. Is this a good idea? I don't know.
 (when (>= emacs-major-version 24)
   (require 'package)
   (package-initialize)
@@ -25,11 +31,6 @@
              (package-install package))))
    '()))
 
-;; setup load path
-(add-to-list 'load-path (concat user-emacs-directory "elisp/"))
-(let ((default-directory (concat user-emacs-directory "elisp/")))
-  (normal-top-level-add-subdirs-to-load-path))
-
 (cond
  ;; I use cygwin on windows machines when I can. Wonder if it's
  ;; possible to make this detect if I am using cygwin on a new
@@ -39,7 +40,7 @@
                 "c:/Program Files (x86)/Aspell/bin/aspell.exe")
 
   (setq cygwin-mount-cygwin-bin-directory "c:/Cygwin/bin")
-  (setq java-docs-directory "c:/Java/32bit/jdk1.6.0_29/docs/api")
+  ;;  (setq java-docs-directory "c:/Java/32bit/jdk1.6.0_29/docs/api")
 
   (if (file-exists-p "c:/Cygwin/bin")
       (setq cygwin-mount-cygwin-bin-directory "c:/Cygwin/bin")
@@ -54,11 +55,11 @@
 
   ;; Work around a bug (?) on OS X where system-name is FQDN
   (setq system-name (car (split-string system-name "\\.")))
-  (setq java-docs-directory "/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/docs/api")
+  ;;  (setq java-docs-directory "/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/docs/api")
   (setq explicit-shell-file-name "/bin/bash")
   (setq latex-run-command "/usr/texbin/latex")))
 
-;; load some editing modes
+;; setup some autoloads.
 (autoload 'android-mode "android-mode" "Android editing mode" t)
 (autoload 'go-mode "go-mode" "Go editing mode" t)
 (autoload 'haskell-mode "haskell-mode" "Haskell editing mode" t)
@@ -74,13 +75,13 @@
       (append
        '(("\\.go\\'" . go-mode)
          ("\\.hs\\'" . haskell-mode)
+         ("\\.html\\'" . nxml-mode)
          ("\\.jj\\'" . javacc-mode)
          ("\\.js\\'" . javascript-mode)
          ("\\.json\\'" . javascript-mode)
+         ("\\.pp\\'" . puppet-mode)
          ("\\.rb\\'" . ruby-mode)
-         ("\\.ya?ml\\'" . yaml-mode)
-         ("\\.html\\'" . nxml-mode)
-         ("\\.pp\\'" . puppet-mode))
+         ("\\.ya?ml\\'" . yaml-mode))
        auto-mode-alist))
 
 ;; Required packages
@@ -91,7 +92,7 @@
 (require 'font-lock)
 (require 'ido)
 (require 'inf-haskell)
-(require 'java-mode-plus)
+;;(require 'java-mode-plus)
 (require 'javacc-mode)
 (require 'linum)
 (require 'rails-autoload)
@@ -99,6 +100,7 @@
 (require 'tls)
 (require 'tramp)
 (require 'uniquify)
+(require 'whattf-dt)
 (require 'yasnippet)
 
 ;; semantic is part of the cedet suite of tools prior to emacs 23.2, this was a
@@ -120,15 +122,12 @@
 
   (semanticdb-enable-gnu-global-databases 'c-mode t)
   (semanticdb-enable-gnu-global-databases 'c++-mode t)
-
   (semantic-mode 1))
 
 ;; setup relaxNG to know where html5 schemas are.
 (eval-after-load "rng-loc"
   '(progn
      (add-to-list 'rng-schema-locating-files (concat user-emacs-directory "elisp/html5-el/schemas.xml"))))
-
-(require 'whattf-dt)
 
 (defun visit-ansi-term ()
   (interactive)
