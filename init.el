@@ -85,6 +85,7 @@
        auto-mode-alist))
 
 ;; Required packages
+(require 'ant-project-mode)
 (require 'cl)
 (require 'column-marker)
 (require 'faces)
@@ -92,8 +93,8 @@
 (require 'font-lock)
 (require 'ido)
 (require 'inf-haskell)
-;;(require 'java-mode-plus)
 (require 'javacc-mode)
+(require 'javadoc-lookup)
 (require 'linum)
 (require 'rails-autoload)
 (require 'saveplace)

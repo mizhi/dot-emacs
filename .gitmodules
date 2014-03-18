@@ -47,3 +47,11 @@
 	url = https://github.com/alpaker/Fill-Column-Indicator.git
     branch = master
 
+[submodule "elisp/ant-project-mode"]
+	path = elisp/ant-project-mode
+	url = https://github.com/skeeto/ant-project-mode.git
+	branch = master
+[submodule "elisp/javadoc-lookup"]
+	path = elisp/javadoc-lookup
+	url = https://github.com/skeeto/javadoc-lookup.git
+	branch = master
