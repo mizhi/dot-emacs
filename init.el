@@ -111,7 +111,6 @@
        auto-mode-alist))
 
 ;; Required packages
-(require 'ant-project-mode)
 (require 'cl)
 (require 'column-marker)
 (require 'faces)
