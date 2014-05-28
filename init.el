@@ -11,7 +11,9 @@
           (concat (getenv "HOME") "/.emacs.d/")))
 
 ;; send my backups here
-(add-to-list 'backup-directory-alist (cons ".*" (concat user-emacs-directory "backups/")))
+(add-to-list 'backup-directory-alist
+	     (cons ".*"
+		   (concat user-emacs-directory "backups/")))
 
 ;; setup load path
 (add-to-list 'load-path (concat user-emacs-directory "elisp/"))
@@ -21,32 +23,57 @@
 ;; use package management when in emacs >= 24. Is this a good idea? I don't know.
 (when (>= emacs-major-version 24)
   (require 'package)
+  (add-to-list 'package-archives
+	       '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
   (package-initialize)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
+  (unless package-archive-contents
+    (package-refresh-contents))
 
   (mapc
    (lambda (package)
      (or (package-installed-p package)
          (if (y-or-n-p (format "Package %s is missing. Install it? " package))
              (package-install package))))
-   '()))
+   '(android-mode
+     ant
+     auto-complete
+     col-highlight
+     column-marker
+     concurrent
+     crosshairs
+     css-mode
+     ctable
+     deferred
+     epc
+     fill-column-indicator
+     git-commit-mode
+     git-rebase-mode
+     go-mode
+     groovy-mode
+     haskell-mode
+     hl-line+
+     javadoc-lookup
+     jedi
+     magit
+     matlab-mode
+     popup
+     snippet
+     vline
+     yaml-mode
+     yasnippet)))
 
 (cond
- ;; I use cygwin on windows machines when I can. Wonder if it's
- ;; possible to make this detect if I am using cygwin on a new
- ;; machine?
  (is-windows
-  (setq-default ispell-program-name
-                "c:/Program Files (x86)/Aspell/bin/aspell.exe")
-
-  (setq cygwin-mount-cygwin-bin-directory "c:/Cygwin/bin")
-  ;;  (setq java-docs-directory "c:/Java/32bit/jdk1.6.0_29/docs/api")
+  (setq-default ispell-program-name "c:/Program Files (x86)/Aspell/bin/aspell.exe")
 
   (if (file-exists-p "c:/Cygwin/bin")
       (setq cygwin-mount-cygwin-bin-directory "c:/Cygwin/bin")
     (setq explicit-shell-file-name "c:/Cygwin/bin/bash")
     (require 'cygwin-mount)
     (require 'setup-cygwin)))
+
  (is-mac
   (setenv "PATH" (concat "/usr/local/bin" path-separator (getenv "PATH")))
   (add-to-list 'exec-path "/usr/local/bin")
@@ -55,7 +82,6 @@
 
   ;; Work around a bug (?) on OS X where system-name is FQDN
   (setq system-name (car (split-string system-name "\\.")))
-  ;;  (setq java-docs-directory "/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/docs/api")
   (setq explicit-shell-file-name "/bin/bash")
   (setq latex-run-command "/usr/texbin/latex")))
 
@@ -128,7 +154,8 @@
 ;; setup relaxNG to know where html5 schemas are.
 (eval-after-load "rng-loc"
   '(progn
-     (add-to-list 'rng-schema-locating-files (concat user-emacs-directory "elisp/html5-el/schemas.xml"))))
+     (add-to-list 'rng-schema-locating-files
+                  (concat user-emacs-directory "elisp/html5-el/schemas.xml"))))
 
 (defun visit-ansi-term ()
   (interactive)
@@ -137,12 +164,19 @@
         (switch-to-buffer "*ansi-term*")
       (ansi-term explicit-shell-file-name))))
 
-
 ;; Custom key bindings
 (global-set-key [f2] 'visit-ansi-term)
 (global-set-key "\M-g" 'goto-line)
 (global-set-key "\M-+" 'word-count-mode)
 (global-set-key (kbd "<C-tab>") 'yas/expand-from-trigger-key)
+
+;; re-enable some functions
+;;   C-x n d ... narrow to def
+;;   C-x n n ... narrow to region
+;;   C-x n p ... narrow to page
+;;   C-x n w ... widen back
+(put 'scroll-left 'disabled nil)
+(put 'narrow-to-page 'disabled nil)
 
 (delete ".svn/" completion-ignored-extensions)
 (delete ".hg/" completion-ignored-extensions)
@@ -166,13 +200,14 @@
  default-frame-alist (append
                       '((width . 130)
                         (height . 45)
-                        (left . 250)
+                        (left . 200)
                         (top . 50))
                       default-frame-alist)
  fci-handle-truncate-lines nil
  font-lock-maximum-decoration t
- frame-title-format '(buffer-file-name "%f"
-                                       (dired-directory dired-directory "%b"))
+ frame-title-format '(buffer-file-name
+                      "%f"
+                      (dired-directory dired-directory "%b"))
  inhibit-startup-screen t
  linum-format "%d "
  matlab-indent-function t
@@ -313,12 +348,10 @@
              (setq truncate-lines 1)
              (setq truncate-partial-width-windows 1)))
 
-(add-hook 'after-change-major-mode-hook '(lambda ()
-                                           (if (display-graphic-p)
-                                               (fci-mode 1))))
-
-;;(load-theme 'misterioso)
-;;(load-theme 'wheatgrass)
+(add-hook 'after-change-major-mode-hook
+          '(lambda ()
+             (if (display-graphic-p)
+                 (fci-mode 1))))
 
 (defun config-frame (frame)
   (with-selected-frame frame
@@ -337,48 +370,4 @@
                (setq truncate-lines 1)
                (setq truncate-partial-width-windows 1)))
 
-  (config-frame (selected-frame))
-
-
-  (defvar center-frame-size-margin-width 100)
-  (defvar center-frame-size-margin-height 100)
-  (defvar center-frame-top-fudge 170)
-  (defvar center-frame-left-fudge 20)
-  (defvar center-frame-char-height 50)
-  (defvar center-frame-fill-column-padding 40)
-
-  ;; rough cut of centering code for initial frame
-  (defun set-frame-size-for-resolution ()
-    (set-frame-height
-     (selected-frame)
-     (min
-      (/ (- (x-display-pixel-height) center-frame-size-margin-width)
-         (frame-char-height))
-      center-frame-char-height))
-    (set-frame-width
-     (selected-frame)
-     (min
-      (/ (- (x-display-pixel-width) center-frame-size-margin-height)
-         (frame-char-width))
-      (+ fill-column center-frame-fill-column-padding)))
-    (set-frame-position
-     (selected-frame)
-     (/
-      (-
-       (x-display-pixel-width)
-       (+ (frame-pixel-width) center-frame-left-fudge))
-      2)
-     (/
-      (-
-       (x-display-pixel-height)
-       (+ (frame-pixel-height) center-frame-top-fudge))
-      2)))
-
-  (set-frame-size-for-resolution))
-
-;;   C-x n d ... narrow to def
-;;   C-x n n ... narrow to region
-;;   C-x n p ... narrow to page
-;;   C-x n w ... widen back
-(put 'scroll-left 'disabled nil)
-(put 'narrow-to-page 'disabled nil)
+  (config-frame (selected-frame)))

@@ -2,18 +2,6 @@
 	path = elisp/emacs-rails-reloaded
 	url = https://github.com/dima-exe/emacs-rails-reloaded
     branch = master
-[submodule "elisp/yaml-mode"]
-	path = elisp/yaml-mode
-	url = https://github.com/yoshiki/yaml-mode.git
-    branch = master
-[submodule "elisp/matlab-emacs"]
-	path = elisp/matlab-emacs
-	url = https://github.com/ruediger/matlab-emacs.git
-    branch = master
-[submodule "elisp/yasnippet"]
-	path = elisp/yasnippet
-	url = https://github.com/capitaomorte/yasnippet.git
-    branch = master
 [submodule "snippets"]
 	path = snippets
 	url = git@github.com:mizhi/yasnippet-snippets.git
@@ -30,28 +18,7 @@
 	path = html5-syntax
 	url = https://github.com/appden/html5-syntax.git
     branch = master
-[submodule "elisp/android-mode"]
-	path = elisp/android-mode
-	url = https://github.com/remvee/android-mode.git
-    branch = master
-[submodule "elisp/magit"]
-	path = elisp/magit
-	url = https://github.com/magit/magit.git
-    branch = master
 [submodule "elisp/puppet-syntax-emacs"]
 	path = elisp/puppet-syntax-emacs
 	url = https://github.com/puppetlabs/puppet-syntax-emacs.git
     branch = master
-[submodule "elisp/Fill-Column-Indicator"]
-	path = elisp/Fill-Column-Indicator
-	url = https://github.com/alpaker/Fill-Column-Indicator.git
-    branch = master
-
-[submodule "elisp/ant-project-mode"]
-	path = elisp/ant-project-mode
-	url = https://github.com/skeeto/ant-project-mode.git
-	branch = master
-[submodule "elisp/javadoc-lookup"]
-	path = elisp/javadoc-lookup
-	url = https://github.com/skeeto/javadoc-lookup.git
-	branch = master
