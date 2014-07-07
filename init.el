@@ -57,6 +57,7 @@
      javadoc-lookup
      jedi
      magit
+     markdown-mode
      matlab-mode
      popup
      snippet
