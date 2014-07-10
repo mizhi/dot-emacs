@@ -8,3 +8,6 @@ erc.pass
 bookmarks
 eshell
 elpa
+
+.python-environments
+ac-comphist.dat
