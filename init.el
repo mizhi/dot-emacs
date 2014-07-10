@@ -60,6 +60,7 @@
      markdown-mode
      matlab-mode
      popup
+     scala-mode2
      snippet
      vline
      yaml-mode
