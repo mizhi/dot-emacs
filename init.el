@@ -108,7 +108,6 @@
          ("\\.js\\'" . javascript-mode)
          ("\\.json\\'" . javascript-mode)
          ("\\.pp\\'" . puppet-mode)
-         ("\\.rb\\'" . ruby-mode)
          ("\\.ya?ml\\'" . yaml-mode))
        auto-mode-alist))
 
@@ -322,6 +321,10 @@
                   fci-rule-column 80
                   indent-tabs-mode nil
                   python-indent 4)))
+
+(add-hook 'ruby-mode-hook
+          (lambda ()
+            (setq ruby-deep-indent-paren nil)))
 
 (add-hook 'term-mode-hook
           (lambda ()
