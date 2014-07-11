@@ -12,13 +12,14 @@
 
 ;; send my backups here
 (add-to-list 'backup-directory-alist
-	     (cons ".*"
-		   (concat user-emacs-directory "backups/")))
+             (cons "" (concat user-emacs-directory "backups/")))
 
 ;; setup load path
 (add-to-list 'load-path (concat user-emacs-directory "elisp/"))
 (let ((default-directory (concat user-emacs-directory "elisp/")))
   (normal-top-level-add-subdirs-to-load-path))
+
+(load (concat user-emacs-directory "funcs.el"))
 
 ;; use package management when in emacs >= 24. Is this a good idea? I don't know.
 (when (>= emacs-major-version 24)
@@ -36,7 +37,8 @@
      (or (package-installed-p package)
          (if (y-or-n-p (format "Package %s is missing. Install it? " package))
              (package-install package))))
-   '(android-mode
+   '(ag
+     android-mode
      ant
      auto-complete
      col-highlight
@@ -48,6 +50,7 @@
      deferred
      epc
      fill-column-indicator
+     flx-ido
      git-commit-mode
      git-rebase-mode
      go-mode
@@ -60,6 +63,7 @@
      markdown-mode
      matlab-mode
      popup
+     projectile
      scala-mode2
      snippet
      vline
@@ -80,7 +84,10 @@
   (setenv "PATH" (concat "/usr/local/bin" path-separator (getenv "PATH")))
   (add-to-list 'exec-path "/usr/local/bin")
 
-  (setq-default ispell-program-name "/opt/local/bin/ispell")
+  (setq-default ispell-program-name
+                (first-existing-file
+                 '("/opt/local/bin/ispell"
+                   "/usr/local/bin/ispell")))
 
   ;; Work around a bug (?) on OS X where system-name is FQDN
   (setq system-name (car (split-string system-name "\\.")))
@@ -122,6 +129,7 @@
 (require 'javacc-mode)
 (require 'javadoc-lookup)
 (require 'linum)
+(require 'projectile)
 (require 'rails-autoload)
 (require 'saveplace)
 (require 'tls)
@@ -271,16 +279,11 @@
 (put 'narrow-to-region 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
 
-;; set up some language specific mode hooks
-(defun untabify-before-save ()
-  (save-excursion
-    (goto-char (point-min))
-    (while (re-search-forward "[ \t]+$" nil t)
-      (delete-region (match-beginning 0) (match-end 0)))
-    (goto-char (point-min))
-    (if (search-forward "\t" nil t)
-        (untabify (1- (point)) (point-max))))
-  nil)
+;; Mode specific hooks
+(add-hook 'change-log-mode-hook
+          (lambda ()
+            (auto-fill-mode 1)
+            (setq fill-column 80)))
 
 (add-hook 'java-mode-hook
           (lambda ()
@@ -317,6 +320,7 @@
           (lambda ()
             (when (require 'jedi nil 'noerror)
               (jedi:ac-setup))
+            (projectile-on)
             (setq fill-column 80
                   fci-rule-column 80
                   indent-tabs-mode nil
@@ -338,11 +342,7 @@
                   indent-tabs-mode nil
                   tab-width 2)))
 
-(add-hook 'change-log-mode-hook
-          (lambda ()
-            (auto-fill-mode 1)
-            (setq fill-column 80)))
-
+;; General hooks
 (add-hook 'before-save-hook
           (lambda ()
             (delete-trailing-whitespace)))
@@ -356,11 +356,6 @@
           '(lambda ()
              (if (display-graphic-p)
                  (fci-mode 1))))
-
-(defun config-frame (frame)
-  (with-selected-frame frame
-    (scroll-bar-mode 0)
-    (tool-bar-mode 0)))
 
 (add-hook 'after-make-frame-functions
           '(lambda (frame)
