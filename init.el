@@ -20,6 +20,8 @@
   (normal-top-level-add-subdirs-to-load-path))
 
 (load (concat user-emacs-directory "funcs.el"))
+(load (concat user-emacs-directory "hooks.el"))
+(load (concat user-emacs-directory "keys.el"))
 
 ;; use package management when in emacs >= 24. Is this a good idea? I don't know.
 (when (>= emacs-major-version 24)
@@ -37,7 +39,8 @@
      (or (package-installed-p package)
          (if (y-or-n-p (format "Package %s is missing. Install it? " package))
              (package-install package))))
-   '(ag
+   '(ac-inf-ruby
+     ag
      android-mode
      ant
      auto-complete
@@ -57,6 +60,7 @@
      groovy-mode
      haskell-mode
      hl-line+
+     inf-ruby
      javadoc-lookup
      jedi
      magit
@@ -125,6 +129,7 @@
 (require 'fill-column-indicator)
 (require 'font-lock)
 (require 'ido)
+(require 'flx-ido)
 (require 'inf-haskell)
 (require 'javacc-mode)
 (require 'javadoc-lookup)
@@ -172,19 +177,6 @@
         (switch-to-buffer "*ansi-term*")
       (ansi-term explicit-shell-file-name))))
 
-;; Custom key bindings
-(global-set-key [f2] 'visit-ansi-term)
-(global-set-key "\M-g" 'goto-line)
-(global-set-key "\M-+" 'word-count-mode)
-(global-set-key (kbd "<C-tab>") 'yas/expand-from-trigger-key)
-
-;; re-enable some functions
-;;   C-x n d ... narrow to def
-;;   C-x n n ... narrow to region
-;;   C-x n p ... narrow to page
-;;   C-x n w ... widen back
-(put 'scroll-left 'disabled nil)
-(put 'narrow-to-page 'disabled nil)
 
 (delete ".svn/" completion-ignored-extensions)
 (delete ".hg/" completion-ignored-extensions)
@@ -216,6 +208,8 @@
  frame-title-format '(buffer-file-name
                       "%f"
                       (dired-directory dired-directory "%b"))
+ ido-enable-flex-matching t
+ ido-use-faces nil
  inhibit-startup-screen t
  linum-format "%d "
  matlab-indent-function t
@@ -265,6 +259,8 @@
 (global-linum-mode t)
 (global-whitespace-mode t)
 (ido-mode t)
+(ido-everywhere t)
+(flx-ido-mode t)
 (show-paren-mode 1)
 (turn-on-font-lock)
 
@@ -278,95 +274,3 @@
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
-
-;; Mode specific hooks
-(add-hook 'change-log-mode-hook
-          (lambda ()
-            (auto-fill-mode 1)
-            (setq fill-column 80)))
-
-(add-hook 'java-mode-hook
-          (lambda ()
-            (add-hook 'write-contents-hooks 'untabify-before-save)
-
-            (when (require 'java-docs nil 'noerror)
-              (java-docs java-docs-directory))
-
-            (when (require 'java-mode-indent-annotations nil 'noerror)
-              (java-mode-indent-annotations-setup))))
-
-(add-hook 'javascript-mode-hook
-          (lambda ()
-            (setq comment-start "/*"
-                  comment-end "*/"
-                  comment-continue "*"
-                  comment-style 'multi-line)))
-
-(add-hook 'latex-mode-hook
-          (lambda ()
-            (turn-on-reftex)))
-
-(add-hook 'matlab-mode-hook
-          (lambda ()
-            (auto-fill-mode nil)))
-
-(add-hook 'nxml-mode-hook
-          (lambda ()
-            (define-key nxml-mode-map (kbd "<tab>") '(lambda () (interactive) (nxml-indent-line)))
-            (define-key nxml-mode-map (kbd "C-S-o") 'nxml-complete)
-            (setq nxml-slash-auto-complete-flag t)))
-
-(add-hook 'python-mode-hook
-          (lambda ()
-            (when (require 'jedi nil 'noerror)
-              (jedi:ac-setup))
-            (projectile-on)
-            (setq fill-column 80
-                  fci-rule-column 80
-                  indent-tabs-mode nil
-                  python-indent 4)))
-
-(add-hook 'ruby-mode-hook
-          (lambda ()
-            (setq ruby-deep-indent-paren nil)))
-
-(add-hook 'term-mode-hook
-          (lambda ()
-            (setq yas-dont-activate t)))
-
-(add-hook 'text-mode-hook
-          (lambda ()
-            (flyspell-mode t)
-            (setq fill-column 80
-                  indent-line-function (quote insert-tab)
-                  indent-tabs-mode nil
-                  tab-width 2)))
-
-;; General hooks
-(add-hook 'before-save-hook
-          (lambda ()
-            (delete-trailing-whitespace)))
-
-(add-hook 'compilation-mode-hook
-          '(lambda ()
-             (setq truncate-lines 1)
-             (setq truncate-partial-width-windows 1)))
-
-(add-hook 'after-change-major-mode-hook
-          '(lambda ()
-             (if (display-graphic-p)
-                 (fci-mode 1))))
-
-(add-hook 'after-make-frame-functions
-          '(lambda (frame)
-             (when (display-graphic-p)
-               (config-frame frame))))
-
-
-(when (display-graphic-p)
-  (add-hook 'compilation-mode-hook
-            '(lambda ()
-               (setq truncate-lines 1)
-               (setq truncate-partial-width-windows 1)))
-
-  (config-frame (selected-frame)))
