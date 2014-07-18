@@ -134,6 +134,7 @@
 (require 'javacc-mode)
 (require 'javadoc-lookup)
 (require 'linum)
+(require 'magit)
 (require 'projectile)
 (require 'rails-autoload)
 (require 'saveplace)
@@ -268,9 +269,3 @@
 (add-to-list 'yas/snippet-dirs (concat user-emacs-directory "snippets"))
 (setq yas/also-auto-indent-first-line t)
 (yas/global-mode 1)
-
-;; enable some features
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-(put 'dired-find-alternate-file 'disabled nil)
