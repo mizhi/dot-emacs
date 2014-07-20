@@ -1,0 +1,23 @@
+;; Magit bindings
+(global-set-key (kbd "C-x g") 'magit-status)
+
+
+;; Some convenience things
+(global-set-key [f2] 'visit-ansi-term)
+(global-set-key "\M-g" 'goto-line)
+(global-set-key "\M-+" 'word-count-mode)
+(global-set-key (kbd "<C-tab>") 'yas/expand-from-trigger-key)
+
+;; re-enable some functions
+;;   C-x n d ... narrow to def
+;;   C-x n n ... narrow to region
+;;   C-x n p ... narrow to page
+;;   C-x n w ... widen back
+;; enable some features
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+(put 'dired-find-alternate-file 'disabled nil)
+
+(put 'scroll-left 'disabled nil)
+(put 'narrow-to-page 'disabled nil)

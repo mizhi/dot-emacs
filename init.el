@@ -12,19 +12,22 @@
 
 ;; send my backups here
 (add-to-list 'backup-directory-alist
-	     (cons ".*"
-		   (concat user-emacs-directory "backups/")))
+             (cons "" (concat user-emacs-directory "backups/")))
 
 ;; setup load path
 (add-to-list 'load-path (concat user-emacs-directory "elisp/"))
 (let ((default-directory (concat user-emacs-directory "elisp/")))
   (normal-top-level-add-subdirs-to-load-path))
 
+(load (concat user-emacs-directory "funcs.el"))
+(load (concat user-emacs-directory "hooks.el"))
+(load (concat user-emacs-directory "keys.el"))
+
 ;; use package management when in emacs >= 24. Is this a good idea? I don't know.
 (when (>= emacs-major-version 24)
   (require 'package)
-  (add-to-list 'package-archives
-	       '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (add-to-list 'package-archives '("marmelade" . "http://marmalade-repo.org/packages/") t)
 
   (package-initialize)
 
@@ -36,7 +39,9 @@
      (or (package-installed-p package)
          (if (y-or-n-p (format "Package %s is missing. Install it? " package))
              (package-install package))))
-   '(android-mode
+   '(ac-inf-ruby
+     ag
+     android-mode
      ant
      auto-complete
      col-highlight
@@ -48,17 +53,22 @@
      deferred
      epc
      fill-column-indicator
+     flx-ido
      git-commit-mode
      git-rebase-mode
      go-mode
      groovy-mode
      haskell-mode
      hl-line+
+     inf-ruby
      javadoc-lookup
      jedi
      magit
+     markdown-mode
      matlab-mode
      popup
+     projectile
+     scala-mode2
      snippet
      vline
      yaml-mode
@@ -78,7 +88,10 @@
   (setenv "PATH" (concat "/usr/local/bin" path-separator (getenv "PATH")))
   (add-to-list 'exec-path "/usr/local/bin")
 
-  (setq-default ispell-program-name "/opt/local/bin/ispell")
+  (setq-default ispell-program-name
+                (first-existing-file
+                 '("/opt/local/bin/ispell"
+                   "/usr/local/bin/ispell")))
 
   ;; Work around a bug (?) on OS X where system-name is FQDN
   (setq system-name (car (split-string system-name "\\.")))
@@ -106,7 +119,6 @@
          ("\\.js\\'" . javascript-mode)
          ("\\.json\\'" . javascript-mode)
          ("\\.pp\\'" . puppet-mode)
-         ("\\.rb\\'" . ruby-mode)
          ("\\.ya?ml\\'" . yaml-mode))
        auto-mode-alist))
 
@@ -117,10 +129,13 @@
 (require 'fill-column-indicator)
 (require 'font-lock)
 (require 'ido)
+(require 'flx-ido)
 (require 'inf-haskell)
 (require 'javacc-mode)
 (require 'javadoc-lookup)
 (require 'linum)
+(require 'magit)
+(require 'projectile)
 (require 'rails-autoload)
 (require 'saveplace)
 (require 'tls)
@@ -163,19 +178,6 @@
         (switch-to-buffer "*ansi-term*")
       (ansi-term explicit-shell-file-name))))
 
-;; Custom key bindings
-(global-set-key [f2] 'visit-ansi-term)
-(global-set-key "\M-g" 'goto-line)
-(global-set-key "\M-+" 'word-count-mode)
-(global-set-key (kbd "<C-tab>") 'yas/expand-from-trigger-key)
-
-;; re-enable some functions
-;;   C-x n d ... narrow to def
-;;   C-x n n ... narrow to region
-;;   C-x n p ... narrow to page
-;;   C-x n w ... widen back
-(put 'scroll-left 'disabled nil)
-(put 'narrow-to-page 'disabled nil)
 
 (delete ".svn/" completion-ignored-extensions)
 (delete ".hg/" completion-ignored-extensions)
@@ -207,6 +209,8 @@
  frame-title-format '(buffer-file-name
                       "%f"
                       (dired-directory dired-directory "%b"))
+ ido-enable-flex-matching t
+ ido-use-faces nil
  inhibit-startup-screen t
  linum-format "%d "
  matlab-indent-function t
@@ -256,6 +260,8 @@
 (global-linum-mode t)
 (global-whitespace-mode t)
 (ido-mode t)
+(ido-everywhere t)
+(flx-ido-mode t)
 (show-paren-mode 1)
 (turn-on-font-lock)
 
@@ -264,109 +270,4 @@
 (setq yas/also-auto-indent-first-line t)
 (yas/global-mode 1)
 
-;; enable some features
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-(put 'dired-find-alternate-file 'disabled nil)
-
-;; set up some language specific mode hooks
-(defun untabify-before-save ()
-  (save-excursion
-    (goto-char (point-min))
-    (while (re-search-forward "[ \t]+$" nil t)
-      (delete-region (match-beginning 0) (match-end 0)))
-    (goto-char (point-min))
-    (if (search-forward "\t" nil t)
-        (untabify (1- (point)) (point-max))))
-  nil)
-
-(add-hook 'java-mode-hook
-          (lambda ()
-            (add-hook 'write-contents-hooks 'untabify-before-save)
-
-            (when (require 'java-docs nil 'noerror)
-              (java-docs java-docs-directory))
-
-            (when (require 'java-mode-indent-annotations nil 'noerror)
-              (java-mode-indent-annotations-setup))))
-
-(add-hook 'javascript-mode-hook
-          (lambda ()
-            (setq comment-start "/*"
-                  comment-end "*/"
-                  comment-continue "*"
-                  comment-style 'multi-line)))
-
-(add-hook 'latex-mode-hook
-          (lambda ()
-            (turn-on-reftex)))
-
-(add-hook 'matlab-mode-hook
-          (lambda ()
-            (auto-fill-mode nil)))
-
-(add-hook 'nxml-mode-hook
-          (lambda ()
-            (define-key nxml-mode-map (kbd "<tab>") '(lambda () (interactive) (nxml-indent-line)))
-            (define-key nxml-mode-map (kbd "C-S-o") 'nxml-complete)
-            (setq nxml-slash-auto-complete-flag t)))
-
-(add-hook 'python-mode-hook
-          (lambda ()
-            (when (require 'jedi nil 'noerror)
-              (jedi:ac-setup))
-            (setq fill-column 80
-                  fci-rule-column 80
-                  indent-tabs-mode nil
-                  python-indent 4)))
-
-(add-hook 'term-mode-hook
-          (lambda ()
-            (setq yas-dont-activate t)))
-
-(add-hook 'text-mode-hook
-          (lambda ()
-            (flyspell-mode t)
-            (setq fill-column 80
-                  indent-line-function (quote insert-tab)
-                  indent-tabs-mode nil
-                  tab-width 2)))
-
-(add-hook 'change-log-mode-hook
-          (lambda ()
-            (auto-fill-mode 1)
-            (setq fill-column 80)))
-
-(add-hook 'before-save-hook
-          (lambda ()
-            (delete-trailing-whitespace)))
-
-(add-hook 'compilation-mode-hook
-          '(lambda ()
-             (setq truncate-lines 1)
-             (setq truncate-partial-width-windows 1)))
-
-(add-hook 'after-change-major-mode-hook
-          '(lambda ()
-             (if (display-graphic-p)
-                 (fci-mode 1))))
-
-(defun config-frame (frame)
-  (with-selected-frame frame
-    (scroll-bar-mode 0)
-    (tool-bar-mode 0)))
-
-(add-hook 'after-make-frame-functions
-          '(lambda (frame)
-             (when (display-graphic-p)
-               (config-frame frame))))
-
-
-(when (display-graphic-p)
-  (add-hook 'compilation-mode-hook
-            '(lambda ()
-               (setq truncate-lines 1)
-               (setq truncate-partial-width-windows 1)))
-
-  (config-frame (selected-frame)))
+(load-theme 'tsdh-dark)
