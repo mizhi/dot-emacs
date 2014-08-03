@@ -40,11 +40,15 @@
          (if (y-or-n-p (format "Package %s is missing. Install it? " package))
              (package-install package))))
    '(ac-inf-ruby
+     afternoon-theme
      ag
+     ample-theme
+     ample-zen-theme
      android-mode
      ant
      auto-complete
      col-highlight
+     color-theme
      column-marker
      concurrent
      crosshairs
@@ -53,10 +57,13 @@
      deferred
      epc
      fill-column-indicator
+     flx
      flx-ido
      git-commit-mode
      git-rebase-mode
+     go-eldoc
      go-mode
+     go-projectile
      groovy-mode
      haskell-mode
      hl-line+
@@ -68,6 +75,8 @@
      matlab-mode
      popup
      projectile
+     python-environment
+     sbt-mode
      scala-mode2
      snippet
      vline
@@ -199,8 +208,8 @@
  bibtex-autokey-titleword-length nil
 
  default-frame-alist (append
-                      '((width . 130)
-                        (height . 45)
+                      '((width . 110)
+                        (height . 40)
                         (left . 200)
                         (top . 50))
                       default-frame-alist)
@@ -256,7 +265,7 @@
 (global-font-lock-mode 1)
 (global-semantic-highlight-func-mode t)
 (global-semantic-highlight-edits-mode t)
-(global-hl-line-mode t)
+;;(global-hl-line-mode t)
 (global-linum-mode t)
 (global-whitespace-mode t)
 (ido-mode t)
@@ -269,3 +278,18 @@
 (add-to-list 'yas/snippet-dirs (concat user-emacs-directory "snippets"))
 (setq yas/also-auto-indent-first-line t)
 (yas/global-mode 1)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes (quote ("f0ea6118d1414b24c2e4babdc8e252707727e7b4ff2e791129f240a2b3093e32" "7a9f392481b6e2fb027ab9d8053ab36c0f23bf5cc1271206982339370d894c74" "2b5aa66b7d5be41b18cc67f3286ae664134b95ccc4a86c9339c886dfd736132d" default))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+(load-theme 'afternoon)
