@@ -10,6 +10,8 @@
     (setq user-emacs-directory
           (concat (getenv "HOME") "/.emacs.d/")))
 
+(cd (getenv "HOME"))
+
 ;; send my backups here
 (add-to-list 'backup-directory-alist
              (cons "" (concat user-emacs-directory "backups/")))
@@ -42,8 +44,6 @@
    '(ac-inf-ruby
      afternoon-theme
      ag
-     ample-theme
-     ample-zen-theme
      android-mode
      ant
      auto-complete
@@ -105,7 +105,11 @@
   ;; Work around a bug (?) on OS X where system-name is FQDN
   (setq system-name (car (split-string system-name "\\.")))
   (setq explicit-shell-file-name "/bin/bash")
-  (setq latex-run-command "/usr/texbin/latex")))
+  (setq latex-run-command "/usr/texbin/latex")
+
+  ;; I despise Mountain Lion's Full-Screen mode
+  (setq ns-use-native-fullscreen nil)))
+
 
 ;; setup some autoloads.
 (autoload 'android-mode "android-mode" "Android editing mode" t)
@@ -284,7 +288,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes (quote ("f0ea6118d1414b24c2e4babdc8e252707727e7b4ff2e791129f240a2b3093e32" "7a9f392481b6e2fb027ab9d8053ab36c0f23bf5cc1271206982339370d894c74" "2b5aa66b7d5be41b18cc67f3286ae664134b95ccc4a86c9339c886dfd736132d" default))))
+ '(custom-safe-themes (quote ("f0ea6118d1414b24c2e4babdc8e252707727e7b4ff2e791129f240a2b3093e32" default))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

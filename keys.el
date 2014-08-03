@@ -1,9 +1,10 @@
 ;; Magit bindings
 (global-set-key (kbd "C-x g") 'magit-status)
 
-
 ;; Some convenience things
 (global-set-key [f2] 'visit-ansi-term)
+(global-set-key [f9] 'toggle-frame-fullscreen)
+
 (global-set-key "\M-g" 'goto-line)
 (global-set-key "\M-+" 'word-count-mode)
 (global-set-key (kbd "<C-tab>") 'yas/expand-from-trigger-key)
