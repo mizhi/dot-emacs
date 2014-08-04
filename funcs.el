@@ -1,3 +1,8 @@
+(defun config-frame (frame)
+  (with-selected-frame frame
+    (scroll-bar-mode 0)
+    (tool-bar-mode 0)))
+
 (defun first-existing-file (file-list)
   (if file-list
       (if (file-exists-p (car file-list))
@@ -15,7 +20,9 @@
         (untabify (1- (point)) (point-max))))
   nil)
 
-(defun config-frame (frame)
-  (with-selected-frame frame
-    (scroll-bar-mode 0)
-    (tool-bar-mode 0)))
+(defun visit-ansi-term ()
+  (interactive)
+  (let ((existing-term (get-buffer "*ansi-term*")))
+    (if existing-term
+        (switch-to-buffer "*ansi-term*")
+      (ansi-term explicit-shell-file-name))))

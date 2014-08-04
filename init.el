@@ -21,9 +21,13 @@
 (let ((default-directory (concat user-emacs-directory "elisp/")))
   (normal-top-level-add-subdirs-to-load-path))
 
-(load (concat user-emacs-directory "funcs.el"))
-(load (concat user-emacs-directory "hooks.el"))
-(load (concat user-emacs-directory "keys.el"))
+(defun load-init-el (filename)
+  (load (concat user-emacs-directory filename)))
+
+(load-init-el "funcs.el")
+(load-init-el "hooks.el")
+(load-init-el "keys.el")
+(load-init-el "local-prefs.el")
 
 ;; use package management when in emacs >= 24. Is this a good idea? I don't know.
 (when (>= emacs-major-version 24)
@@ -55,6 +59,7 @@
      css-mode
      ctable
      deferred
+     ensime
      epc
      fill-column-indicator
      flx
@@ -115,11 +120,12 @@
 (autoload 'android-mode "android-mode" "Android editing mode" t)
 (autoload 'go-mode "go-mode" "Go editing mode" t)
 (autoload 'haskell-mode "haskell-mode" "Haskell editing mode" t)
-(autoload 'matlab-mode "matlab" "Enter Matlab mode." t)
-(autoload 'matlab-shell "matlab" "Interactive Matlab mode." t)
-(autoload 'puppet-mode "puppet-mode" "Puppet Manifest editing mode." t)
+(autoload 'matlab-mode "matlab" "Enter Matlab mode" t)
+(autoload 'matlab-shell "matlab" "Interactive Matlab mode" t)
+(autoload 'puppet-mode "puppet-mode" "Puppet Manifest editing mode" t)
 (autoload 'ruby-mode "ruby-mode" "Mode for editing ruby" t)
-(autoload 'word-count-mode "word-count" "Minor mode to count words." t)
+(autoload 'scala-mode "scala-mode" "Mode for editing scala" t)
+(autoload 'word-count-mode "word-count" "Minor mode to count words" t)
 (autoload 'yaml-mode "yaml-mode" "Yaml Mode" t)
 
 ;; auto load list for the modes.
@@ -139,7 +145,7 @@
 (require 'cl)
 (require 'column-marker)
 (require 'faces)
-(require 'fill-column-indicator)
+;;(require 'fill-column-indicator)
 (require 'font-lock)
 (require 'ido)
 (require 'flx-ido)
@@ -184,14 +190,6 @@
      (add-to-list 'rng-schema-locating-files
                   (concat user-emacs-directory "elisp/html5-el/schemas.xml"))))
 
-(defun visit-ansi-term ()
-  (interactive)
-  (let ((existing-term (get-buffer "*ansi-term*")))
-    (if existing-term
-        (switch-to-buffer "*ansi-term*")
-      (ansi-term explicit-shell-file-name))))
-
-
 (delete ".svn/" completion-ignored-extensions)
 (delete ".hg/" completion-ignored-extensions)
 (delete ".git/" completion-ignored-extensions)
@@ -228,7 +226,6 @@
  linum-format "%d "
  matlab-indent-function t
  next-line-add-newlines nil
- printer-name "rocky.qrclab.com"
  save-place-file (concat user-emacs-directory "places")
  show-paren-style 'parenthesis
  standard-indent 4
@@ -238,7 +235,6 @@
  truncate-partial-width-windows nil
  uniquify-buffer-name-style 'post-forward-angle-brackets
  user-full-name "Mitchell Peabody"
- user-mail-address "mitchell.peabody@qrclab.com"
  visible-bell t
  whitespace-line-column 80
  whitespace-style '(face trailing)
@@ -265,16 +261,21 @@
 (prefer-coding-system 'utf-8)
 
 ;; General functions that need to be called
-(column-number-mode t)
 (global-font-lock-mode 1)
+(global-linum-mode t)
+(column-number-mode t)
+
+;; line highlighting
+(global-hl-line-mode nil)
+(toggle-hl-line-when-idle t)
+
 (global-semantic-highlight-func-mode t)
 (global-semantic-highlight-edits-mode t)
-;;(global-hl-line-mode t)
-(global-linum-mode t)
 (global-whitespace-mode t)
 (ido-mode t)
 (ido-everywhere t)
 (flx-ido-mode t)
+
 (show-paren-mode 1)
 (turn-on-font-lock)
 

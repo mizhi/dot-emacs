@@ -49,13 +49,18 @@
           (lambda ()
             (setq ruby-deep-indent-paren nil)))
 
+(add-hook 'scala-mode-hook
+          (lambda ()
+            (require 'ensime)
+            (ensime-scala-mode-hook)))
+
+
 (add-hook 'term-mode-hook
           (lambda ()
             (setq yas-dont-activate t)))
 
 (add-hook 'text-mode-hook
           (lambda ()
-            (flyspell-mode t)
             (setq fill-column 80
                   indent-line-function (quote insert-tab)
                   indent-tabs-mode nil
@@ -71,10 +76,10 @@
              (setq truncate-lines 1)
              (setq truncate-partial-width-windows 1)))
 
-(add-hook 'after-change-major-mode-hook
-          '(lambda ()
-             (if (display-graphic-p)
-                 (fci-mode 1))))
+;; (add-hook 'after-change-major-mode-hook
+;;           '(lambda ()
+;;              (if (display-graphic-p)
+;;                  (fci-mode 1))))
 
 (add-hook 'after-make-frame-functions
           '(lambda (frame)
