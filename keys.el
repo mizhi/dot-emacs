@@ -3,7 +3,7 @@
 
 ;; Some convenience things
 (global-set-key [f2] 'visit-ansi-term)
-(global-set-key [f9] 'toggle-frame-fullscreen)
+(global-set-key [f8] 'toggle-frame-fullscreen)
 
 (global-set-key "\M-g" 'goto-line)
 (global-set-key "\M-+" 'word-count-mode)

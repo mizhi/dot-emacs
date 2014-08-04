@@ -40,6 +40,13 @@
             (when (require 'jedi nil 'noerror)
               (jedi:ac-setup))
             (projectile-on)
+
+            ;; discover location of python libs and add to db
+            (let
+                ((python-lib-dir (concat
+                              (shell-command-to-string "python-config --prefix") "/lib/python2.7")))
+              (semantic-add-system-include python-lib-dir 'python-mode))
+
             (setq fill-column 80
                   fci-rule-column 80
                   indent-tabs-mode nil
@@ -76,21 +83,8 @@
              (setq truncate-lines 1)
              (setq truncate-partial-width-windows 1)))
 
-;; (add-hook 'after-change-major-mode-hook
-;;           '(lambda ()
-;;              (if (display-graphic-p)
-;;                  (fci-mode 1))))
-
-(add-hook 'after-make-frame-functions
-          '(lambda (frame)
-             (when (display-graphic-p)
-               (config-frame frame))))
-
-
 (when (display-graphic-p)
   (add-hook 'compilation-mode-hook
             '(lambda ()
                (setq truncate-lines 1)
-               (setq truncate-partial-width-windows 1)))
-
-  (config-frame (selected-frame)))
+               (setq truncate-partial-width-windows 1))))

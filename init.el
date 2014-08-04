@@ -145,7 +145,7 @@
 (require 'cl)
 (require 'column-marker)
 (require 'faces)
-;;(require 'fill-column-indicator)
+(require 'fill-column-indicator)
 (require 'font-lock)
 (require 'ido)
 (require 'flx-ido)
@@ -260,14 +260,16 @@
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
-;; General functions that need to be called
+;;
 (global-font-lock-mode 1)
 (global-linum-mode t)
+
 (column-number-mode t)
+(line-number-mode t)
 
 ;; line highlighting
-(global-hl-line-mode nil)
 (toggle-hl-line-when-idle t)
+(global-hl-line-mode -1)
 
 (global-semantic-highlight-func-mode t)
 (global-semantic-highlight-edits-mode t)
@@ -277,6 +279,8 @@
 (flx-ido-mode t)
 
 (show-paren-mode 1)
+
+(tool-bar-mode -1)
 (turn-on-font-lock)
 
 ;; set up YASnippet

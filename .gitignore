@@ -11,3 +11,7 @@ elpa
 
 .python-environments
 ac-comphist.dat
+
+local-prefs.el
+tramp
+
