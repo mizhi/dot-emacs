@@ -215,7 +215,7 @@
                         (left . 200)
                         (top . 50))
                       default-frame-alist)
- fci-handle-truncate-lines nil
+ ;;fci-handle-truncate-lines nil
  font-lock-maximum-decoration t
  frame-title-format '(buffer-file-name
                       "%f"
@@ -273,6 +273,7 @@
 
 (global-semantic-highlight-func-mode t)
 (global-semantic-highlight-edits-mode t)
+(global-semantic-stickyfunc-mode -1)
 (global-whitespace-mode t)
 (ido-mode t)
 (ido-everywhere t)
