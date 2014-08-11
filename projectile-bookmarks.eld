@@ -1,0 +1,1 @@
+("~/Development/projects/ateam/" "~/Development/projects/daily_grind/" "~/Development/projects/reportagrams/" "/usr/local/")

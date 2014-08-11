@@ -302,4 +302,5 @@
  ;; If there is more than one, they won't work right.
  )
 
-(load-theme 'afternoon)
+(when (display-graphic-p)
+  (load-theme 'afternoon))
