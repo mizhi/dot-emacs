@@ -1,5 +1,8 @@
 ;; Magit bindings
-(global-set-key (kbd "C-x g") 'magit-status)
+(define-prefix-command 'magit-map)
+(global-set-key (kbd "C-x C-g") 'magit-map)
+(define-key magit-map (kbd "s") 'magit-status)
+(define-key magit-map (kbd "b") 'magit-blame-mode)
 
 ;; Some convenience things
 (global-set-key [f2] 'visit-ansi-term)
