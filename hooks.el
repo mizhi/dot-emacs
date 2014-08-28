@@ -1,4 +1,7 @@
-;; Mode specific hooks
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (projectile-mode)))
+
 (add-hook 'change-log-mode-hook
           (lambda ()
             (auto-fill-mode 1)
@@ -39,12 +42,11 @@
           (lambda ()
             (when (require 'jedi nil 'noerror)
               (jedi:ac-setup))
-            (projectile-on)
 
             ;; discover location of python libs and add to db
             (let
-                ((python-lib-dir (concat
-                              (shell-command-to-string "python-config --prefix") "/lib/python2.7")))
+                ((python-lib-dir
+                  (concat (shell-command-to-string "python-config --prefix") "/lib/python2.7")))
               (semantic-add-system-include python-lib-dir 'python-mode))
 
             (setq fill-column 80
@@ -72,6 +74,10 @@
                   indent-line-function (quote insert-tab)
                   indent-tabs-mode nil
                   tab-width 2)))
+
+(add-hook 'yaml-mode-hook
+          (lambda ()
+            (setq yaml-indent-offset 4)))
 
 ;; General hooks
 (add-hook 'before-save-hook

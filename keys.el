@@ -1,8 +1,14 @@
 ;; Magit bindings
 (define-prefix-command 'magit-map)
-(global-set-key (kbd "C-x C-g") 'magit-map)
+(global-set-key (kbd "C-c g") 'magit-map)
 (define-key magit-map (kbd "s") 'magit-status)
 (define-key magit-map (kbd "b") 'magit-blame-mode)
+
+;; projectile bindings
+(define-prefix-command 'projectile-map)
+(global-set-key (kbd "C-c p") 'projectile-map)
+(define-key projectile-map (kbd "f") 'projectile-find-file)
+(define-key projectile-map (kbd "s") 'projectile-switch-project)
 
 ;; Some convenience things
 (global-set-key [f2] 'visit-ansi-term)

@@ -45,14 +45,15 @@
      (or (package-installed-p package)
          (if (y-or-n-p (format "Package %s is missing. Install it? " package))
              (package-install package))))
-   '(ac-inf-ruby
+   '(ac-c-headers
+     ac-inf-ruby
+     ac-python
      afternoon-theme
      ag
      android-mode
      ant
      auto-complete
      col-highlight
-     color-theme
      column-marker
      concurrent
      crosshairs
@@ -66,6 +67,7 @@
      flx-ido
      git-commit-mode
      git-rebase-mode
+     go-autocomplete
      go-eldoc
      go-mode
      go-projectile
@@ -246,6 +248,7 @@
  c-basic-offset 4
  fci-rule-column 120
  fill-column 80
+ highlight-changes-mode t
  indicate-empty-lines t
  indent-tabs-mode nil
  save-place t
