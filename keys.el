@@ -4,19 +4,21 @@
 (define-key magit-map (kbd "s") 'magit-status)
 (define-key magit-map (kbd "b") 'magit-blame-mode)
 
-;; projectile bindings
-(define-prefix-command 'projectile-map)
-(global-set-key (kbd "C-c p") 'projectile-map)
-(define-key projectile-map (kbd "f") 'projectile-find-file)
-(define-key projectile-map (kbd "s") 'projectile-switch-project)
-
 ;; Some convenience things
 (global-set-key [f2] 'visit-ansi-term)
+(global-set-key [f7] 'newsticker-show-news)
 (global-set-key [f8] 'toggle-frame-fullscreen)
 
 (global-set-key "\M-g" 'goto-line)
 (global-set-key "\M-+" 'word-count-mode)
 (global-set-key (kbd "<C-tab>") 'yas/expand-from-trigger-key)
+
+(global-set-key (kbd "<M-S-up>") 'switch-to-prev-buffer)
+(global-set-key (kbd "<M-S-down>") 'switch-to-next-buffer)
+
+;;(define-key projectile-mode-map (kbd "g") 'projectile-grep)
+
+
 
 ;; re-enable some functions
 ;;   C-x n d ... narrow to def
@@ -31,3 +33,5 @@
 
 (put 'scroll-left 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
+
+(windmove-default-keybindings)

@@ -1,6 +1,7 @@
 ;; Load up irc
-(defun init-irc ()
+(defun start-irc ()
   (interactive)
+  (require 'easymenu)
   (require 'erc)
   (require 'erc-fill)
   (require 'erc-goodies)
@@ -8,13 +9,17 @@
   (require 'erc-match)
   (require 'erc-services)
 
+  (select-frame (make-frame '((name . "Emacs IRC")
+                              (minibuffer . t))))
+
+
   (defvar erc-insert-post-hook)
 
   (load (concat (getenv "HOME") "/.emacs.d/erc.pass"))
 
   (setq erc-auto-query 'window-noselect
         erc-autojoin-channels-alist '(("foonetic.net" "#xkcd")
-                                      ("freenode.net" "#python" "#java" "#rubyonrails" "#django"))
+                                      ("freenode.net" "#python" "#java" "#rubyonrails" "#scala"))
 
         erc-nick-color-list '("white" "yellow" "red" "purple" "orange"
                               "magenta" "cyan" "brown" "blue")
@@ -83,9 +88,9 @@ the pool"
     "Connect to IRC."
     (interactive)
     (erc-tls :server "irc.foonetic.net" :port 6697
-             :nick "seggy" :full-name "segfaultzen" :password foonetic-pass)
+             :nick "seggy" :full-name "seggy" :password foonetic-pass)
     (erc-tls :server "irc.freenode.net" :port 6697
-             :nick "seggy" :full-name "segfaultzen" :password freenode-pass))
+             :nick "seggy" :full-name "seggy" :password freenode-pass))
 
   (add-hook 'erc-join-hook '(lambda ()
                               (ncm-mode)))

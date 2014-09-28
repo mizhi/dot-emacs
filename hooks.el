@@ -2,6 +2,11 @@
           (lambda ()
             (projectile-mode)))
 
+(add-hook 'projectile-mode-hook
+          (lambda ()
+            (setq projectile-indexing-method 'native)
+            (setq projectile-enable-caching t)))
+
 (add-hook 'change-log-mode-hook
           (lambda ()
             (auto-fill-mode 1)
@@ -52,7 +57,8 @@
             (setq fill-column 80
                   fci-rule-column 80
                   indent-tabs-mode nil
-                  python-indent 4)))
+                  python-indent 4)
+            (electric-indent-local-mode 0)))
 
 (add-hook 'ruby-mode-hook
           (lambda ()
@@ -77,7 +83,7 @@
 
 (add-hook 'yaml-mode-hook
           (lambda ()
-            (setq yaml-indent-offset 4)))
+            (setq yaml-indent-offset 2)))
 
 ;; General hooks
 (add-hook 'before-save-hook
