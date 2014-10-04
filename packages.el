@@ -12,34 +12,59 @@
    (or (package-installed-p package)
        (if (y-or-n-p (format "Package %s is missing. Install it? " package))
            (package-install package))))
- '(ac-c-headers
-   ac-inf-ruby
-   ac-python
-   afternoon-theme
-   ag
+ '(ag
+   anaconda-mode
    android-mode
    ant
    auto-complete
    col-highlight
    column-marker
+   company
+   company-anaconda
+   company-c-headers
+   company-ghc
+   company-go
+   company-inf-ruby
    concurrent
    crosshairs
-   css-mode
    ctable
    deferred
    ensime
    epc
    fill-column-indicator
-   flx
-   flx-ido
+   flycheck
+   flycheck-haskell
+   flymake
+   flymake-easy
+   flymake-elixir
+   flymake-go
+   flymake-haml
+   flymake-json
+   flymake-python-pyflakes
+   flymake-ruby
    git-commit-mode
    git-rebase-mode
-   go-autocomplete
    go-eldoc
    go-mode
    go-projectile
    groovy-mode
    haskell-mode
+   helm
+   helm-R
+   helm-ag-r
+   helm-aws
+   helm-bibtex
+   helm-c-moccur
+   helm-c-yasnippet
+   helm-company
+   helm-dash
+   helm-git
+   helm-go-package
+   helm-projectile
+   helm-projectile-all
+   helm-pydoc
+   helm-rails
+   helm-rb
    hl-line+
    inf-ruby
    javadoc-lookup
@@ -51,10 +76,16 @@
    popup
    projectile
    python-environment
+   rubocop
+   ruby-block
+   ruby-electric
    ruby-hash-syntax
+   ruby-tools
+   rvm
    sbt-mode
    scala-mode2
    snippet
    vline
    yaml-mode
-   yasnippet))
+   yasnippet
+   zenburn-theme))

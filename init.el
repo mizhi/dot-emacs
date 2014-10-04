@@ -29,12 +29,6 @@
   (load-init-el "packages.el"))
 
 (load-init-el "funcs.el")
-(load-init-el "hooks.el")
-(load-init-el "keys.el")
-(load-init-el "local-prefs.el")
-
-(load-init-el "erc.el")
-
 
 (cond
  (is-windows
@@ -75,8 +69,9 @@
 (require 'faces)
 (require 'fill-column-indicator)
 (require 'font-lock)
-(require 'ido)
-(require 'flx-ido)
+(require 'helm-config)
+(require 'helm-grep)
+(require 'helm-R)
 (require 'inf-haskell)
 (require 'javacc-mode)
 (require 'javadoc-lookup)
@@ -84,6 +79,7 @@
 (require 'magit)
 (require 'projectile)
 (require 'rails-autoload)
+(require 'recentf)
 (require 'saveplace)
 (require 'tls)
 (require 'tramp)
@@ -118,15 +114,23 @@
      (add-to-list 'rng-schema-locating-files
                   (concat user-emacs-directory "elisp/html5-el/schemas.xml"))))
 
-(delete ".svn/" completion-ignored-extensions)
-(delete ".hg/" completion-ignored-extensions)
-(delete ".git/" completion-ignored-extensions)
 
-;; this prevents IDO from hiding IRC log files
-(delete "\\`#" ido-ignore-files)
+(add-hook 'after-init-hook
+          (lambda ()
+            (delete ".svn/" completion-ignored-extensions)
+            (delete ".hg/" completion-ignored-extensions)
+            (delete ".git/" completion-ignored-extensions)
 
-(set-face-attribute 'default nil
-                    :family "Anonymous Pro" :weight 'normal :width 'normal :height 200)
+            (set-face-attribute 'default nil :family "Anonymous Pro" :weight 'normal :width 'normal :height 200)
+
+
+            (global-company-mode)
+            (add-to-list 'company-backends 'company-anaconda)
+
+
+            ))
+
+
 
 (setq
  android-mode-sdk-dir (concat (getenv "HOME") "/Development/android-sdk-macosx")
@@ -148,12 +152,18 @@
  frame-title-format '(buffer-file-name
                       "%f"
                       (dired-directory dired-directory "%b"))
- ido-enable-flex-matching t
- ido-use-faces nil
+ helm-quick-update                     t ; do not display invisible candidates
+ helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+ helm-buffers-fuzzy-matching           t ; fuzzy matching buffer names when non--nil
+ helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
+ helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
+ helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
+ helm-ff-file-name-history-use-recentf t
  inhibit-startup-screen t
  linum-format "%d "
  matlab-indent-function t
  next-line-add-newlines nil
+ recentf-max-menu-items 25
  save-place-file (concat user-emacs-directory "places")
  show-paren-style 'parenthesis
  standard-indent 4
@@ -189,7 +199,12 @@
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
-;;
+(load-init-el "hooks.el")
+(load-init-el "keys.el")
+(load-init-el "erc.el")
+(load-init-el "local-prefs.el")
+
+
 (global-font-lock-mode 1)
 (global-linum-mode t)
 
@@ -204,10 +219,8 @@
 (global-semantic-highlight-edits-mode t)
 (global-semantic-stickyfunc-mode -1)
 (global-whitespace-mode t)
-(ido-mode 1)
-(ido-everywhere 1)
-(flx-ido-mode 1)
-
+(helm-mode)
+(recentf-mode 1)
 (show-paren-mode 1)
 
 (tool-bar-mode -1)
@@ -225,7 +238,7 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("f0ea6118d1414b24c2e4babdc8e252707727e7b4ff2e791129f240a2b3093e32" default)))
+    ("8fd393097ac6eabfcb172f656d781866beec05f27920a0691e8772aa2cdc7132" "3b819bba57a676edf6e4881bd38c777f96d1aa3b3b5bc21d8266fa5b0d0f1ebf" "f0ea6118d1414b24c2e4babdc8e252707727e7b4ff2e791129f240a2b3093e32" default)))
  '(newsticker-url-list
    (quote
     (("Groklaw" "http://www.groklaw.net/backend/GrokLaw.rdf" nil nil nil)
@@ -326,4 +339,4 @@
  )
 
 (when (display-graphic-p)
-  (load-theme 'afternoon))
+  (load-theme 'hc-zenburn))

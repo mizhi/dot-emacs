@@ -1,6 +1,9 @@
 (add-hook 'prog-mode-hook
           (lambda ()
-            (projectile-mode)))
+            (projectile-mode 1)
+            (flymake-mode 1)
+            (flycheck-mode 1)
+            ))
 
 (add-hook 'projectile-mode-hook
           (lambda ()
@@ -45,9 +48,6 @@
 
 (add-hook 'python-mode-hook
           (lambda ()
-            (when (require 'jedi nil 'noerror)
-              (jedi:ac-setup))
-
             ;; discover location of python libs and add to db
             (let
                 ((python-lib-dir
@@ -58,7 +58,22 @@
                   fci-rule-column 80
                   indent-tabs-mode nil
                   python-indent 4)
-            (electric-indent-local-mode 0)))
+
+            (electric-indent-local-mode 0)
+            (fci-mode 1)
+            (anaconda-mode)))
+
+(add-hook 'ruby-mode-hook
+          (lambda ()
+            (rubocop-mode 1)
+            (ruby-tools-mode 1)
+            ))
+
+
+          ;; (lambda ()
+          ;;   (when (require 'jedi nil 'noerror)
+          ;;     (jedi:ac-setup))
+
 
 (add-hook 'ruby-mode-hook
           (lambda ()
