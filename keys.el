@@ -1,8 +1,5 @@
-;; Magit bindings
-(define-prefix-command 'magit-map)
-(global-set-key (kbd "C-c g") 'magit-map)
-(define-key magit-map (kbd "s") 'magit-status)
-(define-key magit-map (kbd "b") 'magit-blame-mode)
+(global-set-key (kbd "C-c g s") 'magit-status)
+(global-set-key (kbd "C-c g b") 'magit-blame-mode)
 
 ;; Some convenience things
 (global-set-key [f2] 'visit-ansi-term)
@@ -17,17 +14,11 @@
 (global-set-key (kbd "<M-S-down>") 'switch-to-next-buffer)
 
 (global-set-key (kbd "C-c h") 'helm-mini)
+(global-set-key "\C-c\C-r" 'helm-recentf)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebihnd tab to do persistent action
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
 (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
-
-
-;;(define-key projectile-mode-map (kbd "g") 'projectile-grep)
-
-(global-set-key "\C-c\C-r" 'recentf-open-files)
-
-
 
 ;; re-enable some functions
 ;;   C-x n d ... narrow to def

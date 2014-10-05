@@ -49,6 +49,7 @@
    go-projectile
    groovy-mode
    haskell-mode
+   hc-zenburn-theme
    helm
    helm-R
    helm-ag-r

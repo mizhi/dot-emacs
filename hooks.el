@@ -1,9 +1,7 @@
 (add-hook 'prog-mode-hook
           (lambda ()
-            (projectile-mode 1)
             (flymake-mode 1)
-            (flycheck-mode 1)
-            ))
+            (flycheck-mode 1)))
 
 (add-hook 'projectile-mode-hook
           (lambda ()
@@ -15,10 +13,13 @@
             (auto-fill-mode 1)
             (setq fill-column 80)))
 
-(add-hook 'java-mode-hook
+(add-hook 'c-mode-common-hook
           (lambda ()
             (add-hook 'write-contents-hooks 'untabify-before-save)
+            (setq c-basic-offset 4 )))
 
+(add-hook 'java-mode-hook
+          (lambda ()
             (when (require 'java-docs nil 'noerror)
               (java-docs java-docs-directory))
 
@@ -59,21 +60,16 @@
                   indent-tabs-mode nil
                   python-indent 4)
 
+            (add-to-list 'company-backends 'company-anaconda)
+
             (electric-indent-local-mode 0)
             (fci-mode 1)
-            (anaconda-mode)))
+            (anaconda-mode 1)))
 
 (add-hook 'ruby-mode-hook
           (lambda ()
             (rubocop-mode 1)
-            (ruby-tools-mode 1)
-            ))
-
-
-          ;; (lambda ()
-          ;;   (when (require 'jedi nil 'noerror)
-          ;;     (jedi:ac-setup))
-
+            (ruby-tools-mode 1)))
 
 (add-hook 'ruby-mode-hook
           (lambda ()
