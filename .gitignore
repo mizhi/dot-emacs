@@ -20,3 +20,5 @@ projectile.cache
 newsticker
 url
 recentf
+
+.emacs.desktop*

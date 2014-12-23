@@ -1,3 +1,10 @@
+(add-hook 'desktop-after-read-hook
+	  '(lambda ()
+	     ;; desktop-remove clears desktop-dirname
+	     (setq desktop-dirname-tmp desktop-dirname)
+	     (desktop-remove)
+	     (setq desktop-dirname desktop-dirname-tmp)))
+
 (add-hook 'prog-mode-hook
           (lambda ()
             (flymake-mode 1)
@@ -63,11 +70,11 @@
             (add-to-list 'company-backends 'company-anaconda)
 
             (electric-indent-local-mode 0)
-            (fci-mode 1)
             (anaconda-mode 1)))
 
 (add-hook 'ruby-mode-hook
           (lambda ()
+            (setq ruby-insert-encoding-magic-comment nil)
             (rubocop-mode 1)
             (ruby-tools-mode 1)))
 
@@ -77,9 +84,7 @@
 
 (add-hook 'scala-mode-hook
           (lambda ()
-            (require 'ensime)
             (ensime-scala-mode-hook)))
-
 
 (add-hook 'term-mode-hook
           (lambda ()

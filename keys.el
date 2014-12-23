@@ -1,14 +1,21 @@
 (global-set-key (kbd "C-c g s") 'magit-status)
 (global-set-key (kbd "C-c g b") 'magit-blame-mode)
 
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
+
 ;; Some convenience things
 (global-set-key [f2] 'visit-ansi-term)
-(global-set-key [f7] 'newsticker-show-news)
+(global-set-key [f7] 'neotree-toggle)
 (global-set-key [f8] 'toggle-frame-fullscreen)
 
 (global-set-key "\M-g" 'goto-line)
 (global-set-key "\M-+" 'word-count-mode)
-(global-set-key (kbd "<C-tab>") 'yas/expand-from-trigger-key)
+
+(define-key yas-minor-mode-map (kbd "<tab>") nil)
+(define-key yas-minor-mode-map (kbd "C-<tab>") nil)
+;;(global-set-key (kbd "<C-tab>") 'yas-expand-from-trigger-key)
 
 (global-set-key (kbd "<M-S-up>") 'switch-to-prev-buffer)
 (global-set-key (kbd "<M-S-down>") 'switch-to-next-buffer)

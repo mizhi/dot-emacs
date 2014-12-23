@@ -40,6 +40,7 @@
 
 ;; Required packages
 (require 'column-marker)
+(require 'ensime)
 (require 'faces)
 (require 'fill-column-indicator)
 (require 'font-lock)
@@ -51,6 +52,7 @@
 (require 'javadoc-lookup)
 (require 'linum)
 (require 'magit)
+(require 'neotree)
 (require 'projectile)
 (require 'rails-autoload)
 (require 'recentf)
@@ -81,7 +83,7 @@
               '(add-to-list 'rng-schema-locating-files
                             (concat user-emacs-directory "elisp/html5-el/schemas.xml")))
 
-            (set-face-attribute 'default nil :family "Anonymous Pro" :weight 'normal :width 'normal :height 200)
+            (set-face-attribute 'default nil :family "Anonymous Pro" :weight 'normal :width 'normal :height 190)
 
             (setq
              default-frame-alist (append
@@ -150,6 +152,12 @@
             (set-selection-coding-system 'utf-8)
 
             ;; enable and disable stuff
+            (desktop-save-mode 1)
+            (add-to-list 'desktop-modes-not-to-save 'dired-mode)
+            (add-to-list 'desktop-modes-not-to-save 'Info-mode)
+            (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
+            (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
+
             (global-company-mode 1)
 
             (global-font-lock-mode 1)
@@ -178,13 +186,19 @@
             (projectile-global-mode 1)
 
             ;; set up YASnippet
-            (add-to-list 'yas/snippet-dirs (concat user-emacs-directory "snippets"))
+            (setq yas-installed-snippets-dir (concat user-emacs-directory "/elpa/yasnippet-20141005.124/snippets"))
+            (add-to-list 'yas-snippet-dirs (concat user-emacs-directory "snippets"))
             (setq yas/also-auto-indent-first-line t)
             (yas/global-mode 1)
 
-            ;; work around current bug in OSX Emacs installed from brew
-            (when (display-graphic-p)
-              (load-theme 'hc-zenburn))))
+            ;;(load-theme 'hc-zenburn)
+            (if (display-graphic-p)
+                (load-theme 'deeper-blue)
+              (load-theme 'hc-zenburn))
+
+
+            ))
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -193,10 +207,7 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("8fd393097ac6eabfcb172f656d781866beec05f27920a0691e8772aa2cdc7132"
-     "3b819bba57a676edf6e4881bd38c777f96d1aa3b3b5bc21d8266fa5b0d0f1ebf"
-     "f0ea6118d1414b24c2e4babdc8e252707727e7b4ff2e791129f240a2b3093e32"
-     default))))
+    ("9dae95cdbed1505d45322ef8b5aa90ccb6cb59e0ff26fef0b8f411dfc416c552" "4217c670c803e8a831797ccf51c7e6f3a9e102cb9345e3662cc449f4c194ed7d" "8fd393097ac6eabfcb172f656d781866beec05f27920a0691e8772aa2cdc7132" "3b819bba57a676edf6e4881bd38c777f96d1aa3b3b5bc21d8266fa5b0d0f1ebf" "f0ea6118d1414b24c2e4babdc8e252707727e7b4ff2e791129f240a2b3093e32" default))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
