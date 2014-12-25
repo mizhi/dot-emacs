@@ -44,9 +44,10 @@
 (require 'faces)
 (require 'fill-column-indicator)
 (require 'font-lock)
-(require 'helm-config)
-(require 'helm-grep)
-(require 'helm-R)
+(require 'ido)
+;; (require 'helm-config)
+;; (require 'helm-grep)
+;; (require 'helm-R)
 (require 'inf-haskell)
 (require 'javacc-mode)
 (require 'javadoc-lookup)
@@ -131,14 +132,18 @@
             (setq fci-handle-truncate-lines nil)
             (setq flymake-gui-warnings-enabled nil)
 
+            ;; (setq
+            ;;  helm-quick-update                     t ; do not display invisible candidates
+            ;;  helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+            ;;  helm-buffers-fuzzy-matching           t ; fuzzy matching buffer names when non--nil
+            ;;  helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
+            ;;  helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
+            ;;  helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
+            ;;  helm-ff-file-name-history-use-recentf t)
+
             (setq
-             helm-quick-update                     t ; do not display invisible candidates
-             helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
-             helm-buffers-fuzzy-matching           t ; fuzzy matching buffer names when non--nil
-             helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
-             helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
-             helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
-             helm-ff-file-name-history-use-recentf t)
+             ido-enable-flex-matching t
+             ido-everywhere t)
 
             (setq matlab-indent-function t)
 
@@ -176,7 +181,9 @@
             (global-semantic-stickyfunc-mode -1)
             (global-whitespace-mode t)
 
-            (helm-mode 1)
+            (ido-mode 1)
+            (ido-vertical-mode 1)
+            ;;(helm-mode 1)
             (recentf-mode 1)
             (show-paren-mode 1)
 
@@ -191,10 +198,10 @@
             (setq yas/also-auto-indent-first-line t)
             (yas/global-mode 1)
 
-            ;;(load-theme 'hc-zenburn)
+            ;;            (load-theme 'hc-zenburn t)
             (if (display-graphic-p)
-                (load-theme 'deeper-blue)
-              (load-theme 'hc-zenburn))
+                (load-theme 'deeper-blue t)
+              (load-theme 'hc-zenburn t))
 
 
             ))

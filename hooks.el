@@ -12,8 +12,11 @@
 
 (add-hook 'projectile-mode-hook
           (lambda ()
-            (setq projectile-indexing-method 'native)
-            (setq projectile-enable-caching t)))
+            (setq projectile-indexing-method 'native
+                  projectile-enable-caching t
+                  projectile-remember-window-configs t
+                  projectile-switch-project-action 'projectile-find-dir
+                  projectile-find-dir-includes-top-level t)))
 
 (add-hook 'change-log-mode-hook
           (lambda ()
