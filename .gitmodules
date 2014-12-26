@@ -14,10 +14,6 @@
 	path = elisp/html5-el
 	url = https://github.com/hober/html5-el.git
     branch = master
-[submodule "html5-syntax"]
-	path = html5-syntax
-	url = https://github.com/appden/html5-syntax.git
-    branch = master
 [submodule "elisp/puppet-syntax-emacs"]
 	path = elisp/puppet-syntax-emacs
 	url = https://github.com/puppetlabs/puppet-syntax-emacs.git
