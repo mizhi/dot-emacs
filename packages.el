@@ -67,6 +67,7 @@
    helm-rails
    helm-rb
    hl-line+
+   ido-vertical-mode
    inf-ruby
    javadoc-lookup
    jedi

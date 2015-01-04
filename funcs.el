@@ -21,3 +21,12 @@
     (if existing-term
         (switch-to-buffer "*ansi-term*")
       (ansi-term explicit-shell-file-name))))
+
+(defun toggle-fullscreen ()
+  "Toggle full screen on X11"
+  (interactive)
+  (cond
+   ((eq window-system 'x)
+    (set-frame-parameter nil 'fullscreen
+                         (when (not (frame-parameter nil 'fullscreen)) 'fullboth)))
+   ((eq window-system 'ns) 'toggle-frame-fullscreen)))
