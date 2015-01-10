@@ -84,7 +84,7 @@
               '(add-to-list 'rng-schema-locating-files
                             (concat user-emacs-directory "elisp/html5-el/schemas.xml")))
 
-            (set-face-attribute 'default nil :family "Anonymous Pro" :weight 'normal :width 'normal :height 180)
+            (set-face-attribute 'default nil :family "Anonymous Pro" :weight 'normal :width 'normal :height 120)
 
             (setq
              default-frame-alist (append
