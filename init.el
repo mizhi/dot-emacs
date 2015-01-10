@@ -84,7 +84,7 @@
               '(add-to-list 'rng-schema-locating-files
                             (concat user-emacs-directory "elisp/html5-el/schemas.xml")))
 
-            (set-face-attribute 'default nil :family "Anonymous Pro" :weight 'normal :width 'normal :height 110)
+            (set-face-attribute 'default nil :family "Anonymous Pro" :weight 'normal :width 'normal :height 180)
 
             (setq
              default-frame-alist (append
@@ -136,14 +136,14 @@
              helm-quick-update                     t ; do not display invisible candidates
              helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
              helm-buffers-fuzzy-matching           t ; fuzzy matching buffer names when non--nil
-             helm-move-to-line-cycle-in-source     nil ; move to end or beginning of source when reaching top or bottom of source.
+             helm-move-to-line-cycle-in-source     0 ; move to end or beginning of source when reaching top or bottom of source.
              helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
              helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
              helm-ff-file-name-history-use-recentf t)
 
-            (setq
-             ido-enable-flex-matching t
-             ido-everywhere t)
+            ;; (setq
+            ;;  ido-enable-flex-matching t
+            ;;  ido-everywhere t)
 
             (setq matlab-indent-function t)
 
@@ -181,8 +181,8 @@
             (global-semantic-stickyfunc-mode -1)
             (global-whitespace-mode t)
 
-            ;;(ido-mode 1)
-            ;;(ido-vertical-mode 1)
+            ;; (ido-mode 1)
+            ;; (ido-vertical-mode 1)
             (helm-mode 1)
             (recentf-mode 1)
             (show-paren-mode 1)
