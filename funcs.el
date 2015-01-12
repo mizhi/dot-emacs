@@ -29,4 +29,5 @@
    ((eq window-system 'x)
     (set-frame-parameter nil 'fullscreen
                          (when (not (frame-parameter nil 'fullscreen)) 'fullboth)))
-   ((eq window-system 'ns) 'toggle-frame-fullscreen)))
+   ((eq window-system 'ns)
+    (toggle-frame-fullscreen))))
