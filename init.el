@@ -24,6 +24,8 @@
 
 (load-init-el "funcs.el")
 
+(setq explicit-shell-file-name "/bin/bash")
+
 ;; platform specific configuration
 (when (eq system-type 'darwin)
   (setenv "PATH" (concat "/usr/local/bin" path-separator (getenv "PATH")))
@@ -84,7 +86,7 @@
               '(add-to-list 'rng-schema-locating-files
                             (concat user-emacs-directory "elisp/html5-el/schemas.xml")))
 
-            (set-face-attribute 'default nil :family "Anonymous Pro" :weight 'normal :width 'normal :height 160)
+            (set-face-attribute 'default nil :family "Anonymous Pro" :weight 'normal :width 'normal :height 120)
 
             (setq
              default-frame-alist (append
@@ -130,7 +132,6 @@
              bibtex-autokey-titleword-length nil)
 
             (setq fci-handle-truncate-lines nil)
-            (setq flymake-gui-warnings-enabled nil)
 
             (setq
              helm-quick-update                     t ; do not display invisible candidates
@@ -140,10 +141,6 @@
              helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
              helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
              helm-ff-file-name-history-use-recentf t)
-
-            ;; (setq
-            ;;  ido-enable-flex-matching t
-            ;;  ido-everywhere t)
 
             (setq matlab-indent-function t)
 
@@ -164,6 +161,7 @@
             (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
 
             (global-company-mode 1)
+            (add-to-list 'company-backends 'company-anaconda)
 
             (global-font-lock-mode 1)
             (global-linum-mode t)
@@ -181,8 +179,6 @@
             (global-semantic-stickyfunc-mode -1)
             (global-whitespace-mode t)
 
-            ;; (ido-mode 1)
-            ;; (ido-vertical-mode 1)
             (helm-mode 1)
             (recentf-mode 1)
             (show-paren-mode 1)
