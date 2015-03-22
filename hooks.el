@@ -59,8 +59,25 @@
             (define-key nxml-mode-map (kbd "C-S-o") 'nxml-complete)
             (setq nxml-slash-auto-complete-flag t)))
 
+
+;; (defvar my:virtualenv-directory "~/.virtualenvs/"
+;;   "The directory of virtualenvs.")
+
+;; (defun my:configure-python-venv ()
+;;   "Set `python-shell-virtualenv-path' to the virtualenv directory."
+;;   (interactive)
+;;   (require 'projectile)
+;;   (let* ((project-name (projectile-project-name))
+;;          (virtualenv-path
+;;           (file-truename
+;;            (concat my:virtualenv-directory project-name))))
+;;     (when (file-directory-p virtualenv-path)
+;;       (setq python-shell-virtualenv-path virtualenv-path))))
+
 (add-hook 'python-mode-hook
           (lambda ()
+            ;;(my:configure-python-venv)
+
             ;; discover location of python libs and add to db
             (let
                 ((python-lib-dir
@@ -75,6 +92,8 @@
             (add-to-list 'company-backends 'company-anaconda)
 
             (electric-indent-local-mode 0)
+
+            (flycheck-mode 0)
             (anaconda-mode 1)))
 
 (add-hook 'ruby-mode-hook
