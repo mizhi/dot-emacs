@@ -10,7 +10,7 @@
   (setq backup-directory-alist
         `((".*" . ,user-backup-directory)))
   (setq auto-save-file-name-transforms
-        `((".*" . ,user-backup-directory))))
+        `((".*" ,user-backup-directory t))))
 
 ;; setup load path
 (add-to-list 'load-path (concat user-emacs-directory "elisp/"))
