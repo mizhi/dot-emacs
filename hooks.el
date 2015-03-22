@@ -1,13 +1,12 @@
 (add-hook 'desktop-after-read-hook
-	  '(lambda ()
-	     ;; desktop-remove clears desktop-dirname
-	     (setq desktop-dirname-tmp desktop-dirname)
-	     (desktop-remove)
-	     (setq desktop-dirname desktop-dirname-tmp)))
+          '(lambda ()
+             ;; desktop-remove clears desktop-dirname
+             (setq desktop-dirname-tmp desktop-dirname)
+             (desktop-remove)
+             (setq desktop-dirname desktop-dirname-tmp)))
 
 (add-hook 'prog-mode-hook
           (lambda ()
-            (flymake-mode 1)
             (flycheck-mode 1)))
 
 (add-hook 'projectile-mode-hook
@@ -28,7 +27,7 @@
 (add-hook 'c-mode-common-hook
           (lambda ()
             (add-hook 'write-contents-hooks 'untabify-before-save)
-            (setq c-basic-offset 4 )))
+            (setq c-basic-offset 4)))
 
 (add-hook 'java-mode-hook
           (lambda ()

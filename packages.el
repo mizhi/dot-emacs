@@ -33,14 +33,6 @@
    fill-column-indicator
    flycheck
    flycheck-haskell
-   flymake
-   flymake-easy
-   flymake-elixir
-   flymake-go
-   flymake-haml
-   flymake-json
-   flymake-python-pyflakes
-   flymake-ruby
    git-commit-mode
    git-rebase-mode
    go-eldoc
@@ -58,15 +50,17 @@
    helm-c-yasnippet
    helm-company
    helm-dash
+   helm-flycheck
+   helm-ghc
    helm-git
    helm-go-package
+   helm-package
    helm-projectile
    helm-projectile-all
    helm-pydoc
    helm-rails
    helm-rb
    hl-line+
-   ido-vertical-mode
    inf-ruby
    javadoc-lookup
    jedi

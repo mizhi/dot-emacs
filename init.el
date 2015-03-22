@@ -8,9 +8,9 @@
 ;; send my backups to a subdirectory under my emacs directory
 (let ((user-backup-directory (concat user-emacs-directory "backups/")))
   (setq backup-directory-alist
-        '((".*" user-backup-directory)))
+        `((".*" . ,user-backup-directory)))
   (setq auto-save-file-name-transforms
-        '((".*" user-backup-directory t))))
+        `((".*" . ,user-backup-directory))))
 
 ;; setup load path
 (add-to-list 'load-path (concat user-emacs-directory "elisp/"))
@@ -25,6 +25,8 @@
   (load-init-el "packages.el"))
 
 (load-init-el "funcs.el")
+
+(setq explicit-shell-file-name "/bin/bash")
 
 ;; platform specific configuration
 (when (eq system-type 'darwin)
@@ -89,7 +91,7 @@
               '(add-to-list 'rng-schema-locating-files
                             (concat user-emacs-directory "elisp/html5-el/schemas.xml")))
 
-            (set-face-attribute 'default nil :family "Anonymous Pro" :weight 'normal :width 'normal :height 160)
+            (set-face-attribute 'default nil :family "Anonymous Pro" :weight 'normal :width 'normal :height 120)
 
             (setq
              default-frame-alist (append
@@ -135,7 +137,6 @@
              bibtex-autokey-titleword-length nil)
 
             (setq fci-handle-truncate-lines nil)
-            (setq flymake-gui-warnings-enabled nil)
 
             (setq
              helm-quick-update                     t ; do not display invisible candidates
@@ -165,6 +166,7 @@
             (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
 
             (global-company-mode 1)
+            (add-to-list 'company-backends 'company-anaconda)
 
             (global-font-lock-mode 1)
             (global-linum-mode t)
