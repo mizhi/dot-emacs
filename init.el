@@ -146,10 +146,6 @@
              helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
              helm-ff-file-name-history-use-recentf t)
 
-            ;; (setq
-            ;;  ido-enable-flex-matching t
-            ;;  ido-everywhere t)
-
             (setq matlab-indent-function t)
 
             (setq recentf-max-menu-items 25)
@@ -186,8 +182,6 @@
             (global-semantic-stickyfunc-mode -1)
             (global-whitespace-mode t)
 
-            ;; (ido-mode 1)
-            ;; (ido-vertical-mode 1)
             (helm-mode 1)
             (recentf-mode 1)
             (show-paren-mode 1)
