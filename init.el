@@ -1,14 +1,16 @@
 ;; user-emacs-directory wasn't defined until later
 ;; versions. We'll try to fix it up here by defaulting
 ;; to ${HOME}/.emacs.d
-
 (unless (boundp 'user-emacs-directory)
   (setq user-emacs-directory
         (concat (getenv "HOME") "/.emacs.d/")))
 
-;; send my backups here
-(add-to-list 'backup-directory-alist
-             (cons "" (concat user-emacs-directory "backups/")))
+;; send my backups to a subdirectory under my emacs directory
+(let ((user-backup-directory (concat user-emacs-directory "backups/")))
+  (setq backup-directory-alist
+        '((".*" user-backup-directory)))
+  (setq auto-save-file-name-transforms
+        '((".*" user-backup-directory t))))
 
 ;; setup load path
 (add-to-list 'load-path (concat user-emacs-directory "elisp/"))
