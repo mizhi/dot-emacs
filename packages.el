@@ -54,6 +54,7 @@
    helm-ghc
    helm-git
    helm-go-package
+   helm-google
    helm-package
    helm-projectile
    helm-projectile-all
