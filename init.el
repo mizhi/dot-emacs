@@ -63,6 +63,7 @@
 (require 'magit)
 (require 'projectile)
 (require 'rails-autoload)
+(require 'rvm)
 (require 'recentf)
 (require 'saveplace)
 (require 'semantic)

@@ -7,6 +7,7 @@
 
 (add-hook 'prog-mode-hook
           (lambda ()
+            (rvm-autodetect-ruby)
             (flycheck-mode 1)))
 
 (add-hook 'projectile-mode-hook
