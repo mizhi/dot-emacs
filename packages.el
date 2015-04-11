@@ -63,6 +63,7 @@
    helm-rb
    hl-line+
    inf-ruby
+   irony
    javadoc-lookup
    jedi
    json-mode
