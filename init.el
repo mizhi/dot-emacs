@@ -47,6 +47,7 @@
 
 ;; Required packages
 (require 'column-marker)
+(require 'company-c-headers)
 (require 'ensime)
 (require 'faces)
 (require 'fill-column-indicator)
@@ -105,6 +106,7 @@
              frame-title-format '(buffer-file-name "%f" (dired-directory dired-directory "%b"))
              inhibit-startup-screen t
              linum-format "%d "
+             magit-last-seen-setup-instructions "1.4.0"
              next-line-add-newlines nil
              save-place-file (concat user-emacs-directory "places")
              show-paren-style 'mixed
