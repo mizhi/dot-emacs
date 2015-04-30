@@ -7,6 +7,7 @@
 
 ;; Some convenience things
 (global-set-key [f2] 'visit-ansi-term)
+(global-set-key [f4] 'sr-speedbar-toggle)
 (global-set-key [f8] 'toggle-fullscreen)
 
 (global-set-key "\M-g" 'goto-line)

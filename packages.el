@@ -74,6 +74,7 @@
    popup
    projectile
    python-environment
+   sr-speedbar
    rubocop
    ruby-block
    ruby-electric
