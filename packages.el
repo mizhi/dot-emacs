@@ -70,6 +70,7 @@
    magit
    markdown-mode
    matlab-mode
+   nasm-mode
    popup
    projectile
    python-environment

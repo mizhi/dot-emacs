@@ -27,10 +27,14 @@
 
 (add-hook 'c-mode-common-hook
           (lambda ()
-            (add-to-list 'company-c-headers-path-system "/usr/include/c++/4.8/")
             (add-to-list 'company-backends 'company-c-headers)
             (add-hook 'write-contents-hooks 'untabify-before-save)
             (setq c-basic-offset 4)))
+
+(add-hook 'c++-mode-hook
+          (lambda ()
+            (setq flycheck-clang-language-standard "c++11")
+            (add-to-list 'company-c-headers-path-system "/usr/include/c++/4.8/")))
 
 (add-hook 'java-mode-hook
           (lambda ()
