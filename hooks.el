@@ -34,7 +34,7 @@
 (add-hook 'c++-mode-hook
           (lambda ()
             (setq flycheck-clang-language-standard "c++11")
-            (add-to-list 'company-c-headers-path-system "/usr/include/c++/4.8/")))
+            (add-to-list 'company-c-headers-path-system "/usr/include/c++/")))
 
 (add-hook 'java-mode-hook
           (lambda ()
