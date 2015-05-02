@@ -40,7 +40,10 @@
         latex-run-command "/usr/texbin/latex"
 
         ;; Disable Apple's Full-Screen mode
-        ns-use-native-fullscreen nil))
+        ns-use-native-fullscreen nil)
+
+  (when window-system
+    (server-start)))
 
 (defun class-slot-initarg (class-name slot)
 (eieio--class-slot-initarg (eieio--class-v class-name) slot))
