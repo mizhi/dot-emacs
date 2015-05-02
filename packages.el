@@ -28,6 +28,9 @@
    crosshairs
    ctable
    deferred
+   elixir-mix
+   elixir-mode
+   elixir-yasnippets
    ensime
    epc
    fill-column-indicator
