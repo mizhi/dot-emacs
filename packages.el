@@ -12,6 +12,7 @@
    (or (package-installed-p package)
        (package-install package)))
  '(ag
+   alchemist
    anaconda-mode
    android-mode
    ant
