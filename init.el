@@ -33,17 +33,17 @@
   (setenv "PATH" (concat "/usr/local/bin" path-separator (getenv "PATH")))
   (add-to-list 'exec-path "/usr/local/bin")
 
+  (when window-system
+    (server-start))
+
   (setq-default ispell-program-name
                 (first-existing-file '("/opt/local/bin/ispell" "/usr/local/bin/ispell")))
-
   (setq explicit-shell-file-name "/bin/bash"
         latex-run-command "/usr/texbin/latex"
 
         ;; Disable Apple's Full-Screen mode
-        ns-use-native-fullscreen nil)
+        ns-use-native-fullscreen nil))
 
-  (when window-system
-    (server-start)))
 
 (defun class-slot-initarg (class-name slot)
 (eieio--class-slot-initarg (eieio--class-v class-name) slot))
