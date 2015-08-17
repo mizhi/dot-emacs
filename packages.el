@@ -11,9 +11,7 @@
  (lambda (package)
    (or (package-installed-p package)
        (package-install package)))
- '(ag
-   alchemist
-   anaconda-mode
+ '(anaconda-mode
    android-mode
    ant
    auto-complete
@@ -71,12 +69,12 @@
    javadoc-lookup
    jedi
    json-mode
-   magit
    markdown-mode
    matlab-mode
    nasm-mode
    popup
    projectile
+   projectile-rails
    python-environment
    sr-speedbar
    rubocop

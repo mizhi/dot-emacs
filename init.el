@@ -61,12 +61,9 @@
 (require 'helm-grep)
 (require 'helm-R)
 (require 'inf-haskell)
-(require 'javacc-mode)
 (require 'javadoc-lookup)
 (require 'linum)
-(require 'magit)
 (require 'projectile)
-(require 'rails-autoload)
 (require 'rvm)
 (require 'recentf)
 (require 'saveplace)
@@ -173,6 +170,7 @@
 
             (global-company-mode 1)
             (add-to-list 'company-backends 'company-anaconda)
+            (add-to-list 'company-backends 'ensime-company)
 
             (global-font-lock-mode 1)
             (global-linum-mode t)
@@ -182,7 +180,7 @@
             (size-indication-mode t)
 
             ;; line highlighting
-            (toggle-hl-line-when-idle t)
+            (toggle-hl-line-when-idle -1)
             (global-hl-line-mode -1)
 
             (global-semantic-highlight-func-mode t)
