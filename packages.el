@@ -36,8 +36,6 @@
    fill-column-indicator
    flycheck
    flycheck-haskell
-   git-commit-mode
-   git-rebase-mode
    go-eldoc
    go-mode
    go-projectile
