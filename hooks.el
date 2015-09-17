@@ -139,12 +139,6 @@
             (delete-trailing-whitespace)))
 
 (add-hook 'compilation-mode-hook
-          '(lambda ()
-             (setq truncate-lines 1)
-             (setq truncate-partial-width-windows 1)))
-
-(when (display-graphic-p)
-  (add-hook 'compilation-mode-hook
-            '(lambda ()
-               (setq truncate-lines 1)
-               (setq truncate-partial-width-windows 1))))
+          (lambda ()
+            (setq truncate-lines 1)
+            (setq truncate-partial-width-windows 1)))
