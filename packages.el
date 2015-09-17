@@ -74,6 +74,7 @@
    nasm-mode
    popup
    projectile
+   projectile-speedbar
    projectile-rails
    python-environment
    sr-speedbar

@@ -76,6 +76,7 @@
 (require 'recentf)
 (require 'saveplace)
 (require 'semantic)
+(require 'sr-speedbar)
 (require 'tls)
 (require 'tramp)
 (require 'uniquify)
