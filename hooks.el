@@ -18,7 +18,8 @@
                   projectile-remember-window-configs t
                   projectile-completion-system 'helm
                   projectile-switch-project-action 'helm-projectile
-                  projectile-find-dir-includes-top-level t)))
+                  projectile-find-dir-includes-top-level t
+                  projectile-enable-idle-timer t)))
 
 (add-hook 'change-log-mode-hook
           (lambda ()
