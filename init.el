@@ -56,6 +56,7 @@
 (eieio--class-slot-initarg (eieio--class-v class-name) slot))
 
 ;; Required packages
+(require 'alchemist)
 (require 'column-marker)
 (require 'company-c-headers)
 (require 'ensime)
