@@ -172,12 +172,6 @@
             (set-selection-coding-system 'utf-8)
 
             ;; enable and disable stuff
-            (desktop-save-mode 1)
-            (add-to-list 'desktop-modes-not-to-save 'dired-mode)
-            (add-to-list 'desktop-modes-not-to-save 'Info-mode)
-            (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
-            (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
-
             (global-company-mode 1)
             (add-to-list 'company-backends 'company-anaconda)
             (add-to-list 'company-backends 'ensime-company)
