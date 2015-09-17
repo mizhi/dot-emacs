@@ -1,5 +1,5 @@
 (global-set-key (kbd "C-c g s") 'magit-status)
-(global-set-key (kbd "C-c g b") 'magit-blame-mode)
+(global-set-key (kbd "C-c g b") 'magit-blame)
 
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
