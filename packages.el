@@ -86,6 +86,7 @@
    rvm
    sbt-mode
    scala-mode2
+   scala-outline-popup
    snippet
    vline
    yaml-mode

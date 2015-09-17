@@ -115,7 +115,8 @@
 
 (add-hook 'scala-mode-hook
           (lambda ()
-            (ensime-scala-mode-hook)))
+            (ensime-scala-mode-hook)
+            (local-set-key (kbd "\C-c o p") 'scala-outline-popup)))
 
 (add-hook 'term-mode-hook
           (lambda ()
