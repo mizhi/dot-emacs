@@ -77,6 +77,7 @@
    projectile-speedbar
    projectile-rails
    python-environment
+   rust-mode
    sr-speedbar
    redis
    rubocop
