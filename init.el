@@ -52,9 +52,6 @@
         ns-use-native-fullscreen nil))
 
 
-(defun class-slot-initarg (class-name slot)
-(eieio--class-slot-initarg (eieio--class-v class-name) slot))
-
 ;; Required packages
 (require 'alchemist)
 (require 'column-marker)
