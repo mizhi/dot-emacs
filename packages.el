@@ -27,6 +27,7 @@
    concurrent
    crosshairs
    ctable
+   darcula-theme
    deferred
    elixir-mix
    elixir-mode
