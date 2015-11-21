@@ -9,6 +9,7 @@ bookmarks
 eshell
 elpa
 
+# local stuff
 .python-environments
 ac-comphist.dat
 
@@ -16,9 +17,14 @@ local-prefs.el
 tramp
 projectile-bookmarks.eld
 projectile.cache
+srecode-map.el
 
 newsticker
 url
 recentf
 
 .emacs.desktop*
+
+ensime/
+network-security.data
+session.*
