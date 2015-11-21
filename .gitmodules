@@ -2,7 +2,3 @@
 	path = snippets
 	url = git@github.com:mizhi/yasnippet-snippets.git
     branch = master
-[submodule "elisp/html5-el"]
-	path = elisp/html5-el
-	url = https://github.com/hober/html5-el.git
-    branch = master
