@@ -51,7 +51,6 @@
         ;; Disable Apple's Full-Screen mode
         ns-use-native-fullscreen nil))
 
-
 ;; Required packages
 (require 'alchemist)
 (require 'column-marker)
@@ -77,6 +76,7 @@
 (require 'tls)
 (require 'tramp)
 (require 'uniquify)
+(require 'web-mode)
 (require 'whattf-dt)
 (require 'yasnippet)
 
@@ -88,16 +88,16 @@
 
 (add-hook 'after-init-hook
           (lambda ()
-            (setq auto-mode-alist
-                  (append
-                   '(("\\.html\\'" . nxml-mode)
-                     ("\\.jj\\'" . javacc-mode))
-                   auto-mode-alist))
-
-            ;; setup relaxNG to know where html5 schemas are.
-            (eval-after-load "rng-loc"
-              '(add-to-list 'rng-schema-locating-files
-                            (concat user-emacs-directory "elisp/html5-el/schemas.xml")))
+            ;; setup some custom modes
+            (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+            (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+            (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+            (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+            (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+            (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+            (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+            (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+            (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
 
             ;;(set-face-attribute 'default nil :family "Anonymous Pro" :weight 'normal :width 'normal :height 120)
             (set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 100)
@@ -219,7 +219,7 @@
     ("118717ce0a2645a0cf240b044999f964577ee10137b1f992b09a317d5073c02d" "9dae95cdbed1505d45322ef8b5aa90ccb6cb59e0ff26fef0b8f411dfc416c552" "4217c670c803e8a831797ccf51c7e6f3a9e102cb9345e3662cc449f4c194ed7d" "8fd393097ac6eabfcb172f656d781866beec05f27920a0691e8772aa2cdc7132" "3b819bba57a676edf6e4881bd38c777f96d1aa3b3b5bc21d8266fa5b0d0f1ebf" "f0ea6118d1414b24c2e4babdc8e252707727e7b4ff2e791129f240a2b3093e32" default)))
  '(package-selected-packages
    (quote
-    (darcula-theme rust-mode redis alchemist zenburn-theme sr-speedbar snippet rvm ruby-tools ruby-hash-syntax ruby-electric ruby-block rubocop rich-minority projectile-rails nasm-mode matlab-mode json-mode jedi javadoc-lookup ido-vertical-mode helm-rb helm-rails helm-pydoc helm-projectile-all helm-package helm-open-github helm-google helm-go-package helm-git helm-ghc helm-flycheck helm-company helm-c-yasnippet helm-c-moccur helm-bibtex helm-R hc-zenburn-theme groovy-mode go-projectile git-rebase-mode git-commit-mode flymake-ruby flymake-python-pyflakes flymake-json flymake-haml flymake-go flymake-elixir flymake flycheck-pos-tip flycheck-irony flycheck-haskell fill-column-indicator elixir-yasnippets elixir-mix dirtree crosshairs company-irony company-inf-ruby company-ghc company-c-headers company-anaconda column-marker ant android-mode ag))))
+    (web-mode darcula-theme rust-mode redis alchemist zenburn-theme sr-speedbar snippet rvm ruby-tools ruby-hash-syntax ruby-electric ruby-block rubocop rich-minority projectile-rails nasm-mode matlab-mode json-mode jedi javadoc-lookup ido-vertical-mode helm-rb helm-rails helm-pydoc helm-projectile-all helm-package helm-open-github helm-google helm-go-package helm-git helm-ghc helm-flycheck helm-company helm-c-yasnippet helm-c-moccur helm-bibtex helm-R hc-zenburn-theme groovy-mode go-projectile git-rebase-mode git-commit-mode flymake-ruby flymake-python-pyflakes flymake-json flymake-haml flymake-go flymake-elixir flymake flycheck-pos-tip flycheck-irony flycheck-haskell fill-column-indicator elixir-yasnippets elixir-mix dirtree crosshairs company-irony company-inf-ruby company-ghc company-c-headers company-anaconda column-marker ant android-mode ag))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

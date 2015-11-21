@@ -66,7 +66,6 @@
             (define-key nxml-mode-map (kbd "C-S-o") 'nxml-complete)
             (setq nxml-slash-auto-complete-flag t)))
 
-
 ;; (defvar my:virtualenv-directory "~/.virtualenvs/"
 ;;   "The directory of virtualenvs.")
 
