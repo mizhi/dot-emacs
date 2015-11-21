@@ -77,7 +77,6 @@
 (require 'tramp)
 (require 'uniquify)
 (require 'web-mode)
-(require 'whattf-dt)
 (require 'yasnippet)
 
 (load-init-el "hooks.el")
