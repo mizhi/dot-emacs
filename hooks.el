@@ -1,7 +1,12 @@
 (add-hook 'prog-mode-hook
           (lambda ()
             (rvm-autodetect-ruby)
-            (flycheck-mode 1)))
+            (flycheck-mode 1)
+
+            (add-hook 'before-save-hook
+                      (lambda ()
+                        (delete-trailing-whitespace)) nil 'local)
+            ))
 
 (add-hook 'projectile-mode-hook
           (lambda ()
@@ -120,11 +125,6 @@
 (add-hook 'yaml-mode-hook
           (lambda ()
             (setq yaml-indent-offset 2)))
-
-;; General hooks
-(add-hook 'before-save-hook
-          (lambda ()
-            (delete-trailing-whitespace)))
 
 (add-hook 'compilation-mode-hook
           (lambda ()
