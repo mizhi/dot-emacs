@@ -83,8 +83,6 @@
 (load-init-el "keys.el")
 (load-init-el "local-prefs.el")
 
-(load-init-el "erc.el")
-
 (add-hook 'after-init-hook
           (lambda ()
             ;; setup some custom modes
