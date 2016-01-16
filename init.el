@@ -99,13 +99,10 @@
             ;;(set-face-attribute 'default nil :family "Anonymous Pro" :weight 'normal :width 'normal :height 120)
             (set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 100)
 
+
+            (add-to-list 'default-frame-alist '(height . 40))
+            (add-to-list 'default-frame-alist '(width . 120))
             (setq
-             default-frame-alist (append
-                                  '((width . 110)
-                                    (height . 40)
-                                    (left . 200)
-                                    (top . 50))
-                                  default-frame-alist)
              font-lock-maximum-decoration t
              frame-title-format '(buffer-file-name "%f" (dired-directory dired-directory "%b"))
              inhibit-startup-screen t
