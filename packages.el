@@ -1,8 +1,4 @@
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("marmelade" . "http://marmalade-repo.org/packages/") t)
-
-(package-initialize)
 
 (unless package-archive-contents
   (package-refresh-contents))
@@ -11,7 +7,8 @@
  (lambda (package)
    (or (package-installed-p package)
        (package-install package)))
- '(alchemist
+ '(ag
+   alchemist
    anaconda-mode
    android-mode
    ant
@@ -24,11 +21,13 @@
    company-ghc
    company-go
    company-inf-ruby
+   company-irony
    concurrent
    crosshairs
    ctable
    darcula-theme
    deferred
+   dirtree
    elixir-mix
    elixir-mode
    elixir-yasnippets
@@ -37,6 +36,18 @@
    fill-column-indicator
    flycheck
    flycheck-haskell
+   flycheck-haskell
+   flycheck-irony
+   flycheck-pos-tip
+   flymake
+   flymake-elixir
+   flymake-go
+   flymake-haml
+   flymake-json
+   flymake-python-pyflakes
+   flymake-ruby
+   git-rebase-mode
+   git-commit-mode
    go-eldoc
    go-mode
    go-projectile
@@ -57,6 +68,7 @@
    helm-git
    helm-go-package
    helm-google
+   helm-open-github
    helm-package
    helm-projectile
    helm-projectile-all
@@ -81,6 +93,7 @@
    rust-mode
    sr-speedbar
    redis
+   rich-minority
    rubocop
    ruby-block
    ruby-electric
@@ -92,6 +105,7 @@
    scala-outline-popup
    snippet
    vline
+   web-mode
    yaml-mode
    yasnippet
    zenburn-theme))

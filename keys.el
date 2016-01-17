@@ -22,6 +22,7 @@
 
 (global-set-key (kbd "C-c h") 'helm-mini)
 (global-set-key "\C-c\C-r" 'helm-recentf)
+(global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to do persistent action
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal

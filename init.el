@@ -1,7 +1,3 @@
-;; user-emacs-directory wasn't defined until later
-;; versions. We'll try to fix it up here by defaulting
-;; to ${HOME}/.emacs.d
-
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
@@ -14,26 +10,26 @@
 
 ;; send my backups to a subdirectory under my emacs directory
 (let ((user-backup-directory (concat user-emacs-directory "backups/")))
-  (setq backup-directory-alist
-        `((".*" . ,user-backup-directory)))
-  (setq auto-save-file-name-transforms
-        `((".*" ,user-backup-directory t))))
+  (setq backup-directory-alist `((".*" . ,user-backup-directory)))
+  (setq auto-save-file-name-transforms `((".*" ,user-backup-directory t))))
 
 ;; setup load path
-(add-to-list 'load-path (concat user-emacs-directory "elisp/"))
 (let ((default-directory (concat user-emacs-directory "elisp/")))
+  (add-to-list 'load-path default-directory)
   (normal-top-level-add-subdirs-to-load-path))
 
 (defun load-init-el (filename)
   (load (concat user-emacs-directory filename)))
 
-;; use package management when in emacs >= 24. Is this a good idea? I don't know.
 (when (>= emacs-major-version 24)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (add-to-list 'package-archives '("marmelade" . "http://marmalade-repo.org/packages/") t)
   (load-init-el "packages.el"))
+  ;; (when (< 25 emacs-major-version)
+  ;;   (load-init-el "packages.el")))
+
 
 (load-init-el "funcs.el")
-
-(setq explicit-shell-file-name "/bin/bash")
 
 ;; platform specific configuration
 (when (eq system-type 'darwin)
@@ -44,12 +40,10 @@
     (server-start))
 
   (setq-default ispell-program-name
-                (first-existing-file '("/opt/local/bin/ispell" "/usr/local/bin/ispell")))
-  (setq explicit-shell-file-name "/bin/bash"
-        latex-run-command "/usr/texbin/latex"
-
-        ;; Disable Apple's Full-Screen mode
-        ns-use-native-fullscreen nil))
+		(first-existing-file '("/opt/local/bin/ispell" "/usr/local/bin/ispell")))
+  (setq latex-run-command "/usr/texbin/latex"
+	;; Disable Apple's Full-Screen mode
+	ns-use-native-fullscreen nil))
 
 ;; Required packages
 (require 'alchemist)
@@ -59,7 +53,6 @@
 (require 'faces)
 (require 'fill-column-indicator)
 (require 'font-lock)
-(require 'ido)
 (require 'helm)
 (require 'helm-config)
 (require 'helm-grep)
@@ -97,12 +90,13 @@
             (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
 
             ;;(set-face-attribute 'default nil :family "Anonymous Pro" :weight 'normal :width 'normal :height 120)
-            (set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 100)
-
+            ;;(set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 100)
 
             (add-to-list 'default-frame-alist '(height . 40))
             (add-to-list 'default-frame-alist '(width . 120))
+
             (setq
+             explicit-shell-file-name "/bin/bash"
              font-lock-maximum-decoration t
              frame-title-format '(buffer-file-name "%f" (dired-directory dired-directory "%b"))
              inhibit-startup-screen t
@@ -193,12 +187,12 @@
             (projectile-global-mode 1)
 
             ;; set up YASnippet
-            (setq yas-installed-snippets-dir (concat user-emacs-directory "/elpa/yasnippet-20141005.124/snippets"))
             (add-to-list 'yas-snippet-dirs (concat user-emacs-directory "snippets"))
             (setq yas/also-auto-indent-first-line t)
             (yas/global-mode 1)
 
             (load-theme 'darcula t)
+
             (set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 100)
             ))
 
@@ -213,7 +207,109 @@
     ("118717ce0a2645a0cf240b044999f964577ee10137b1f992b09a317d5073c02d" "9dae95cdbed1505d45322ef8b5aa90ccb6cb59e0ff26fef0b8f411dfc416c552" "4217c670c803e8a831797ccf51c7e6f3a9e102cb9345e3662cc449f4c194ed7d" "8fd393097ac6eabfcb172f656d781866beec05f27920a0691e8772aa2cdc7132" "3b819bba57a676edf6e4881bd38c777f96d1aa3b3b5bc21d8266fa5b0d0f1ebf" "f0ea6118d1414b24c2e4babdc8e252707727e7b4ff2e791129f240a2b3093e32" default)))
  '(package-selected-packages
    (quote
-    (web-mode darcula-theme rust-mode redis alchemist zenburn-theme sr-speedbar snippet rvm ruby-tools ruby-hash-syntax ruby-electric ruby-block rubocop rich-minority projectile-rails nasm-mode matlab-mode json-mode jedi javadoc-lookup ido-vertical-mode helm-rb helm-rails helm-pydoc helm-projectile-all helm-package helm-open-github helm-google helm-go-package helm-git helm-ghc helm-flycheck helm-company helm-c-yasnippet helm-c-moccur helm-bibtex helm-R hc-zenburn-theme groovy-mode go-projectile git-rebase-mode git-commit-mode flymake-ruby flymake-python-pyflakes flymake-json flymake-haml flymake-go flymake-elixir flymake flycheck-pos-tip flycheck-irony flycheck-haskell fill-column-indicator elixir-yasnippets elixir-mix dirtree crosshairs company-irony company-inf-ruby company-ghc company-c-headers company-anaconda column-marker ant android-mode ag))))
+    (ag
+     alchemist
+     anaconda-mode
+     android-mode
+     ant
+     auto-complete
+     col-highlight
+     column-marker
+     company
+     company-anaconda
+     company-c-headers
+     company-ghc
+     company-go
+     company-inf-ruby
+     company-irony
+     concurrent
+     crosshairs
+     ctable
+     darcula-theme
+     deferred
+     dirtree
+     elixir-mix
+     elixir-mode
+     elixir-yasnippets
+     ensime
+     epc
+     fill-column-indicator
+     flycheck
+     flycheck-haskell
+     flycheck-haskell
+     flycheck-irony
+     flycheck-pos-tip
+     flymake
+     flymake-elixir
+     flymake-go
+     flymake-haml
+     flymake-json
+     flymake-python-pyflakes
+     flymake-ruby
+     git-rebase-mode
+     git-commit-mode
+     go-eldoc
+     go-mode
+     go-projectile
+     groovy-mode
+     haskell-mode
+     hc-zenburn-theme
+     helm
+     helm-R
+     helm-ag-r
+     helm-aws
+     helm-bibtex
+     helm-c-moccur
+     helm-c-yasnippet
+     helm-company
+     helm-dash
+     helm-flycheck
+     helm-ghc
+     helm-git
+     helm-go-package
+     helm-google
+     helm-open-github
+     helm-package
+     helm-projectile
+     helm-projectile-all
+     helm-pydoc
+     helm-rails
+     helm-rb
+     hl-line+
+     inf-ruby
+     irony
+     javadoc-lookup
+     jedi
+     json-mode
+     magit
+     markdown-mode
+     matlab-mode
+     nasm-mode
+     popup
+     projectile
+     projectile-speedbar
+     projectile-rails
+     python-environment
+     rust-mode
+     sr-speedbar
+     redis
+     rich-minority
+     rubocop
+     ruby-block
+     ruby-electric
+     ruby-hash-syntax
+     ruby-tools
+     rvm
+     sbt-mode
+     scala-mode2
+     scala-outline-popup
+     snippet
+     vline
+     web-mode
+     yaml-mode
+     yasnippet
+     zenburn-theme))))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
