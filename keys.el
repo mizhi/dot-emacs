@@ -13,10 +13,6 @@
 (global-set-key "\M-g" 'goto-line)
 (global-set-key "\M-+" 'word-count-mode)
 
-(define-key yas-minor-mode-map (kbd "<tab>") nil)
-(define-key yas-minor-mode-map (kbd "C-<tab>") nil)
-;;(global-set-key (kbd "<C-tab>") 'yas-expand-from-trigger-key)
-
 (global-set-key (kbd "<M-S-up>") 'switch-to-prev-buffer)
 (global-set-key (kbd "<M-S-down>") 'switch-to-next-buffer)
 

@@ -110,10 +110,6 @@
             (ensime-scala-mode-hook)
             (local-set-key (kbd "\C-c o p") 'scala-outline-popup)))
 
-(add-hook 'term-mode-hook
-          (lambda ()
-            (setq yas-dont-activate t)))
-
 (add-hook 'text-mode-hook
           (lambda ()
             (setq fill-column 80

@@ -1,5 +1,7 @@
 (require 'package)
 
+(package-initialize)
+
 (unless package-archive-contents
   (package-refresh-contents))
 
@@ -30,7 +32,6 @@
    dirtree
    elixir-mix
    elixir-mode
-   elixir-yasnippets
    ensime
    epc
    fill-column-indicator
@@ -46,8 +47,6 @@
    flymake-json
    flymake-python-pyflakes
    flymake-ruby
-   git-rebase-mode
-   git-commit-mode
    go-eldoc
    go-mode
    go-projectile
@@ -60,7 +59,6 @@
    helm-aws
    helm-bibtex
    helm-c-moccur
-   helm-c-yasnippet
    helm-company
    helm-dash
    helm-flycheck
@@ -71,7 +69,6 @@
    helm-open-github
    helm-package
    helm-projectile
-   helm-projectile-all
    helm-pydoc
    helm-rails
    helm-rb
@@ -87,11 +84,9 @@
    nasm-mode
    popup
    projectile
-   projectile-speedbar
    projectile-rails
    python-environment
    rust-mode
-   sr-speedbar
    redis
    rich-minority
    rubocop
@@ -107,5 +102,4 @@
    vline
    web-mode
    yaml-mode
-   yasnippet
    zenburn-theme))

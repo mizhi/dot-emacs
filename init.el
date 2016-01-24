@@ -8,6 +8,14 @@
   (setq user-emacs-directory
         (concat (getenv "HOME") "/.emacs.d/")))
 
+(defun load-init-el (filename)
+  (load (concat user-emacs-directory filename)))
+
+(when (>= emacs-major-version 24)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (add-to-list 'package-archives '("marmelade" . "http://marmalade-repo.org/packages/") t)
+  (load-init-el "packages.el"))
+
 ;; send my backups to a subdirectory under my emacs directory
 (let ((user-backup-directory (concat user-emacs-directory "backups/")))
   (setq backup-directory-alist `((".*" . ,user-backup-directory)))
@@ -17,17 +25,6 @@
 (let ((default-directory (concat user-emacs-directory "elisp/")))
   (add-to-list 'load-path default-directory)
   (normal-top-level-add-subdirs-to-load-path))
-
-(defun load-init-el (filename)
-  (load (concat user-emacs-directory filename)))
-
-(when (>= emacs-major-version 24)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-  (add-to-list 'package-archives '("marmelade" . "http://marmalade-repo.org/packages/") t)
-  (load-init-el "packages.el"))
-  ;; (when (< 25 emacs-major-version)
-  ;;   (load-init-el "packages.el")))
-
 
 (load-init-el "funcs.el")
 
@@ -49,10 +46,7 @@
 (require 'alchemist)
 (require 'column-marker)
 (require 'company-c-headers)
-(require 'ensime)
-(require 'faces)
 (require 'fill-column-indicator)
-(require 'font-lock)
 (require 'helm)
 (require 'helm-config)
 (require 'helm-grep)
@@ -65,12 +59,10 @@
 (require 'recentf)
 (require 'saveplace)
 (require 'semantic)
-(require 'sr-speedbar)
 (require 'tls)
 (require 'tramp)
 (require 'uniquify)
 (require 'web-mode)
-(require 'yasnippet)
 
 (load-init-el "hooks.el")
 (load-init-el "keys.el")
@@ -88,9 +80,6 @@
             (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
             (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
             (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
-
-            ;;(set-face-attribute 'default nil :family "Anonymous Pro" :weight 'normal :width 'normal :height 120)
-            ;;(set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 100)
 
             (add-to-list 'default-frame-alist '(height . 40))
             (add-to-list 'default-frame-alist '(width . 120))
@@ -186,14 +175,9 @@
 
             (projectile-global-mode 1)
 
-            ;; set up YASnippet
-            (add-to-list 'yas-snippet-dirs (concat user-emacs-directory "snippets"))
-            (setq yas/also-auto-indent-first-line t)
-            (yas/global-mode 1)
-
             (load-theme 'darcula t)
 
-            (set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 100)
+            (set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 110)
             ))
 
 
@@ -207,108 +191,7 @@
     ("118717ce0a2645a0cf240b044999f964577ee10137b1f992b09a317d5073c02d" "9dae95cdbed1505d45322ef8b5aa90ccb6cb59e0ff26fef0b8f411dfc416c552" "4217c670c803e8a831797ccf51c7e6f3a9e102cb9345e3662cc449f4c194ed7d" "8fd393097ac6eabfcb172f656d781866beec05f27920a0691e8772aa2cdc7132" "3b819bba57a676edf6e4881bd38c777f96d1aa3b3b5bc21d8266fa5b0d0f1ebf" "f0ea6118d1414b24c2e4babdc8e252707727e7b4ff2e791129f240a2b3093e32" default)))
  '(package-selected-packages
    (quote
-    (ag
-     alchemist
-     anaconda-mode
-     android-mode
-     ant
-     auto-complete
-     col-highlight
-     column-marker
-     company
-     company-anaconda
-     company-c-headers
-     company-ghc
-     company-go
-     company-inf-ruby
-     company-irony
-     concurrent
-     crosshairs
-     ctable
-     darcula-theme
-     deferred
-     dirtree
-     elixir-mix
-     elixir-mode
-     elixir-yasnippets
-     ensime
-     epc
-     fill-column-indicator
-     flycheck
-     flycheck-haskell
-     flycheck-haskell
-     flycheck-irony
-     flycheck-pos-tip
-     flymake
-     flymake-elixir
-     flymake-go
-     flymake-haml
-     flymake-json
-     flymake-python-pyflakes
-     flymake-ruby
-     git-rebase-mode
-     git-commit-mode
-     go-eldoc
-     go-mode
-     go-projectile
-     groovy-mode
-     haskell-mode
-     hc-zenburn-theme
-     helm
-     helm-R
-     helm-ag-r
-     helm-aws
-     helm-bibtex
-     helm-c-moccur
-     helm-c-yasnippet
-     helm-company
-     helm-dash
-     helm-flycheck
-     helm-ghc
-     helm-git
-     helm-go-package
-     helm-google
-     helm-open-github
-     helm-package
-     helm-projectile
-     helm-projectile-all
-     helm-pydoc
-     helm-rails
-     helm-rb
-     hl-line+
-     inf-ruby
-     irony
-     javadoc-lookup
-     jedi
-     json-mode
-     magit
-     markdown-mode
-     matlab-mode
-     nasm-mode
-     popup
-     projectile
-     projectile-speedbar
-     projectile-rails
-     python-environment
-     rust-mode
-     sr-speedbar
-     redis
-     rich-minority
-     rubocop
-     ruby-block
-     ruby-electric
-     ruby-hash-syntax
-     ruby-tools
-     rvm
-     sbt-mode
-     scala-mode2
-     scala-outline-popup
-     snippet
-     vline
-     web-mode
-     yaml-mode
-     yasnippet
-     zenburn-theme))))
+    (ag alchemist anaconda-mode android-mode ant auto-complete col-highlight column-marker company company-anaconda company-c-headers company-ghc company-go company-inf-ruby company-irony concurrent crosshairs ctable darcula-theme deferred dirtree elixir-mix elixir-mode ensime epc fill-column-indicator flycheck flycheck-haskell flycheck-haskell flycheck-irony flycheck-pos-tip flymake flymake-elixir flymake-go flymake-haml flymake-json flymake-python-pyflakes flymake-ruby go-eldoc go-mode go-projectile groovy-mode haskell-mode hc-zenburn-theme helm helm-R helm-ag-r helm-aws helm-bibtex helm-c-moccur helm-company helm-dash helm-flycheck helm-ghc helm-git helm-go-package helm-google helm-open-github helm-package helm-projectile helm-pydoc helm-rails helm-rb hl-line+ inf-ruby irony javadoc-lookup jedi json-mode magit markdown-mode matlab-mode nasm-mode popup projectile projectile-rails python-environment rust-mode redis rich-minority rubocop ruby-block ruby-electric ruby-hash-syntax ruby-tools rvm sbt-mode scala-mode2 scala-outline-popup snippet vline web-mode yaml-mode zenburn-theme))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
