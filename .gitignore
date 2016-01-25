@@ -25,6 +25,7 @@ recentf
 
 .emacs.desktop*
 
+anaconda-mode/
 ensime/
 network-security.data
 session.*
