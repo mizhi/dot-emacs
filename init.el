@@ -7,8 +7,13 @@
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
 (package-initialize)
 
+(defun load-if-exists (filename)
+  (if (file-exists-p filename)
+      (load filename)))
+
 (defun load-init-el (filename)
-  (load (concat user-emacs-directory filename)))
+  (let ((full-filename (concat user-emacs-directory filename)))
+    (load-if-exists full-filename)))
 
 (add-hook 'after-init-hook (lambda () (load-init-el "realinit.el")))
 
