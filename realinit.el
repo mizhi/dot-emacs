@@ -118,6 +118,8 @@
 
 (setq recentf-max-menu-items 25)
 
+(setq tags-revert-without-query 1)
+
 (setq tramp-default-method "sshx")
 
 ;; coding system
