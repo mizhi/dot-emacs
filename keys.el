@@ -16,6 +16,11 @@
 (global-set-key (kbd "<M-S-up>") 'switch-to-prev-buffer)
 (global-set-key (kbd "<M-S-down>") 'switch-to-next-buffer)
 
+(global-set-key (kbd "<C-S-up>") 'enlarge-window)
+(global-set-key (kbd "<C-S-down>") 'shrink-window)
+(global-set-key (kbd "C-}") 'enlarge-window-horizontally)
+(global-set-key (kbd "C-{") 'shrink-window-horizontally)
+
 (global-set-key (kbd "C-c h") 'helm-mini)
 (global-set-key "\C-c\C-r" 'helm-recentf)
 (global-set-key (kbd "M-x") 'helm-M-x)
