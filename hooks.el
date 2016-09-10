@@ -1,6 +1,5 @@
 (add-hook 'prog-mode-hook
           (lambda ()
-            (rvm-autodetect-ruby)
             (flycheck-mode 1)
 
             (add-hook 'before-save-hook
@@ -103,12 +102,13 @@
 (add-hook 'ruby-mode-hook
           (lambda ()
             (setq ruby-insert-encoding-magic-comment nil)
+            (setq ruby-deep-indent-paren nil)
+            (setq ruby-align-chained-calls t)
             (rubocop-mode 1)
-            (ruby-tools-mode 1)))
-
-(add-hook 'ruby-mode-hook
-          (lambda ()
-            (setq ruby-deep-indent-paren nil)))
+            (ruby-tools-mode 1)
+            (yard-mode 1)
+            (flycheck-mode 1)
+            (turn-on-fci-mode)))
 
 (add-hook 'scala-mode-hook
           (lambda ()

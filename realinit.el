@@ -26,6 +26,7 @@
 
 ;; Required packages
 (require 'alchemist)
+(require 'chruby)
 (require 'column-marker)
 (require 'company-c-headers)
 (require 'fill-column-indicator)
@@ -37,7 +38,6 @@
 (require 'javadoc-lookup)
 (require 'linum)
 (require 'projectile)
-(require 'rvm)
 (require 'recentf)
 (require 'saveplace)
 (require 'semantic)
@@ -159,4 +159,4 @@
 
 (load-theme 'darcula t)
 
-(set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 160)
+(set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 140)
