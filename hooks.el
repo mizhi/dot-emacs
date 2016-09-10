@@ -49,6 +49,11 @@
                   comment-continue "*"
                   comment-style 'multi-line)))
 
+(add-hook 'json-mode-hook
+          (lambda ()
+            (make-local-variable 'js-indent-level)
+            (setq js-indent-level 2)))
+
 (add-hook 'latex-mode-hook
           (lambda ()
             (turn-on-reftex)))
