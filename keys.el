@@ -18,8 +18,8 @@
 
 (global-set-key (kbd "<C-S-up>") 'enlarge-window)
 (global-set-key (kbd "<C-S-down>") 'shrink-window)
-(global-set-key (kbd "C-}") 'enlarge-window-horizontally)
-(global-set-key (kbd "C-{") 'shrink-window-horizontally)
+(global-set-key (kbd "<C-S-right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "<C-S-left>") 'shrink-window-horizontally)
 
 (global-set-key (kbd "C-c h") 'helm-mini)
 (global-set-key "\C-c\C-r" 'helm-recentf)

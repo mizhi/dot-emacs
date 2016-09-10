@@ -85,7 +85,7 @@
 
 (setq-default
  buffer-file-coding-system 'undecided-unix
- fci-rule-column 120
+ fci-rule-column 80
  fill-column 80
  highlight-changes-mode t
  indicate-empty-lines t
