@@ -120,12 +120,20 @@
             (ensime-scala-mode-hook)
             (local-set-key (kbd "\C-c o p") 'scala-outline-popup)))
 
+(add-hook 'scss-mode-hook
+          (lambda ()
+            (setq css-indent-offset 2)))
+
 (add-hook 'text-mode-hook
           (lambda ()
             (setq fill-column 80
                   indent-line-function (quote insert-tab)
                   indent-tabs-mode nil
                   tab-width 2)))
+
+(add-hook 'web-mode-hook
+          (lambda ()
+            (setq web-mode-markup-indent-offset 2)))
 
 (add-hook 'yaml-mode-hook
           (lambda ()
