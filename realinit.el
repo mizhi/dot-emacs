@@ -15,7 +15,8 @@
   (setenv "PATH" (concat "/usr/local/bin" path-separator (getenv "PATH")))
   (add-to-list 'exec-path "/usr/local/bin")
 
-  (when window-system
+  (require 'server)
+  (when (and window-system (not (server-running-p)))
     (server-start))
 
   (setq-default ispell-program-name
