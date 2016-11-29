@@ -4,8 +4,7 @@
 
             (add-hook 'before-save-hook
                       (lambda ()
-                        (delete-trailing-whitespace)) nil 'local)
-            ))
+                        (delete-trailing-whitespace)) nil 'local)))
 
 (add-hook 'projectile-mode-hook
           (lambda ()
@@ -16,7 +15,8 @@
                   projectile-completion-system 'helm
                   projectile-switch-project-action 'helm-projectile
                   projectile-find-dir-includes-top-level t
-                  projectile-enable-idle-timer t)))
+                  projectile-enable-idle-timer t
+                  projectile-globally-ignored-file-suffixes '(".min.js"))))
 
 (add-hook 'change-log-mode-hook
           (lambda ()
@@ -47,7 +47,8 @@
             (setq comment-start "/*"
                   comment-end "*/"
                   comment-continue "*"
-                  comment-style 'multi-line)))
+                  comment-style 'multi-line
+                  js-indent-level 2)))
 
 (add-hook 'json-mode-hook
           (lambda ()
@@ -112,7 +113,9 @@
             (rubocop-mode 1)
             (ruby-tools-mode 1)
             (yard-mode 1)
+            (eldoc-mode 1)
             (flycheck-mode 1)
+            (rspec-mode 1)
             (turn-on-fci-mode)))
 
 (add-hook 'scala-mode-hook
