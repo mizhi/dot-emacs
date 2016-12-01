@@ -35,7 +35,6 @@
 (require 'helm-config)
 (require 'helm-grep)
 (require 'helm-R)
-(require 'inf-haskell)
 (require 'javadoc-lookup)
 (require 'linum)
 (require 'projectile)
