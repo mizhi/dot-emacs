@@ -160,4 +160,4 @@
 
 (load-theme 'darcula t)
 
-(set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 140)
+(set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 110)

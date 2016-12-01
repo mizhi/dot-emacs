@@ -16,7 +16,8 @@
                   projectile-switch-project-action 'helm-projectile
                   projectile-find-dir-includes-top-level t
                   projectile-enable-idle-timer t
-                  projectile-globally-ignored-file-suffixes '(".min.js"))))
+                  projectile-globally-ignored-file-suffixes '(".min.js")
+                  projectile-tags-command "ctags-exuberant -Re -f \"%s\" %s")))
 
 (add-hook 'change-log-mode-hook
           (lambda ()
