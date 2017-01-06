@@ -6,8 +6,7 @@
 (add-hook 'projectile-mode-hook
           (lambda ()
             (helm-projectile-on)
-            (setq projectile-indexing-method 'native
-                  projectile-enable-caching t
+            (setq projectile-enable-caching t
                   projectile-remember-window-configs t
                   projectile-completion-system 'helm
                   projectile-switch-project-action 'helm-projectile
