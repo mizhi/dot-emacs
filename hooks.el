@@ -1,10 +1,7 @@
 (add-hook 'prog-mode-hook
           (lambda ()
             (flycheck-mode 1)
-
-            (add-hook 'before-save-hook
-                      (lambda ()
-                        (delete-trailing-whitespace)) nil 'local)))
+            (add-hook 'before-save-hook 'delete-trailing-whitespace)))
 
 (add-hook 'projectile-mode-hook
           (lambda ()
@@ -56,9 +53,7 @@
             (make-local-variable 'js-indent-level)
             (setq js-indent-level 2)))
 
-(add-hook 'latex-mode-hook
-          (lambda ()
-            (turn-on-reftex)))
+(add-hook 'latex-mode-hook 'turn-on-reftex)
 
 (add-hook 'matlab-mode-hook
           (lambda ()
