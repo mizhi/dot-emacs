@@ -60,6 +60,11 @@
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+
+;; (add-to-list 'auto-mode-alist
+;;              '("\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . enh-ruby-mode))
+;; (add-to-list 'interpreter-mode-alist '("ruby" . enh-ruby-mode))
 
 (add-to-list 'default-frame-alist '(height . 40))
 (add-to-list 'default-frame-alist '(width . 120))
@@ -156,7 +161,9 @@
 (turn-on-font-lock)
 
 (projectile-global-mode 1)
+(projectile-rails-global-mode)
 
-(load-theme 'darcula t)
+;;(load-theme 'darcula t)
+(load-theme 'leuven t)
 
 (set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 110)
