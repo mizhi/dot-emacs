@@ -41,6 +41,8 @@
 (require 'recentf)
 (require 'saveplace)
 (require 'semantic)
+(require 'smartparens-config)
+(require 'smartparens-ruby)
 (require 'tls)
 (require 'tramp)
 (require 'uniquify)

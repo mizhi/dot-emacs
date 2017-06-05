@@ -1,4 +1,0 @@
-[submodule "snippets"]
-	path = snippets
-	url = git@github.com:mizhi/yasnippet-snippets.git
-    branch = master

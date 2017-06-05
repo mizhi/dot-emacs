@@ -105,13 +105,16 @@
             (setq ruby-insert-encoding-magic-comment nil)
             (setq ruby-deep-indent-paren nil)
             (setq ruby-align-chained-calls t)
-            (rubocop-mode 1)
-            (ruby-tools-mode 1)
-            (yard-mode 1)
-            (eldoc-mode 1)
-            (flycheck-mode 1)
-            (rspec-mode 1)
+            (setq ruby-deep-arglist nil)
             (turn-on-fci-mode)))
+
+(add-hook 'ruby-mode-hook 'eldoc-mode)
+(add-hook 'ruby-mode-hook 'flycheck-mode)
+(add-hook 'ruby-mode-hook 'robe-mode)
+(add-hook 'ruby-mode-hook 'rspec-mode)
+(add-hook 'ruby-mode-hook 'rubocop-mode)
+(add-hook 'ruby-mode-hook 'ruby-tools-mode)
+(add-hook 'ruby-mode-hook 'yard-mode)
 
 (add-hook 'scala-mode-hook
           (lambda ()
@@ -131,7 +134,9 @@
 
 (add-hook 'web-mode-hook
           (lambda ()
-            (setq web-mode-markup-indent-offset 2)))
+            (setq web-mode-markup-indent-offset 2
+                  web-mode-code-indent-offset 2
+                  )))
 
 (add-hook 'yaml-mode-hook
           (lambda ()
