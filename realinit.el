@@ -64,10 +64,6 @@
 (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
-;; (add-to-list 'auto-mode-alist
-;;              '("\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . enh-ruby-mode))
-;; (add-to-list 'interpreter-mode-alist '("ruby" . enh-ruby-mode))
-
 (add-to-list 'default-frame-alist '(height . 40))
 (add-to-list 'default-frame-alist '(width . 120))
 
@@ -110,7 +106,10 @@
  bibtex-autokey-year-title-separator ""
  bibtex-autokey-titleword-length nil)
 
-(setq fci-handle-truncate-lines nil)
+(setq
+ fci-handle-truncate-lines nil
+ fci-rule-width 1
+ fci-rule-color "darkblue")
 
 (setq
  helm-quick-update                     t ; do not display invisible candidates
@@ -137,6 +136,7 @@
 ;; enable and disable stuff
 (global-company-mode 1)
 (add-to-list 'company-backends 'company-anaconda)
+(add-to-list 'company-backends 'company-robe)
 (add-to-list 'company-backends 'ensime-company)
 
 (global-font-lock-mode 1)
@@ -169,4 +169,4 @@
 (load-theme 'darcula t)
 ;;(load-theme 'leuven t)
 
-(set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 110)
+(set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 100)
