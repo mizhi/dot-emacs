@@ -2,15 +2,7 @@
 
 This is my personal emacs setup. This should work with emacs 24+ on Mac
 and Linux. I used to keep it working with Windows, but it's been a while
-since I've needed to do development on that platform. 
+since I've needed to do development on that platform.
 
 This setup uses the package manager which is included with emacs 24. It is
 possible to get it working with emacs 23. Refer to http://www.emacswiki.org/emacs/ELPA for specific instructions.
-
-2. Additional Info
-
-Make sure to run 
-
-$ git submodule update --init 
-
-to get all the additional submodules
