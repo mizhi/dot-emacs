@@ -148,7 +148,8 @@
 
 ;; line highlighting
 (toggle-hl-line-when-idle -1)
-(global-hl-line-mode -1)
+(global-hl-line-mode 1)
+(set-face-background hl-line-face "thistle2")
 
 (global-semantic-highlight-func-mode t)
 (global-semantic-highlight-edits-mode t)

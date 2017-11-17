@@ -47,6 +47,10 @@
                   comment-style 'multi-line
                   js-indent-level 2)))
 
+(add-hook 'js2-mode-hook
+          (lambda ()
+            (setq js-indent-level 2)))
+
 (add-hook 'json-mode-hook
           (lambda ()
             (make-local-variable 'js-indent-level)
@@ -106,7 +110,8 @@
             (setq ruby-deep-indent-paren nil)
             (setq ruby-align-chained-calls t)
             (setq ruby-deep-arglist nil)
-            (turn-on-fci-mode)))
+            (turn-on-fci-mode)
+            (chruby-use-corresponding)))
 
 (add-hook 'ruby-mode-hook 'eldoc-mode)
 (add-hook 'ruby-mode-hook 'flycheck-mode)
