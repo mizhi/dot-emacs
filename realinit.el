@@ -149,7 +149,7 @@
 ;; line highlighting
 (toggle-hl-line-when-idle -1)
 (global-hl-line-mode 1)
-(set-face-background hl-line-face "thistle2")
+(set-face-background hl-line-face "color-238")
 
 (global-semantic-highlight-func-mode t)
 (global-semantic-highlight-edits-mode t)
@@ -166,7 +166,7 @@
 (projectile-global-mode 1)
 (projectile-rails-global-mode)
 
-;;(load-theme 'darcula t)
-(load-theme 'leuven t)
+(load-theme 'darcula t)
+;;(load-theme 'leuven t)
 
 (set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 110)

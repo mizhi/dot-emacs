@@ -99,7 +99,7 @@
 
             (add-to-list 'company-backends 'company-anaconda)
 
-            (electric-indent-local-mode 0)
+            ;;(electric-indent-local-mode 0)
 
             (flycheck-mode 0)
             (anaconda-mode 1)))
@@ -110,6 +110,16 @@
             (setq ruby-deep-indent-paren nil)
             (setq ruby-align-chained-calls t)
             (setq ruby-deep-arglist nil)
+            (setq ruby-align-to-stmt-keywords t)
+
+            (turn-on-fci-mode)
+            (chruby-use-corresponding)))
+
+(add-hook 'enh-ruby-mode-hook
+          (lambda ()
+            (setq enh-ruby-deep-indent-paren nil)
+            (setq enh-ruby-deep-arglist nil)
+            (setq enh-ruby-bounce-deep-indent t)
             (turn-on-fci-mode)
             (chruby-use-corresponding)))
 
