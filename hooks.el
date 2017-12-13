@@ -87,13 +87,13 @@
             ;;(my:configure-python-venv)
 
             ;; discover location of python libs and add to db
-            (let
-                ((python-lib-dir
-                  (concat (shell-command-to-string "python-config --prefix") "/lib/python2.7")))
-              (semantic-add-system-include python-lib-dir 'python-mode))
+            ;; (let
+            ;;     ((python-lib-dir
+            ;;       (concat (shell-command-to-string "python-config --prefix") "/lib/python2.7")))
+            ;;   (semantic-add-system-include python-lib-dir 'python-mode))
 
             (setq fill-column 80
-                  fci-rule-column 80
+                  fci-rule-column 132
                   indent-tabs-mode nil
                   python-indent 4)
 

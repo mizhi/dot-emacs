@@ -30,3 +30,5 @@ ensime/
 network-security.data
 session.*
 abbrev_defs
+
+*.swp

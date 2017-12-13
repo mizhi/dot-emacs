@@ -136,8 +136,8 @@
 ;; enable and disable stuff
 (global-company-mode 1)
 (add-to-list 'company-backends 'company-anaconda)
-(add-to-list 'company-backends 'company-robe)
-(add-to-list 'company-backends 'ensime-company)
+;;(add-to-list 'company-backends 'company-robe)
+;;(add-to-list 'company-backends 'ensime-company)
 
 (global-font-lock-mode 1)
 (global-linum-mode t)
