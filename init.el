@@ -15,15 +15,7 @@
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
 (package-initialize)
 
-(defun load-if-exists (filename)
-  "Only load a FILENAME if it's in the filesystem."
-  (if (file-exists-p filename)
-      (load filename)))
-
-(defun load-init-el (filename)
-  "Load FILENAME for initialization from `emacs.d`."
-  (let ((full-filename (concat user-emacs-directory filename)))
-    (load-if-exists full-filename)))
+(load (concat user-emacs-directory "funcs.el"))
 
 (add-hook 'after-init-hook (lambda () (load-init-el "realinit.el")))
 

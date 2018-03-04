@@ -1,3 +1,9 @@
+;;; realinit.el --- customizations the should run after package.el loads
+
+;;; Commentary:
+
+
+;;; Code:
 ;; send my backups to a subdirectory under my emacs directory
 (let ((user-backup-directory (concat user-emacs-directory "backups/")))
   (setq backup-directory-alist `((".*" . ,user-backup-directory)))
@@ -8,8 +14,6 @@
 (let ((default-directory (concat user-emacs-directory "elisp/")))
   (add-to-list 'load-path default-directory)
   (normal-top-level-add-subdirs-to-load-path))
-
-(load-init-el "funcs.el")
 
 ;; platform specific configuration
 (when (eq system-type 'darwin)
@@ -171,3 +175,5 @@
 ;;(load-theme 'leuven t)
 
 (set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 100)
+
+;;; realinit.el ends here

@@ -1,3 +1,9 @@
+;;; keys.el --- Keymap for emacs
+
+
+;;; Commentary:
+
+;;; Code:
 (global-set-key (kbd "C-c g s") 'magit-status)
 (global-set-key (kbd "C-c g b") 'magit-blame)
 
@@ -44,3 +50,5 @@
 (put 'narrow-to-page 'disabled nil)
 
 (windmove-default-keybindings)
+
+;;; keys.el ends here

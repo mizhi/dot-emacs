@@ -1,3 +1,9 @@
+;; hooks.el --- Various hooks for emacs
+
+;;; Commentary:
+
+
+;;; Code:
 (add-hook 'prog-mode-hook
           (lambda ()
             (flycheck-mode 1)
@@ -161,3 +167,5 @@
           (lambda ()
             (setq truncate-lines 1)
             (setq truncate-partial-width-windows 1)))
+
+;;; hooks.el ends here
