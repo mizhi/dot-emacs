@@ -1,17 +1,27 @@
+;;; init.el --- Default init file
+
+;;; Commentary:
+;;
+;; Lisp for initalizing my Emacs.
+;;
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 (require 'package)
+
+;;; Code:
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
 (package-initialize)
 
 (defun load-if-exists (filename)
+  "Only load a FILENAME if it's in the filesystem."
   (if (file-exists-p filename)
       (load filename)))
 
 (defun load-init-el (filename)
+  "Load FILENAME for initialization from `emacs.d`."
   (let ((full-filename (concat user-emacs-directory filename)))
     (load-if-exists full-filename)))
 
@@ -37,3 +47,5 @@ c552" "4217c670c803e8a831797ccf51c7e6f3a9e102cb9345e3662cc449f4c194ed7d" "8fd393
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+;;; init.el ends here

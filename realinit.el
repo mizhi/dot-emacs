@@ -1,7 +1,8 @@
 ;; send my backups to a subdirectory under my emacs directory
 (let ((user-backup-directory (concat user-emacs-directory "backups/")))
   (setq backup-directory-alist `((".*" . ,user-backup-directory)))
-  (setq auto-save-file-name-transforms `((".*" ,user-backup-directory t))))
+  (setq auto-save-file-name-transforms `((".*" ,user-backup-directory t)))
+  (setq auto-save-list-file-prefix user-backup-directory))
 
 ;; setup load path
 (let ((default-directory (concat user-emacs-directory "elisp/")))
