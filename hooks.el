@@ -105,7 +105,7 @@
 
             (add-to-list 'company-backends 'company-anaconda)
 
-            ;;(electric-indent-local-mode 0)
+            (electric-indent-local-mode 0)
 
             (flycheck-mode 0)
             (anaconda-mode 1)))

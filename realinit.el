@@ -141,8 +141,8 @@
 ;; enable and disable stuff
 (global-company-mode 1)
 (add-to-list 'company-backends 'company-anaconda)
-;;(add-to-list 'company-backends 'company-robe)
-;;(add-to-list 'company-backends 'ensime-company)
+(add-to-list 'company-backends 'company-robe)
+(add-to-list 'company-backends 'ensime-company)
 
 (global-font-lock-mode 1)
 (global-linum-mode t)
@@ -168,11 +168,10 @@
 (tool-bar-mode -1)
 (turn-on-font-lock)
 
-(projectile-global-mode 1)
+(projectile-mode 1)
 (projectile-rails-global-mode)
 
 (load-theme 'darcula t)
-;;(load-theme 'leuven t)
 
 (set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 100)
 
