@@ -2,7 +2,6 @@
 
 ;;; Commentary:
 
-
 ;;; Code:
 ;; send my backups to a subdirectory under my emacs directory
 (let ((user-backup-directory (concat user-emacs-directory "backups/")))
@@ -33,7 +32,6 @@
 ;; Required packages
 (require 'alchemist)
 (require 'chruby)
-(require 'column-marker)
 (require 'company-c-headers)
 (require 'fill-column-indicator)
 (require 'helm)
@@ -42,6 +40,7 @@
 (require 'helm-R)
 (require 'javadoc-lookup)
 (require 'linum)
+(require 'origami)
 (require 'projectile)
 (require 'recentf)
 (require 'saveplace)
@@ -69,8 +68,8 @@
 (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
-(add-to-list 'default-frame-alist '(height . 40))
-(add-to-list 'default-frame-alist '(width . 120))
+(add-to-list 'default-frame-alist '(height . 30))
+(add-to-list 'default-frame-alist '(width . 80))
 
 (setq
  explicit-shell-file-name "/bin/bash"
@@ -152,7 +151,6 @@
 (size-indication-mode t)
 
 ;; line highlighting
-(toggle-hl-line-when-idle -1)
 (global-hl-line-mode 1)
 (set-face-background hl-line-face "color-238")
 
@@ -171,7 +169,8 @@
 (projectile-mode 1)
 (projectile-rails-global-mode)
 
-(load-theme 'darcula t)
+;;(load-theme 'darcula t)
+(load-theme 'cherry-blossom t)
 
 (set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 100)
 
