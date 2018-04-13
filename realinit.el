@@ -19,9 +19,9 @@
   (setenv "PATH" (concat "/usr/local/bin" path-separator (getenv "PATH")))
   (add-to-list 'exec-path "/usr/local/bin")
 
-  (require 'server)
-  (when (and window-system (not (server-running-p)))
-    (server-start))
+  ;; (require 'server)
+  ;; (when (and window-system (not (server-running-p)))
+  ;;   (server-start))
 
   (setq-default ispell-program-name
 		(first-existing-file '("/opt/local/bin/ispell" "/usr/local/bin/ispell")))
@@ -172,6 +172,6 @@
 ;;(load-theme 'darcula t)
 (load-theme 'cherry-blossom t)
 
-(set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 100)
+(set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 130)
 
 ;;; realinit.el ends here
