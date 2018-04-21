@@ -47,6 +47,8 @@
 (require 'semantic)
 (require 'smartparens-config)
 (require 'smartparens-ruby)
+(when (require 'so-long nil :noerror)
+  (so-long-enable))
 (require 'tls)
 (require 'tramp)
 (require 'uniquify)
@@ -169,8 +171,7 @@
 (projectile-mode 1)
 (projectile-rails-global-mode)
 
-;;(load-theme 'darcula t)
-(load-theme 'cherry-blossom t)
+(load-theme 'danneskjold t)
 
 (set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 130)
 
