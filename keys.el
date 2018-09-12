@@ -35,6 +35,9 @@
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
 (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
 
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+
 ;; re-enable some functions
 ;;   C-x n d ... narrow to def
 ;;   C-x n n ... narrow to region

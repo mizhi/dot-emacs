@@ -29,6 +29,13 @@
 	;; Disable Apple's Full-Screen mode
 	ns-use-native-fullscreen nil))
 
+;; running in a terminal, so setup mouse
+(unless window-system
+  (require 'mouse)
+  (xterm-mouse-mode t)
+  (defun track-mouse (e))
+  (setq mouse-sel-mode t))
+
 ;; Required packages
 (require 'alchemist)
 (require 'chruby)
@@ -173,6 +180,6 @@
 
 (load-theme 'danneskjold t)
 
-(set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 130)
+(set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 160)
 
 ;;; realinit.el ends here
