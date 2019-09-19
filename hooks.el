@@ -2,10 +2,10 @@
 
 ;;; Commentary:
 
-
 ;;; Code:
 (add-hook 'prog-mode-hook
           (lambda ()
+            (diff-hl-flydiff-mode 1)
             (flycheck-mode 1)
             (add-hook 'before-save-hook 'delete-trailing-whitespace)))
 
@@ -18,8 +18,8 @@
                   projectile-switch-project-action 'helm-projectile
                   projectile-find-dir-includes-top-level t
                   projectile-enable-idle-timer t
-                  projectile-globally-ignored-file-suffixes '(".min.js")
-                  projectile-tags-command "ctags-exuberant -Re -f \"%s\" %s")))
+                  projectile-globally-ignored-file-suffixes '(".min.js"))))
+;;                  projectile-tags-command "ctags-exuberant -Re -f \"%s\" %s")))
 
 (add-hook 'change-log-mode-hook
           (lambda ()
@@ -36,6 +36,10 @@
           (lambda ()
             (setq flycheck-clang-language-standard "c++11")
             (add-to-list 'company-c-headers-path-system "/usr/include/c++/")))
+
+(add-hook 'go-mode-hook
+          (lambda ()
+            (add-hook 'before-save-hook 'gofmt-before-save)))
 
 (add-hook 'java-mode-hook
           (lambda ()
@@ -63,6 +67,8 @@
             (setq js-indent-level 2)))
 
 (add-hook 'latex-mode-hook 'turn-on-reftex)
+
+(add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
 
 (add-hook 'matlab-mode-hook
           (lambda ()
@@ -117,7 +123,6 @@
             (setq ruby-align-chained-calls t)
             (setq ruby-deep-arglist nil)
             (setq ruby-align-to-stmt-keywords t)
-
             (turn-on-fci-mode)
             (chruby-use-corresponding)))
 

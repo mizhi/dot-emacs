@@ -106,6 +106,7 @@
  highlight-changes-mode t
  indicate-empty-lines t
  indent-tabs-mode nil
+ large-file-warning-threshold nil
  save-place t
  savehist-mode t
  truncate-lines t
@@ -152,6 +153,8 @@
 (add-to-list 'company-backends 'company-robe)
 (add-to-list 'company-backends 'ensime-company)
 
+(global-diff-hl-mode t)
+
 (global-font-lock-mode 1)
 (global-linum-mode t)
 
@@ -163,6 +166,7 @@
 (global-hl-line-mode 1)
 (set-face-background hl-line-face "color-238")
 
+(global-magit-file-mode 1)
 (global-semantic-highlight-func-mode t)
 (global-semantic-highlight-edits-mode t)
 (global-semantic-stickyfunc-mode -1)

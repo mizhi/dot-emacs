@@ -9,7 +9,6 @@
 
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
 
 ;; Some convenience things
 (global-set-key [f2] 'visit-ansi-term)
