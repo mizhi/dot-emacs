@@ -186,4 +186,6 @@
 
 (set-face-attribute 'default nil :family "Hack" :weight 'normal :width 'normal :height 160)
 
+(load custom-file)
+
 ;;; realinit.el ends here
