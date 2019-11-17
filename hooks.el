@@ -29,33 +29,11 @@
 (add-hook 'c-mode-common-hook
           (lambda ()
             (add-to-list 'company-backends 'company-c-headers)
-            (add-hook 'write-contents-hooks 'untabify-before-save)
-            (setq c-basic-offset 4)))
-
-(add-hook 'c++-mode-hook
-          (lambda ()
-            (setq flycheck-clang-language-standard "c++11")
-            (add-to-list 'company-c-headers-path-system "/usr/include/c++/")))
+            (add-hook 'write-contents-hooks 'untabify-before-save)))
 
 (add-hook 'go-mode-hook
           (lambda ()
             (add-hook 'before-save-hook 'gofmt-before-save)))
-
-(add-hook 'java-mode-hook
-          (lambda ()
-            (when (require 'java-docs nil 'noerror)
-              (java-docs java-docs-directory))
-
-            (when (require 'java-mode-indent-annotations nil 'noerror)
-              (java-mode-indent-annotations-setup))))
-
-(add-hook 'javascript-mode-hook
-          (lambda ()
-            (setq comment-start "/*"
-                  comment-end "*/"
-                  comment-continue "*"
-                  comment-style 'multi-line
-                  js-indent-level 2)))
 
 (add-hook 'js2-mode-hook
           (lambda ()
@@ -66,33 +44,7 @@
             (make-local-variable 'js-indent-level)
             (setq js-indent-level 2)))
 
-(add-hook 'latex-mode-hook 'turn-on-reftex)
-
 (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-
-(add-hook 'matlab-mode-hook
-          (lambda ()
-            (auto-fill-mode nil)))
-
-(add-hook 'nxml-mode-hook
-          (lambda ()
-            (define-key nxml-mode-map (kbd "<tab>") '(lambda () (interactive) (nxml-indent-line)))
-            (define-key nxml-mode-map (kbd "C-S-o") 'nxml-complete)
-            (setq nxml-slash-auto-complete-flag t)))
-
-;; (defvar my:virtualenv-directory "~/.virtualenvs/"
-;;   "The directory of virtualenvs.")
-
-;; (defun my:configure-python-venv ()
-;;   "Set `python-shell-virtualenv-path' to the virtualenv directory."
-;;   (interactive)
-;;   (require 'projectile)
-;;   (let* ((project-name (projectile-project-name))
-;;          (virtualenv-path
-;;           (file-truename
-;;            (concat my:virtualenv-directory project-name))))
-;;     (when (file-directory-p virtualenv-path)
-;;       (setq python-shell-virtualenv-path virtualenv-path))))
 
 (add-hook 'python-mode-hook
           (lambda ()
@@ -126,14 +78,6 @@
             (turn-on-fci-mode)
             (chruby-use-corresponding)))
 
-(add-hook 'enh-ruby-mode-hook
-          (lambda ()
-            (setq enh-ruby-deep-indent-paren nil)
-            (setq enh-ruby-deep-arglist nil)
-            (setq enh-ruby-bounce-deep-indent t)
-            (turn-on-fci-mode)
-            (chruby-use-corresponding)))
-
 (add-hook 'ruby-mode-hook 'eldoc-mode)
 (add-hook 'ruby-mode-hook 'flycheck-mode)
 (add-hook 'ruby-mode-hook 'robe-mode)
@@ -142,10 +86,21 @@
 (add-hook 'ruby-mode-hook 'ruby-tools-mode)
 (add-hook 'ruby-mode-hook 'yard-mode)
 
-(add-hook 'scala-mode-hook
+(add-hook 'enh-ruby-mode-hook
           (lambda ()
-            (ensime-scala-mode-hook)
-            (local-set-key (kbd "\C-c o p") 'scala-outline-popup)))
+            (setq enh-ruby-deep-indent-paren nil)
+            (setq enh-ruby-deep-arglist nil)
+            (setq enh-ruby-bounce-deep-indent t)
+            (turn-on-fci-mode)
+            (chruby-use-corresponding)))
+
+(add-hook 'enh-ruby-mode-hook 'eldoc-mode)
+(add-hook 'enh-ruby-mode-hook 'flycheck-mode)
+(add-hook 'enh-ruby-mode-hook 'robe-mode)
+(add-hook 'enh-ruby-mode-hook 'rspec-mode)
+(add-hook 'enh-ruby-mode-hook 'rubocop-mode)
+(add-hook 'enh-ruby-mode-hook 'ruby-tools-mode)
+(add-hook 'enh-ruby-mode-hook 'yard-mode)
 
 (add-hook 'scss-mode-hook
           (lambda ()
