@@ -97,8 +97,8 @@
 (put 'narrow-to-page 'disabled nil)
 
 ;; set up default window frame stuff
-(add-to-list 'default-frame-alist '(height . 30))
-(add-to-list 'default-frame-alist '(width . 80))
+(add-to-list 'default-frame-alist '(height . 50))
+(add-to-list 'default-frame-alist '(width . 100))
 
 ;;
 ;; Package settings
@@ -266,7 +266,6 @@
   (setq ruby-deep-indent-paren nil)
 
   (defun custom-ruby-mode-hook ()
-    (ggtags-mode 1)
     (chruby-use-corresponding))
 
   (add-hook 'ruby-mode-hook 'custom-ruby-mode-hook))
@@ -284,9 +283,6 @@
   :ensure t
   :config
   (global-flycheck-mode))
-
-(use-package ggtags
-  :ensure t)
 
 (use-package go-mode
   :ensure t
@@ -391,6 +387,10 @@
   (global-semantic-highlight-edits-mode t)
   (global-semantic-stickyfunc-mode -1))
 
+(use-package shell
+  :config
+  (setq sh-indentation 2))
+
 (use-package smartparens
   :ensure t
   :config
@@ -445,7 +445,12 @@
   :config
   (windmove-default-keybindings))
 
-(use-package danneskjold-theme
+;; (use-package danneskjold-theme
+;;   :ensure t
+;;   :config
+;;   (set-face-attribute 'default nil :family "Cascadia Code" :weight 'normal :width 'normal :height 160))
+
+(use-package monokai-pro-theme
   :ensure t
   :config
   (set-face-attribute 'default nil :family "Cascadia Code" :weight 'normal :width 'normal :height 160))
