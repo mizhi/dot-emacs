@@ -24,6 +24,12 @@
   (add-to-list 'load-path default-directory)
   (normal-top-level-add-subdirs-to-load-path))
 
+;; This exists solely to get rid of the annoying "assignment to free variable"
+;; warning.
+(eval-when-compile
+  (defvar ispell-program-name)
+  (defvar mouse-sel-mode))
+
 ;;
 ;; Set up OS X specific settings
 ;;
@@ -100,6 +106,11 @@
 (add-to-list 'default-frame-alist '(height . 50))
 (add-to-list 'default-frame-alist '(width . 100))
 
+;; emacs 27 deprecates cl and some packages still usage it. This removes
+;; an annoying warning
+(if (version<= "27" emacs-version)
+    (setq byte-compile-warnings '(cl-functions)))
+
 ;;
 ;; Package settings
 ;;
@@ -138,8 +149,21 @@
           ("o" . helm-occur))
     )
 
+  (use-package helm-ag
+    :ensure t
+    :demand t)
+
+  ;; This exists solely to get rid of the annoying "assignment to free variable"
+  ;; warning.
+  (eval-when-compile
+    (defvar helm-quick-update)
+    (defvar helm-split-window-inside-p)
+    (defvar helm-buffers-fuzzy-matching)
+    (defvar helm-ff-search-library-in-sexp)
+    (defvar helm-ff-file-name-history-use-recentf))
+
   (setq helm-quick-update t)
-  (setq helm-split-window-in-side-p t)
+  (setq helm-split-window-inside-p t)
   (setq helm-buffers-fuzzy-matching t)
   (setq helm-move-to-line-cycle-in-source 0)
   (setq helm-ff-search-library-in-sexp t)
@@ -179,10 +203,6 @@
 ;;
 (use-package alchemist
   :ensure t
-
-  :config
-  (use-package flycheck-elixir
-    :ensure t)
   )
 
 (use-package bibtex
@@ -201,7 +221,7 @@
     :config
     (add-to-list 'company-backends 'company-c-headers))
 
-  (add-hook 'write-contents-hooks 'untabify-before-save))
+  (add-hook 'write-contents-functions 'untabify-before-save))
 
 (use-package company
   :ensure t
@@ -221,6 +241,15 @@
   :ensure t
   :config
   (global-diff-hl-mode))
+
+(use-package fill-column-indicator
+  :ensure t
+  :init
+  (setq fci-handle-truncate-lines nil)
+  (setq fci-rule-width 1)
+  (setq fci-rule-color "darkblue")
+  (setq fci-rule-width 2)
+  (setq-default fci-rule-column 80))
 
 (use-package ruby-mode
   :ensure t
@@ -264,20 +293,13 @@
     ruby-mode)
 
   (setq ruby-deep-indent-paren nil)
+  (setq fill-column 80)
+  (setq fci-rule-column 80)
 
   (defun custom-ruby-mode-hook ()
     (chruby-use-corresponding))
 
   (add-hook 'ruby-mode-hook 'custom-ruby-mode-hook))
-
-(use-package fill-column-indicator
-  :ensure t
-  :init
-  (setq fci-handle-truncate-lines nil)
-  (setq fci-rule-width 1)
-  (setq fci-rule-color "darkblue")
-  (setq fci-rule-width 2)
-  (setq-default fci-rule-column 80))
 
 (use-package flycheck
   :ensure t
@@ -311,16 +333,25 @@
   (make-local-variable 'js-indent-level)
   (setq js-indent-level 2))
 
-(use-package linum
-  :config
-  (setq linum-format "%d ")
-  (global-linum-mode t))
+;; emacs 26+ introduced display-line-numbers, which has better aethetic results
+;; (e.g., line numbers on blank lines)
+(if (version< emacs-version "26")
+    (use-package linum
+      :config
+      (setq linum-format "%d ")
+      (global-linum-mode t))
+    (use-package display-line-numbers
+      :config
+      (global-display-line-numbers-mode)))
 
 (use-package magit
   :ensure t
   :config
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
   (global-magit-file-mode 1))
+
+(use-package markdown-mode
+  :ensure t)
 
 (use-package origami
   :ensure t)
@@ -389,7 +420,18 @@
 
 (use-package shell
   :config
-  (setq sh-indentation 2))
+  (setq fci-rule-column 132)
+
+  ;; This exists solely to get rid of the annoying "assignment to free variable"
+  ;; warning.
+  (eval-when-compile
+    (defvar sh-indentation)
+    (defvar sh-basic-offset))
+
+  ;; sh-indentation is obsoleted since 26.1
+  (if (version< emacs-version "26.1")
+      (setq sh-indentation 2)
+    (setq sh-basic-offset 2)))
 
 (use-package smartparens
   :ensure t
@@ -430,10 +472,13 @@
   ("\\.css?\\'" . web-mode)
 
   :config
-  (defvar web-mode-markup-indent-offset)
-  (setq web-mode-markup-indent-offset 2)
+  ;; This exists solely to get rid of the annoying "assignment to free variable"
+  ;; warning.
+  (eval-when-compile
+    (defvar web-mode-markup-indent-offset)
+    (defvar web-mode-code-indent-offset 2))
 
-  (defvar web-mode-code-indent-offset 2)
+  (setq web-mode-markup-indent-offset 2)
   (setq web-mode-code-indent-offset 2))
 
 (use-package whitespace
@@ -445,18 +490,18 @@
   :config
   (windmove-default-keybindings))
 
-;; (use-package danneskjold-theme
-;;   :ensure t
-;;   :config
-;;   (set-face-attribute 'default nil :family "Cascadia Code" :weight 'normal :width 'normal :height 160))
-
 (use-package monokai-pro-theme
   :ensure t
   :config
-  (set-face-attribute 'default nil :family "Cascadia Code" :weight 'normal :width 'normal :height 160))
+  (set-face-attribute 'default nil
+                      :family "Cascadia Code"
+                      :weight 'normal
+                      :width 'normal
+                      :height 160))
 
 (setq explicit-shell-file-name "/bin/bash")
-(setq frame-title-format '(buffer-file-name "%f" (dired-directory dired-directory "%b")))
+(setq frame-title-format
+      '(buffer-file-name "%f" (dired-directory dired-directory "%b")))
 (setq inhibit-startup-screen t)
 (setq locale-coding-system 'utf-8)
 
@@ -486,5 +531,7 @@
 (global-font-lock-mode 1)
 
 (load custom-file)
+
+(load-theme 'monokai-pro)
 
 ;;; init.el ends here
