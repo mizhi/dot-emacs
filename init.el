@@ -119,6 +119,10 @@
   :config
   (exec-path-from-shell-initialize))
 
+(use-package ggtags
+  :ensure t
+  :demand t)
+
 ;;
 ;; Helm and Projectile
 ;;
@@ -364,6 +368,7 @@
 (use-package prog-mode
   :config
   (defun custom-prog-mode-hook()
+    (ggtags-mode 1)
     (fci-mode 1))
 
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
