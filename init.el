@@ -124,9 +124,22 @@
   :ensure t
   :demand t
 
-  :config
+  :init
   (setq ivy-use-virtual-buffers t)
   (setq ivy-count-format "%d/%d ")
+
+  :config
+  (use-package counsel-css
+    :ensure t)
+
+  (use-package counsel-gtags
+    :ensure t)
+
+  (use-package counsel-jq
+    :ensure t)
+
+  (use-package counsel-tramp
+    :ensure t)
 
   (ivy-mode 1))
 
@@ -137,6 +150,7 @@
   ("C-c p" . projectile-command-map)
 
   :init
+  (setq projectile-completion-system 'ivy)
   (setq projectile-enable-caching t)
   (setq projectile-find-dir-includes-top-level t)
   (setq projectile-enable-idle-timer t)
@@ -144,15 +158,16 @@
 
   :config
   (use-package counsel-projectile
-    :ensure t)
-
-  (use-package projectile-rails
     :ensure t
     :config
     (counsel-projectile-mode 1))
 
-  (projectile-mode 1)
-  (projectile-rails-global-mode))
+  (use-package projectile-rails
+    :ensure t
+    :config
+    (projectile-rails-global-mode))
+
+  (projectile-mode 1))
 
 ;;
 ;; Mode settings
@@ -197,6 +212,15 @@
   :ensure t
   :config
   (global-diff-hl-mode))
+
+(use-package docker
+  :ensure t)
+
+(use-package docker-compose-mode
+  :ensure t)
+
+(use-package dockerfile-mode
+  :ensure t)
 
 (use-package fill-column-indicator
   :ensure t
