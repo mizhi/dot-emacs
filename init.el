@@ -119,62 +119,29 @@
   :config
   (exec-path-from-shell-initialize))
 
-(use-package ggtags
-  :ensure t
-  :demand t)
-
-;;
-;; Helm and Projectile
-;;
-(use-package helm
+;; Also brings in ivy and swiper as dependencies.
+(use-package counsel
   :ensure t
   :demand t
 
-  :bind
-  ("M-x" . helm-M-x)
-  ("M-y" . helm-show-kill-ring)
-  ("C-x h" . helm-mini)
-  ("C-c C-r" . helm-recentf)
-
-  (:map helm-map
-        ("<tab>" . helm-execute-persistent-action)
-        ("C-i" . helm-execute-persistent-action)
-        ("C-z" . helm-select-action))
-
-  :bind-keymap
-  ("C-c h" . helm-command-map)
+  :init
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-count-format "%d/%d ")
 
   :config
-  (use-package helm-config
-    :demand t
-    :bind
-    (:map helm-command-map
-          ("a" . helm-ag)
-          ("o" . helm-occur))
-    )
+  (use-package counsel-css
+    :ensure t)
 
-  (use-package helm-ag
-    :ensure t
-    :demand t)
+  (use-package counsel-gtags
+    :ensure t)
 
-  ;; This exists solely to get rid of the annoying "assignment to free variable"
-  ;; warning.
-  (eval-when-compile
-    (defvar helm-quick-update)
-    (defvar helm-split-window-inside-p)
-    (defvar helm-buffers-fuzzy-matching)
-    (defvar helm-ff-search-library-in-sexp)
-    (defvar helm-ff-file-name-history-use-recentf))
+  (use-package counsel-jq
+    :ensure t)
 
-  (setq helm-quick-update t)
-  (setq helm-split-window-inside-p t)
-  (setq helm-buffers-fuzzy-matching t)
-  (setq helm-move-to-line-cycle-in-source 0)
-  (setq helm-ff-search-library-in-sexp t)
-  (setq helm-scroll-amount 8)
-  (setq helm-ff-file-name-history-use-recentf t)
+  (use-package counsel-tramp
+    :ensure t)
 
-  (helm-mode 1))
+  (ivy-mode 1))
 
 (use-package projectile
   :ensure t
@@ -183,24 +150,24 @@
   ("C-c p" . projectile-command-map)
 
   :init
+  (setq projectile-completion-system 'ivy)
   (setq projectile-enable-caching t)
-  (setq projectile-completion-system 'helm)
-  (setq projectile-switch-project-action 'helm-projectile)
   (setq projectile-find-dir-includes-top-level t)
   (setq projectile-enable-idle-timer t)
   (setq projectile-globally-ignored-file-suffixes '(".min.js"))
 
   :config
-  (use-package helm-projectile
+  (use-package counsel-projectile
     :ensure t
     :config
-    (helm-projectile-on))
+    (counsel-projectile-mode 1))
 
   (use-package projectile-rails
-    :ensure t)
+    :ensure t
+    :config
+    (projectile-rails-global-mode))
 
-  (projectile-mode 1)
-  (projectile-rails-global-mode))
+  (projectile-mode 1))
 
 ;;
 ;; Mode settings
@@ -245,6 +212,15 @@
   :ensure t
   :config
   (global-diff-hl-mode))
+
+(use-package docker
+  :ensure t)
+
+(use-package docker-compose-mode
+  :ensure t)
+
+(use-package dockerfile-mode
+  :ensure t)
 
 (use-package fill-column-indicator
   :ensure t
@@ -421,7 +397,8 @@
   :config
   (global-semantic-highlight-func-mode t)
   (global-semantic-highlight-edits-mode t)
-  (global-semantic-stickyfunc-mode -1))
+  (global-semantic-stickyfunc-mode -1)
+  (semantic-mode 1))
 
 (use-package shell
   :config
@@ -446,7 +423,6 @@
 (use-package text-mode
   :config
   (setq fill-column 80)
-  (setq indent-line-function (quote insert-tab))
   (setq indent-tabs-mode nil)
   (setq tab-width 2))
 
@@ -495,7 +471,7 @@
   :config
   (windmove-default-keybindings))
 
-(use-package monokai-pro-theme
+(use-package darcula-theme
   :ensure t
   :config
   (set-face-attribute 'default nil
@@ -537,6 +513,6 @@
 
 (load custom-file)
 
-(load-theme 'monokai-pro)
+(load-theme 'darcula)
 
 ;;; init.el ends here

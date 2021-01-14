@@ -33,3 +33,5 @@ abbrev_defs
 
 *.swp
 transient/
+
+TAGS
